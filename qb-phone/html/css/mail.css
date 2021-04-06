@@ -1,0 +1,462 @@
+.mail-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.mail-home {
+    position: relative;
+    left: 0;
+}
+
+.mail-header {
+    display: block;
+    height: 14vh;
+    width: 100%;
+    background: #f2f2f2;
+}
+
+#mail-header-text {
+    position: absolute;
+    top: 5vh;
+    left: 4.5vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.5vh;
+    color: black;
+}
+
+#mail-header-mail {
+    position: absolute;
+    top: 7vh;
+    left: 4.5vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.3vh;
+    color: gray;
+}
+
+#mail-header-lastsync {
+    position: absolute;
+    top: 10vh;
+    right: 1.5vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1vh;
+    color: gray;
+}
+
+.mail-list {
+    position: absolute;
+    width: 99%;
+    background-color: rgb(255, 255, 255);
+    height: 44.7vh;
+    top: 12vh;
+    left: .1vh;
+    border-radius: 2.5vh 2.5vh 0 0;
+    box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0.233);
+    overflow-x: hidden !important;
+    overflow-y: scroll;
+}
+
+.mail-list::-webkit-scrollbar {
+    display: none;
+}
+
+.mail {
+    position: relative;
+    background-color: rgb(243, 243, 243);
+    height: 7.5vh;
+    width: 100%;
+    transition: .05s ease-in-out;
+}
+
+.mail:hover {
+    background-color: rgb(233, 233, 233);
+    transition: .05s ease-in-out;
+}
+
+.mail-sender {
+    position: absolute;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.6vh;
+    color: rgb(80, 80, 80);
+    left: 4.5vh;
+    top: 1vh;
+}
+
+.mail-text {
+    position: absolute;
+    top: 3.3vh;
+    left: 4.5vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.15vh;
+    color: rgb(83, 83, 83);
+    max-width: 18vh;
+    width: 16vh;
+}
+.mail-text > p {
+    white-space: nowrap;
+    display:inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.mail-time {
+    position: absolute;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.1vh;
+    color: rgb(80, 80, 80);
+    right: 2vh;
+    top: 1vh;
+}
+
+.opened-mail {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #f2f2f2;
+    overflow: hidden;
+    top: 0;
+    left: -30vh;
+}
+
+.opened-mail-header {
+    display: block;
+    height: 14vh;
+    width: 100%;
+}
+
+.mail-back {
+    position: absolute;
+    top: 5.5vh;
+    left: 1.9vh;
+}
+
+.mail-back > i {
+    color: rgb(17, 17, 17);
+    font-size: 2vh;
+    transition: .05s ease-in-out;
+}
+
+.mail-back:hover #mail-back {    
+    color: rgb(255, 91, 91);
+    transition: .05s ease-in-out;
+}
+
+.mail-subject {
+    position: absolute;
+    top: 8vh;
+    left: 2vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.8vh;
+    max-width: 22vh;
+}
+
+.mail-subject > p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mail-date {
+    position: absolute;
+    top: 13vh;
+    left: 2vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.1vh;
+    color: rgb(51, 51, 51);
+}
+
+.mail-spacing {
+    position: absolute;
+    width: 93%;
+    background-color: rgba(54, 54, 54, 0.3);
+    height: .2vh;
+    top: 15.5vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    border-radius: 20vh;
+}
+
+.mail-content {
+    position: absolute;
+    top: 17.3vh;
+    left: 2vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.3vh;
+    color: rgb(24, 24, 24);
+    max-width: 23vh;
+    overflow-y: scroll;
+}
+.mail-content::-webkit-scrollbar {
+    display: none;
+}
+.mail-content > p {
+    white-space: nowrap;
+    display:inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 100;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.opened-mail-footer {
+    position: absolute;
+    width: 100%;
+    height: 4vh;
+    background-color: #f2f2f2;
+    bottom: 0;
+}
+
+.opened-mail-footer-item {
+    position: relative;
+    width: 50%;
+    height: 4vh;
+    text-align: center;
+    line-height: 4.3vh;
+    color: black;
+    font-size: 1.8vh;
+    transition: .1s ease-in-out;
+    float: left;
+}
+
+.opened-mail-footer-item:hover {
+    background-color: rgb(214, 214, 214);
+}
+
+.opened-mail-footer-item:hover .mail-icon {
+    font-size: 1.9vh;
+    transition: .1s ease-in-out;
+    animation: Shake 1s infinite;
+}
+
+@keyframes Shake {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+    75% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+/* Advert App */
+
+.advert-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: #f2f2f2;
+    overflow: hidden;
+}
+
+.advert-header {
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    top: 0;
+}
+
+#advert-header-text {
+    position: absolute;
+    top: 5vh;
+    left: 2vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.8vh;
+    color: black;
+}
+
+#advert-header-name {
+    position: absolute;
+    top: 8vh;
+    left: 2vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.4vh;
+    color: rgba(26, 26, 26, 0.842);
+}
+
+.advert-list {
+    position: absolute;
+    width: 99%;
+    background-color: rgb(255, 255, 255);
+    height: 39.5vh;
+    top: 12vh;
+    left: .1vh;
+    border-radius: 1.5vh 1.5vh 1.5vh 1.5vh;
+    box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0.233);
+    overflow-x: hidden !important;
+    overflow-y: scroll;
+}
+
+.advert-list::-webkit-scrollbar {
+    display: none;
+}
+.advert {
+    position: relative;
+    background-color: #ff8f1a;
+    height: auto;
+    min-height: 4vh;
+    width: 90%;
+    transition: .05s ease-in-out;
+    margin: 0 auto;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    border-radius: 1vh;
+    text-align: center;
+}
+
+.advert > p {
+    margin-top: 1.5vh;
+    padding-bottom: 1vh;
+    font-family: 'Samsung Sans Regular';
+    color: rgb(255, 255, 255);
+    max-width: 25vh;
+}
+
+.advert:hover {
+    background-color: rgb(255, 154, 46);
+    transition: .05s ease-in-out;
+}
+
+.advert-sender {
+    position: relative;
+    top: .8vh;
+    color: rgb(255, 255, 255);
+    font-family: 'Samsung Sans Bold';
+    font-size: 1.3vh;
+}
+
+.test-slet {
+    position: absolute;
+    width: 100%;
+    height: 4.2vh;
+    top: 52.6vh;
+    transition: .1s ease-in-out;
+    text-align: center;
+    line-height: 4.2vh;
+    font-size: 2.3vh;
+    background-color: rgb(234, 234, 234);
+}
+
+.test-slet:hover {
+    background-color: rgb(214, 214, 214);
+    transition: .1s ease-in-out;
+}
+
+.test-slet:hover .test-icon {
+    transition: .1s ease-in-out;
+    animation: Shake 1s infinite;
+}
+
+.new-advert {
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background: #f2f2f2;
+    overflow: hidden;
+    left: -30vh;
+}
+
+.new-advert-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 5vh;
+    background-color: rgb(234, 234, 234);
+}
+
+.new-advert-footer-item {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 100%;
+    background-color: rgb(234, 234, 234);
+    text-align: center;
+    line-height: 5vh;
+    font-size: 2.2vh;
+    transition: .1s linear;
+    color: rgb(48, 48, 48);
+}
+
+.new-advert-footer-item:hover {
+    background-color: rgb(214, 214, 214);
+    transition: .1s linear;
+}
+
+.new-advert-footer-item:hover .new-advert-icon {
+    color: rgb(32, 32, 32);
+    animation: Shake 1s infinite;
+}
+
+.new-advert-header {
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    top: 0;
+}
+
+#new-advert-header-text {
+    position: absolute;
+    top: 5vh;
+    left: 2vh;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.8vh;
+    color: black;
+}
+
+.new-advert-textarea {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 15vh;
+    height: 30vh;
+    width: 80%;
+    outline: none;
+    border: none;
+    resize: none;
+    /* border-radius: 1.5vh 1.5vh 1.5vh 1.5vh; */
+    box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0.233);
+    padding: 1.5vh;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: 0.5vh solid #000;
+    transition: .1s linear;
+}
+
+.new-advert-textarea:focus {
+    border-bottom: 0.5vh solid #ff8f1a;
+}
+
+.new-advert-textarea:valid {
+    border-bottom: 0.5vh solid #29b417;
+}
+
+.advert-home {
+    position: relative;
+    left: 0;
+}
+
+.nomails {
+    text-align: center;
+    color: black;
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.5vh;
+    line-height: 20vh;
+}

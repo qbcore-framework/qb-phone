@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+.tooltip-inner {
+    font-family: 'Roboto';
+    font-size: 11px;
+    color: white;
+}
+
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { 
+    border-radius: 20px; 
+}
+
+.toggle.ios .toggle-handle { 
+    border-radius: 20px; 
+}
+
+.custom-control, .custom-switch, .custom-control-input {
+    color: white
+}

@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+.garage-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: rgb(36, 36, 36);
+    overflow: hidden;
+}
+
+.garage-app-header {
+    position: absolute;
+    height: 9vh;
+    width: 100%;
+    background-color: #ee5253;
+    text-align: center;
+    line-height: 12.5vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    font-size: 1.5vh;
+}
+
+.garage-homescreen {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0vh;
+}
+
+.garage-detailscreen {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: -30vh;
+}
+
+.garage-vehicles {
+    position: absolute;
+    width: 85%;
+    height: 44.5vh;
+    /* background-color: rgba(0, 0, 0, 0.1); */
+    top: 10.5vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+}
+
+.garage-vehicles::-webkit-scrollbar {
+    display: none;
+}
+
+.garage-vehicle {
+    position: relative;
+    height: 7vh;
+    width: 100%;
+    background-color: rgb(48, 47, 47);
+    box-shadow: 0 0 1vh .1vh rgba(0, 0, 0, 0.15);
+    border-radius: 2vh;
+    transition: .08s linear;
+    margin-bottom: 1vh;
+}
+
+.garage-vehicle-firstletter {
+    position: relative;
+    line-height: 7vh;
+    left: 1.2vh;
+    background-color: #ee5253;
+    padding-top: 1.1vh;
+    padding-bottom: 1.1vh;
+    padding-left: 1.6vh;
+    padding-right: 1.6vh;
+    border-radius: 50%;
+    color: white;
+    font-family: 'Samsung Sans Bold';
+    font-size: 1.8vh;
+    transition: .05s linear;
+}
+
+.garage-vehicle:hover {
+    background-color: rgb(78, 78, 78);
+}
+
+.garage-vehicle-name {
+    position: absolute;
+    left: 7vh;
+    color: white;
+    line-height: 7vh;
+    font-family: 'Samsung Sans Regular';
+}
+
+.garage-cardetails {
+    position: absolute;
+    /* background-color: rgba(255, 255, 255, 0.1); */
+    height: 76%;
+    width: 84%;
+    margin: 0 auto;
+    left: 0vh;
+    right: 0;
+    top: 11vh;
+}
+
+.vehicle-brand {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+.vehicle-model {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+.vehicle-plate {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+.vehicle-garage {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+.vehicle-status {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+.vehicle-fuel {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+.vehicle-engine {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+.vehicle-body {
+    position: relative;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    padding: .8vh;
+    color: white;
+    font-family: 'Samsung Sans Regular';
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 1vh;
+    font-size: 1.2vh;
+}
+
+
+.vehicle-answer {
+    float: right;
+    font-size: 1.1vh;
+}
+
+.garage-cardetails-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 5vh;
+    background-color: rgb(233, 233, 233);
+    border-radius: .3vh;
+    transition: .05s linear;
+    text-align: center;
+    line-height: 5vh;
+    font-family: 'Samsung Sans Bold';
+    font-size: 1.4vh;
+}
+
+.garage-cardetails-footer:hover {
+    background-color: rgb(212, 212, 212);
+}

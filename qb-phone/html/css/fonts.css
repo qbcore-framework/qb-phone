@@ -1,0 +1,56 @@
+@font-face {
+    font-family: Font-1;
+    src: url('../fonts/font-1.ttf');
+}
+
+@font-face {
+    font-family: 'Twitter Font';
+    src: url('../fonts/HelveticaNeue-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Racing Font';
+    src: url('../fonts/keepcalm.otf');
+}
+
+@font-face {
+    font-family: 'Samsung Sans Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Samsung Sans Regular'), url('../fonts/SamsungSans-Regular.woff') format('woff');
+}
+    
+@font-face {
+    font-family: 'Samsung Sans Thin';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Samsung Sans Thin'), url('../fonts/SamsungSans-Thin.woff') format('woff');
+}
+    
+@font-face {
+    font-family: 'Samsung Sans Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Samsung Sans Light'), url('../fonts/SamsungSans-Light.woff') format('woff');
+}
+    
+@font-face {
+    font-family: 'Samsung Sans Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Samsung Sans Medium'), url('../fonts/SamsungSans-Medium.woff') format('woff');
+}
+    
+@font-face {
+    font-family: 'Samsung Sans Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Samsung Sans Bold'), url('../fonts/SamsungSans-Bold.woff') format('woff');
+}
+    
+@font-face {
+    font-family: 'Qbus Font';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/KeepCalm-Medium.ttf');
+}
