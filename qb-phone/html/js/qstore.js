@@ -53,11 +53,11 @@ $(document).on('click', '.storeapp-remove', function(e){
 
     QB.Phone.Data.Applications[AppData.app] = null;
 
-    $.post('http://qb-phone/RemoveApplication', JSON.stringify({
+    $.post('https://qb-phone/RemoveApplication', JSON.stringify({
         app: AppData.app
     }));
     setTimeout(function(){
-        $.post('http://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
+        $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
             SetupAppstore(data); 
         });
     }, 100);
@@ -82,7 +82,7 @@ $(document).on('click', '.download-password-accept', function(e){
                 $(".download-progressbar-fill").css("width", "0%");
             });
 
-            $.post('http://qb-phone/InstallApplication', JSON.stringify({
+            $.post('https://qb-phone/InstallApplication', JSON.stringify({
                 app: CurrentApp,
             }), function(Installed){
                 if (Installed) {
@@ -115,7 +115,7 @@ $(document).on('click', '.download-password-accept', function(e){
                     QB.Phone.Data.Applications[Installed.data.app] = Installed.data;
 
                     setTimeout(function(){
-                        $.post('http://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
+                        $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
                             SetupAppstore(data);
                             $(".download-password-input").attr('readonly', false);
                             $(".download-progressbar-fill").css("width", "0%");

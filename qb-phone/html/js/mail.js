@@ -31,7 +31,7 @@ $(document).on('click', '.mail-back', function(e){
 $(document).on('click', '#accept-mail', function(e){
     e.preventDefault();
     var MailData = $("#"+OpenedMail).data('MailData');
-    $.post('http://qb-phone/AcceptMailButton', JSON.stringify({
+    $.post('https://qb-phone/AcceptMailButton', JSON.stringify({
         buttonEvent: MailData.button.buttonEvent,
         buttonData: MailData.button.buttonData,
         mailId: MailData.mailid,
@@ -47,7 +47,7 @@ $(document).on('click', '#accept-mail', function(e){
 $(document).on('click', '#remove-mail', function(e){
     e.preventDefault();
     var MailData = $("#"+OpenedMail).data('MailData');
-    $.post('http://qb-phone/RemoveMail', JSON.stringify({
+    $.post('https://qb-phone/RemoveMail', JSON.stringify({
         mailId: MailData.mailid
     }));
     $(".mail-home").animate({
@@ -152,7 +152,7 @@ $(document).on('click', '#new-advert-submit', function(e){
         $(".new-advert").animate({
             left: -30+"vh"
         });
-        $.post('http://qb-phone/PostAdvert', JSON.stringify({
+        $.post('https://qb-phone/PostAdvert', JSON.stringify({
             message: Advert,
         }));
     } else {

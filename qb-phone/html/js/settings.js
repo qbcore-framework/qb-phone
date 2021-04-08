@@ -49,7 +49,7 @@ $(document).on('click', '#accept-background', function(e){
         $(".phone-background").css({"background-image":"url('"+QB.Phone.Settings.Background+"')"});
     }
 
-    $.post('http://qb-phone/SetBackground', JSON.stringify({
+    $.post('https://qb-phone/SetBackground', JSON.stringify({
         background: QB.Phone.Settings.Background,
     }))
 });
@@ -148,7 +148,7 @@ $(document).on('click', '#accept-profilepicture', function(e){
         console.log(ProfilePicture)
         $("[data-settingstab='profilepicture']").find('.settings-tab-icon').html('<img src="'+ProfilePicture+'">');
     }
-    $.post('http://qb-phone/UpdateProfilePicture', JSON.stringify({
+    $.post('https://qb-phone/UpdateProfilePicture', JSON.stringify({
         profilepicture: ProfilePicture,
     }));
 });
