@@ -133,7 +133,7 @@ Citizen.CreateThread(function()
     while true do
         if IsControlJustPressed(0, Config.OpenPhone) then
             if not PhoneData.isOpen then
-                local IsHandcuffed = exports['police']:IsHandcuffed()
+                local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
                 if not IsHandcuffed then
                     OpenPhone()
                 else
