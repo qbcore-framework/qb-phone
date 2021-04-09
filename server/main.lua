@@ -1099,7 +1099,7 @@ AddEventHandler('qb-phone:server:RemoveInstallation', function(App)
     -- TriggerClientEvent('qb-phone:RefreshPhone', src)
 end)
 
-QBCore.Commands.Add("setmetadata", "Set metadata", {}, false, function(source, args)
+QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
 	
 	if args[1] ~= nil then

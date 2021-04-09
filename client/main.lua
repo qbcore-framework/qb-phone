@@ -1771,7 +1771,7 @@ AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
             action = "PhoneNotification",
             PhoneNotify = {
                 title = "Bank",
-                text = "€"..amount..",- has been removed from your balance!", 
+                text = "$"..amount..",- has been removed from your balance!", 
                 icon = "fas fa-university", 
                 color = "#ff002f",
                 timeout = 3500,
@@ -1782,7 +1782,7 @@ AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
             action = "Notification",
             NotifyData = {
                 title = "Bank",
-                content = "€"..amount..",- has been removed from your balance!", 
+                content = "$"..amount..",- has been removed from your balance!", 
                 icon = "fas fa-university",
                 timeout = 3500, 
                 color = "#ff002f",
