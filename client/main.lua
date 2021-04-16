@@ -1042,10 +1042,10 @@ RegisterNetEvent('qb-phone:client:TransferMoney')
 AddEventHandler('qb-phone:client:TransferMoney', function(amount, newmoney)
     PhoneData.PlayerData.money.bank = newmoney
     if PhoneData.isOpen then
-        SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "QBank", text = "&euro;"..amount.." has been added to your account!", icon = "fas fa-university", color = "#8c7ae6", }, })
+        SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "QBank", text = "&#36;"..amount.." has been added to your account!", icon = "fas fa-university", color = "#8c7ae6", }, })
         SendNUIMessage({ action = "UpdateBank", NewBalance = PhoneData.PlayerData.money.bank })
     else
-        SendNUIMessage({ action = "Notification", NotifyData = { title = "QBank", content = "&euro;"..amount.." has been added to your account!", icon = "fas fa-university", timeout = 2500, color = nil, }, })
+        SendNUIMessage({ action = "Notification", NotifyData = { title = "QBank", content = "&#36;"..amount.." has been added to your account!", icon = "fas fa-university", timeout = 2500, color = nil, }, })
     end
 end)
 
