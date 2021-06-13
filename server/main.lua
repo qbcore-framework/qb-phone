@@ -1063,7 +1063,7 @@ AddEventHandler('qb-phone:server:AddTransaction', function(data)
     QBCore.Functions.ExecuteSql(false, "INSERT INTO `crypto_transactions` (`citizenid`, `title`, `message`) VALUES ('"..Player.PlayerData.citizenid.."', '"..escape_sqli(data.TransactionTitle).."', '"..escape_sqli(data.TransactionMessage).."')")
 end)
 
-QBCore.Functions.CreateCallback('if-phone_new:server:GetCurrentLawyers', function(source, cb)
+QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(source, cb)
     local Lawyers = {}
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
