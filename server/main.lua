@@ -1063,15 +1063,16 @@ AddEventHandler('qb-phone:server:AddTransaction', function(data)
     QBCore.Functions.ExecuteSql(false, "INSERT INTO `crypto_transactions` (`citizenid`, `title`, `message`) VALUES ('"..Player.PlayerData.citizenid.."', '"..escape_sqli(data.TransactionTitle).."', '"..escape_sqli(data.TransactionMessage).."')")
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(source, cb)
+QBCore.Functions.CreateCallback('if-phone_new:server:GetCurrentLawyers', function(source, cb)
     local Lawyers = {}
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then
-            if Player.PlayerData.job.name == "lawyer" then
+            if Player.PlayerData.job.name == "lawyer" or Player.PlayerData.job.name == "realestate" or Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "taxi" and Player.PlayerData.job.onduty then
                 table.insert(Lawyers, {
                     name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
                     phone = Player.PlayerData.charinfo.phone,
+                    typejob = Player.PlayerData.job.name,
                 })
             end
         end
