@@ -1068,10 +1068,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(so
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then
-            if Player.PlayerData.job.name == "lawyer" then
+            if Player.PlayerData.job.name == "lawyer" or Player.PlayerData.job.name == "realestate" or Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "taxi" and Player.PlayerData.job.onduty then
                 table.insert(Lawyers, {
                     name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
                     phone = Player.PlayerData.charinfo.phone,
+                    typejob = Player.PlayerData.job.name,
                 })
             end
         end

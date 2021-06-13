@@ -132,9 +132,9 @@ Config.PhoneApplications = {
     },
     ["lawyers"] = {
         app = "lawyers",
-        color = "#353b48",
+        color = "#26d4ce",
         icon = "fas fa-user-tie",
-        tooltipText = "Lawyers Office",
+        tooltipText = "Services",
         tooltipPos = "right",
         job = false,
         blockedjobs = {},
