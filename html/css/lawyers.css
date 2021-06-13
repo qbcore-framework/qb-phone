@@ -10,9 +10,9 @@
     position: absolute;
     width: 100%;
     height: 12vh;
-    background-color: #004682;
+    background-color: #26d4ce;
     top: 0;
-    border-bottom: .3vh solid #003666;
+    border-bottom: .3vh solid #26d4ce;
     color: white;
     font-family: 'Samsung Sans Medium';
     font-size: 1.8vh;
@@ -127,7 +127,7 @@
 }
 
 .lawyer-list-call:hover {
-    color: rgb(66, 161, 11);
+    color: rgb(49, 214, 60);
     opacity: .8;
 
     transform: rotate(0deg);
