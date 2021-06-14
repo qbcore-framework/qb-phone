@@ -204,6 +204,11 @@ QB.Phone.Functions.LoadContacts = function(myContacts) {
 
     if (myContacts !== null) {
         $.each(myContacts, function(i, contact){
+            contact.name = DOMPurify.sanitize(contact.name , {
+                ALLOWED_TAGS: [], 
+                ALLOWED_ATTR: []
+            });
+            if (contact.name == '') contact.name = 'Hmm, I shouldn\'t be able to do this...'
             var ContactElement = '<div class="phone-contact" data-contactid="'+i+'"><div class="phone-contact-firstletter" style="background-color: #e74c3c;">'+((contact.name).charAt(0)).toUpperCase()+'</div><div class="phone-contact-name">'+contact.name+'</div><div class="phone-contact-actions"><i class="fas fa-sort-down"></i></div><div class="phone-contact-action-buttons"> <i class="fas fa-phone-volume" id="phone-start-call"></i> <i class="fab fa-whatsapp" id="new-chat-phone" style="font-size: 2.5vh;"></i> <i class="fas fa-user-edit" id="edit-contact"></i> </div></div>'
             if (contact.status) {
                 ContactElement = '<div class="phone-contact" data-contactid="'+i+'"><div class="phone-contact-firstletter" style="background-color: #2ecc71;">'+((contact.name).charAt(0)).toUpperCase()+'</div><div class="phone-contact-name">'+contact.name+'</div><div class="phone-contact-actions"><i class="fas fa-sort-down"></i></div><div class="phone-contact-action-buttons"> <i class="fas fa-phone-volume" id="phone-start-call"></i> <i class="fab fa-whatsapp" id="new-chat-phone" style="font-size: 2.5vh;"></i> <i class="fas fa-user-edit" id="edit-contact"></i> </div></div>'
@@ -266,7 +271,11 @@ $(document).on('click', '#edit-contact', function(e){
     var ContactId = $(this).parent().parent().data('contactid');
     var ContactData = $("[data-contactid='"+ContactId+"']").data('contactData');
 
-    CurrentEditContactData.name = ContactData.name
+    CurrentEditContactData.name = DOMPurify.sanitize(ContactData.name , {
+        ALLOWED_TAGS: [], 
+        ALLOWED_ATTR: []
+    });
+    if (CurrentEditContactData.name == '') CurrentEditContactData.name = 'Hmm, I shouldn\'t be able to do this...'
     CurrentEditContactData.number = ContactData.number
 
     $(".phone-edit-contact-header").text(ContactData.name+" Edit")
@@ -286,7 +295,11 @@ $(document).on('click', '#edit-contact', function(e){
 $(document).on('click', '#edit-contact-save', function(e){
     e.preventDefault();
 
-    var ContactName = $(".phone-edit-contact-name").val();
+    var ContactName = DOMPurify.sanitize($(".phone-edit-contact-name").val() , {
+        ALLOWED_TAGS: [], 
+        ALLOWED_ATTR: []
+    });
+    if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
     var ContactNumber = $(".phone-edit-contact-number").val();
     var ContactIban = $(".phone-edit-contact-iban").val();
 
@@ -412,7 +425,11 @@ $(document).on('click', '#phone-plus-icon', function(e){
 $(document).on('click', '#add-contact-save', function(e){
     e.preventDefault();
 
-    var ContactName = $(".phone-add-contact-name").val();
+    var ContactName = DOMPurify.sanitize($(".phone-add-contact-name").val() , {
+        ALLOWED_TAGS: [], 
+        ALLOWED_ATTR: []
+    });
+    if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
     var ContactNumber = $(".phone-add-contact-number").val();
     var ContactIban = $(".phone-add-contact-iban").val();
 

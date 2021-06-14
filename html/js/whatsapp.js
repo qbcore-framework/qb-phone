@@ -91,7 +91,11 @@ QB.Phone.Functions.GetLastMessage = function(messages) {
     $.each(messages[messages.length - 1], function(i, msg){
         var msgData = msg[msg.length - 1];
         LastMessageData.time = msgData.time
-        LastMessageData.message = msgData.message
+        LastMessageData.message = DOMPurify.sanitize(msgData.message , {
+            ALLOWED_TAGS: [], 
+            ALLOWED_ATTR: []
+        });
+        if(LastMessageData.message == '') 'Hmm, I shouldn\'t be able to do this...'
     });
 
     return LastMessageData
@@ -202,10 +206,15 @@ $(document).on('keypress', function (e) {
             var Message = $("#whatsapp-openedchat-message").val();
     
             if (Message !== null && Message !== undefined && Message !== "") {
+                var clean = DOMPurify.sanitize(Message , {
+                    ALLOWED_TAGS: [], 
+                    ALLOWED_ATTR: []
+                });
+                if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
                 $.post('https://qb-phone/SendMessage', JSON.stringify({
                     ChatNumber: OpenedChatData.number,
                     ChatDate: GetCurrentDateKey(),
-                    ChatMessage: Message,
+                    ChatMessage: clean,
                     ChatTime: FormatMessageTime(),
                     ChatType: "message",
                 }));
@@ -326,6 +335,11 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
             $(".whatsapp-openedchat-messages").append(ChatDiv);
     
             $.each(cData.messages[i].messages, function(index, message){
+                message.message = DOMPurify.sanitize(message.message , {
+                    ALLOWED_TAGS: [], 
+                    ALLOWED_ATTR: []
+                });
+                if (message.message == '') message.message = 'Hmm, I shouldn\'t be able to do this...'
                 var Sender = "me";
                 if (message.sender !== QB.Phone.Data.PlayerData.citizenid) { Sender = "other"; }
                 var MessageElement

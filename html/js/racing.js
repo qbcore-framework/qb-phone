@@ -277,6 +277,11 @@ $(document).on('click', '#racing-create-accept', function(e){
     var TrackName = $(".racing-create-trackname").val();
 
     if (TrackName !== "" && TrackName !== undefined && TrackName !== null) {
+        TrackName = DOMPurify.sanitize(TrackName , {
+            ALLOWED_TAGS: [], 
+            ALLOWED_ATTR: []
+        });
+        if (TrackName == '') TrackName = 'What are you trying?'
         $.post('https://qb-phone/IsAuthorizedToCreateRaces', JSON.stringify({
             TrackName: TrackName
         }), function(data){

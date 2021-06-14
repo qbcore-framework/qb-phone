@@ -75,7 +75,12 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
         $(".twitter-home-tab").html("");
         $.each(Tweets, function(i, Tweet){
-            var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(Tweet.message);
+            var clean = DOMPurify.sanitize(Tweet.message , {
+                ALLOWED_TAGS: [], 
+                ALLOWED_ATTR: []
+            });
+            if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
+            var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
             var today = new Date();
             var TweetTime = new Date(Tweet.time);
             var diffMs = (today - TweetTime);
@@ -124,7 +129,12 @@ QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
     if (Tweets.length > 0) {
         $(".twitter-mentions-tab").html("");
         $.each(Tweets, function(i, Tweet){
-            var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(Tweet.message);
+            var clean = DOMPurify.sanitize(Tweet.message , {
+                ALLOWED_TAGS: [], 
+                ALLOWED_ATTR: []
+            });
+            if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
+            var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
             var today = new Date();
             var TweetTime = new Date(Tweet.time);
             var diffMs = (today - TweetTime);
@@ -296,7 +306,12 @@ QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
         $(".twitter-hashtag-tweets").html("");
         $.each(Tweets, function(i, Tweet){
-            var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(Tweet.message);
+            var clean = DOMPurify.sanitize(Tweet.message , {
+                ALLOWED_TAGS: [], 
+                ALLOWED_ATTR: []
+            });
+            if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
+            var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
             var today = new Date();
             var TweetTime = new Date(Tweet.time);
             var diffMs = (today - TweetTime);
