@@ -73,7 +73,7 @@ $(document).on('click', '.twitter-new-tweet', function(e){
 QB.Phone.Notifications.LoadTweets = function(Tweets) {
     Tweets = Tweets.reverse();
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
-        $(".twitter-home-tab").html("");
+        $(".twitter-home-tab").text().replace(/(<([^>]+)>)/gi, "");
         $.each(Tweets, function(i, Tweet){
             var clean = DOMPurify.sanitize(Tweet.message , {
                 ALLOWED_TAGS: [], 
@@ -127,7 +127,7 @@ $(document).on('click', '.tweet-reply', function(e){
 QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
     Tweets = Tweets.reverse();
     if (Tweets.length > 0) {
-        $(".twitter-mentions-tab").html("");
+        $(".twitter-mentions-tab").text().replace(/(<([^>]+)>)/gi, "");
         $.each(Tweets, function(i, Tweet){
             var clean = DOMPurify.sanitize(Tweet.message , {
                 ALLOWED_TAGS: [], 
@@ -281,7 +281,7 @@ function CopyMentionTag(elem) {
 
 QB.Phone.Notifications.LoadHashtags = function(hashtags) {
     if (hashtags !== null) {
-        $(".twitter-hashtags").html("");
+        $(".twitter-hashtags").text().replace(/(<([^>]+)>)/gi, "");
         console.log(JSON.stringify(hashtags));
         $.each(hashtags, function(i, hashtag){
             var Elem = '';
@@ -304,7 +304,7 @@ QB.Phone.Notifications.LoadHashtags = function(hashtags) {
 QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
     Tweets = Tweets.reverse();
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
-        $(".twitter-hashtag-tweets").html("");
+        $(".twitter-hashtag-tweets").text().replace(/(<([^>]+)>)/gi, "");
         $.each(Tweets, function(i, Tweet){
             var clean = DOMPurify.sanitize(Tweet.message , {
                 ALLOWED_TAGS: [], 
