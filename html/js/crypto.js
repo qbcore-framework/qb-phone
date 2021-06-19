@@ -176,7 +176,9 @@ $(document).on('click', '#buy-crypto', function(e){
 
 $(document).on('click', '#sell-crypto', function(e){
     e.preventDefault();
-
+    if(e.handled !== true) {
+        e.handled = true;
+    
     var Coins = $(".crypto-action-page-sell-crypto-input-coins").val();
     var Price = $(".crypto-action-page-sell-crypto-input-money").val();
 
@@ -201,6 +203,9 @@ $(document).on('click', '#sell-crypto', function(e){
     } else {
         QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "Fill out all fields!", "#badc58", 1500);
     }
+    CloseCryptoPage();
+    e.handled = false;
+}
 });
 
 $(document).on('click', '#transfer-crypto', function(e){
