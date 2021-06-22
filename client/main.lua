@@ -412,7 +412,9 @@ AddEventHandler('qb-phone:client:UpdateMails', function(NewMails)
 end)
 
 RegisterNUICallback('AcceptMailButton', function(data)
-    TriggerEvent(data.buttonEvent, data.buttonData)
+		if data.buttonEvent ~= nil or  data.buttonData ~= nil then
+			TriggerEvent(data.buttonEvent, data.buttonData) --NEED TO SANITIZE THIS ON THE JS PART, WE ARE RECEIVING AN ACTUALL EVENT WITH PARAMETERS HERE!!!!
+		end
     TriggerServerEvent('qb-phone:server:ClearButtonData', data.mailId)
 end)
 
