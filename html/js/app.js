@@ -196,7 +196,7 @@ $(document).on('click', '.phone-application', function(e){
                         $(".house-app-mykeys-container").html("");
                         if (Keys.length > 0) {
                             $.each(Keys, function(i, key){
-                                var elem = '<div class="mykeys-key" id="keyid-'+i+'"> <span class="mykeys-key-label">' + key.HouseData.adress + '</span> <span class="mykeys-key-sub">Klik om GPS in te stellen</span> </div>';
+                                var elem = '<div class="mykeys-key" id="keyid-'+i+'"> <span class="mykeys-key-label">' + key.HouseData.adress + '</span> <span class="mykeys-key-sub">Click to mark on GPS</span> </div>';
 
                                 $(".house-app-mykeys-container").append(elem);
                                 $("#keyid-"+i).data('KeyData', key);
