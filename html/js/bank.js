@@ -111,7 +111,7 @@ $(document).on('click', '#accept-transfer', function(e){
 
                     $(".bank-app-account-balance").html("&#36; " + (data.NewBalance).toFixed(0));
                     $(".bank-app-account-balance").data('balance', (data.NewBalance).toFixed(0));
-                    QB.Phone.Notifications.Add("fas fa-university", "QBank", "You have transfered &#36; "+amount+",-!", "#badc58", 1500);
+                    QB.Phone.Notifications.Add("fas fa-university", "QBank", "You have transfered &#36; "+amount+"!", "#badc58", 1500);
                 } else {
                     QB.Phone.Notifications.Add("fas fa-university", "QBank", "You don't have enough balance!", "#badc58", 1500);
                 }
@@ -191,7 +191,7 @@ QB.Phone.Functions.LoadBankInvoices = function(invoices) {
         $(".bank-app-invoices-list").html("");
 
         $.each(invoices, function(i, invoice){
-            var Elem = '<div class="bank-app-invoice" id="invoiceid-'+i+'"> <div class="bank-app-invoice-title">'+GetInvoiceLabel(invoice.type)+' <span style="font-size: 1vh; color: gray;">(Sender: '+invoice.name+')</span></div> <div class="bank-app-invoice-amount">&#36; '+invoice.amount+',-</div> <div class="bank-app-invoice-buttons"> <i class="fas fa-check-circle pay-invoice"></i> <i class="fas fa-times-circle decline-invoice"></i> </div> </div>';
+            var Elem = '<div class="bank-app-invoice" id="invoiceid-'+i+'"> <div class="bank-app-invoice-title">'+GetInvoiceLabel(invoice.type)+' <span style="font-size: 1vh; color: gray;">(Sender: '+invoice.name+')</span></div> <div class="bank-app-invoice-amount">&#36; '+invoice.amount+'</div> <div class="bank-app-invoice-buttons"> <i class="fas fa-check-circle pay-invoice"></i> <i class="fas fa-times-circle decline-invoice"></i> </div> </div>';
 
             $(".bank-app-invoices-list").append(Elem);
             $("#invoiceid-"+i).data('invoicedata', invoice);

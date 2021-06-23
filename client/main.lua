@@ -1273,7 +1273,7 @@ CancelCall = function()
         SendNUIMessage({ 
             action = "Notification", 
             NotifyData = { 
-                title = "Telefoon",
+                title = "Phone",
                 content = "The call has been ended", 
                 icon = "fas fa-phone", 
                 timeout = 3500, 
@@ -1284,7 +1284,7 @@ CancelCall = function()
         SendNUIMessage({ 
             action = "PhoneNotification", 
             PhoneNotify = { 
-                title = "Telefoon", 
+                title = "Phone", 
                 text = "The call has been ended", 
                 icon = "fas fa-phone", 
                 color = "#e84118", 
@@ -1332,7 +1332,7 @@ AddEventHandler('qb-phone:client:CancelCall', function()
         SendNUIMessage({ 
             action = "Notification", 
             NotifyData = { 
-                title = "Telefoon",
+                title = "Phone",
                 content = "The call has been ended", 
                 icon = "fas fa-phone", 
                 timeout = 3500, 
@@ -1343,7 +1343,7 @@ AddEventHandler('qb-phone:client:CancelCall', function()
         SendNUIMessage({ 
             action = "PhoneNotification", 
             PhoneNotify = { 
-                title = "Telefoon", 
+                title = "Phone", 
                 text = "The call has been ended", 
                 icon = "fas fa-phone", 
                 color = "#e84118", 
@@ -1614,7 +1614,7 @@ end)
 RegisterNUICallback('SetAlertWaypoint', function(data)
     local coords = data.alert.coords
 
-    QBCore.Functions.Notify('GPS Locatie ingesteld: '..data.alert.title)
+    QBCore.Functions.Notify('GPS Location set: '..data.alert.title)
     SetNewWaypoint(coords.x, coords.y)
 end)
 
@@ -1774,7 +1774,7 @@ AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
             action = "PhoneNotification",
             PhoneNotify = {
                 title = "Bank",
-                text = "$"..amount..",- has been removed from your balance!", 
+                text = "$"..amount.." has been removed from your balance!", 
                 icon = "fas fa-university", 
                 color = "#ff002f",
                 timeout = 3500,
@@ -1785,7 +1785,7 @@ AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
             action = "Notification",
             NotifyData = {
                 title = "Bank",
-                content = "$"..amount..",- has been removed from your balance!", 
+                content = "$"..amount.." has been removed from your balance!", 
                 icon = "fas fa-university",
                 timeout = 3500, 
                 color = "#ff002f",
@@ -1963,7 +1963,7 @@ end)
 
 RegisterNUICallback('SetHouseLocation', function(data, cb)
     SetNewWaypoint(data.HouseData.HouseData.coords.enter.x, data.HouseData.HouseData.coords.enter.y)
-    QBCore.Functions.Notify("GPS has been set on " .. data.HouseData.HouseData.adress .. "!", "success")
+    QBCore.Functions.Notify("GPS has been set to " .. data.HouseData.HouseData.adress .. "!", "success")
 end)
 
 RegisterNUICallback('RemoveKeyholder', function(data)
