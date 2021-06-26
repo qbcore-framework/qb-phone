@@ -127,7 +127,7 @@ Config.PhoneApplications = {
         tooltipText = "MDT",
         job = "police",
         blockedjobs = {},
-        slot = 12,
+        slot = 13,
         Alerts = 0,
     },
     ["lawyers"] = {
@@ -135,13 +135,13 @@ Config.PhoneApplications = {
         color = "#26d4ce",
         icon = "fas fa-user-tie",
         tooltipText = "Services",
-        tooltipPos = "right",
+        tooltipPos = "bottom",
         job = false,
         blockedjobs = {},
-        slot = 13,
+        slot = 12,
         Alerts = 0,
     },
-    ["store"] = {
+   --[[ ["store"] = {
         app = "store",
         color = "#27ae60",
         icon = "fas fa-cart-arrow-down",
@@ -152,7 +152,7 @@ Config.PhoneApplications = {
         blockedjobs = {},
         slot = 14,
         Alerts = 0,
-    },
+    },]]
     -- ["trucker"] = {
     --     app = "trucker",
     --     color = "#cccc33",
