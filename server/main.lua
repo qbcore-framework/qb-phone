@@ -587,7 +587,7 @@ AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
                 recieverSteam.Functions.AddMoney('bank', amount, "phone-transfered-from-"..sender.PlayerData.citizenid)
                 sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-"..recieverSteam.PlayerData.citizenid)
 
-                if PhoneItem > 0 then
+                if PhoneItem ~= nil then
                     TriggerClientEvent('qb-phone:client:TransferMoney', recieverSteam.PlayerData.source, amount, recieverSteam.PlayerData.money.bank)
                 end
             else
@@ -1004,7 +1004,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:HasPhone', function(source, cb)
         local HasPhone = Player.Functions.GetItemByName("phone")
         local retval = false
 
-        if HasPhone > 0 then
+        if HasPhone ~= nil then
             cb(true)
         else
             cb(false)
