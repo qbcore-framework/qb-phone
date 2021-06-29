@@ -217,7 +217,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
     local Player = QBCore.Functions.GetPlayer(src)
 
     if mailData.button == nil then
-        exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
             ['@citizenid'] = Player.PlayerData.citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
@@ -226,7 +226,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
             ['@read'] = 0
         })
     else
-        exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
             ['@citizenid'] = Player.PlayerData.citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
@@ -260,7 +260,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         local src = Player.PlayerData.source
 
         if mailData.button == nil then
-            exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -270,7 +270,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
             })
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
         else
-            exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -297,7 +297,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         end)
     else
         if mailData.button == nil then
-            exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -306,7 +306,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
                 ['@read'] = 0
             })
         else
-            exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -322,7 +322,7 @@ end)
 RegisterServerEvent('qb-phone:server:sendNewEventMail')
 AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
     if mailData.button == nil then
-        exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
             ['@citizenid'] = Player.PlayerData.citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
@@ -331,7 +331,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
             ['@read'] = 0
         })
     else
-        exports.ghmattimysql:execute('INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
             ['@citizenid'] = Player.PlayerData.citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
