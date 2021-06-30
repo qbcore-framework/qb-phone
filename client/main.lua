@@ -1013,18 +1013,6 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
             if (Firstname ~= nil and Firstname ~= "") and (Lastname ~= nil and Lastname ~= "") then
                 if Firstname ~= PhoneData.PlayerData.charinfo.firstname and Lastname ~= PhoneData.PlayerData.charinfo.lastname then
                     TriggerServerEvent('qb-phone:server:MentionedPlayer', Firstname, Lastname, TweetMessage)
-                else
-                    SetTimeout(2500, function()
-                        SendNUIMessage({
-                            action = "PhoneNotification",
-                            PhoneNotify = {
-                                title = "Twitter", 
-                                text = "You can't mention yourself!", 
-                                icon = "fab fa-twitter",
-                                color = "#1DA1F2",
-                            },
-                        })
-                    end)
                 end
             end
         end
