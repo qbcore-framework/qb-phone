@@ -9,7 +9,21 @@ end)
 
 -- Code
 
+RegisterCommand('phone', function()
+    if not PhoneData.isOpen then
+        local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
+        if not IsHandcuffed then
+            OpenPhone()
+        else
+            QBCore.Functions.Notify("Action not available at the moment..", "error")
+        end
+    end
+end)
+
+RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
+
 local PlayerJob = {}
+local isLoggedIn = false
 
 phoneProp = 0
 local phoneModel = `prop_npc_phone_02`
@@ -123,24 +137,6 @@ function IsNumberInContacts(num)
     end
     return retval
 end
-
-local isLoggedIn = false
-
-Citizen.CreateThread(function()
-    while true do
-        if IsControlJustPressed(0, Config.OpenPhone) then
-            if not PhoneData.isOpen then
-                local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
-                if not IsHandcuffed then
-                    OpenPhone()
-                else
-                    QBCore.Functions.Notify("Action not available at the moment..", "error")
-                end
-            end
-        end
-        Citizen.Wait(3)
-    end
-end)
 
 function CalculateTimeToDisplay()
 	hour = GetClockHours()
