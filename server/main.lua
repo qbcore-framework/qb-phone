@@ -56,7 +56,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 
         PhoneData.Adverts = Adverts
 
-        exports.ghmattimysql:execute("SELECT * FROM player_contacts WHERE `citizenid` = '"..Player.PlayerData.citizenid.."' ORDER BY `name` ASC", function(result)
+        exports.ghmattimysql:execute("SELECT * FROM player_contacts WHERE `citizenid` = @citizenid ORDER BY `name` ASC", {['@citizenid'] = Player.PlayerData.citizenid}, function(result)
             local Contacts = {}
             if result[1] ~= nil then
                 for k, v in pairs(result) do
@@ -66,14 +66,14 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                 PhoneData.PlayerContacts = result
             end
 
-            exports.ghmattimysql:execute("SELECT * FROM phone_invoices WHERE `citizenid` = '"..Player.PlayerData.citizenid.."'", function(invoices)
+            exports.ghmattimysql:execute("SELECT * FROM phone_invoices WHERE `citizenid` = @citizenid", {['@citizenid'] = Player.PlayerData.citizenid}, function(invoices)
                 if invoices[1] ~= nil then
                     for k, v in pairs(invoices) do
                         local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
                         if Ply ~= nil then
                             v.number = Ply.PlayerData.charinfo.phone
                         else
-                            QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..v.sender.."'", function(res)
+                            exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @sender", {['sender'] = v.sender} function(res)
                                 if res[1] ~= nil then
                                     res[1].charinfo = json.decode(res[1].charinfo)
                                     v.number = res[1].charinfo.phone
@@ -86,7 +86,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                     PhoneData.Invoices = invoices
                 end
                 
-                exports.ghmattimysql:execute("SELECT * FROM player_vehicles WHERE `citizenid` = '"..Player.PlayerData.citizenid.."'", function(garageresult)
+                exports.ghmattimysql:execute("SELECT * FROM player_vehicles WHERE `citizenid` = @citizenid", {['@citizenid'] = Player.PlayerData.citizenid}, function(garageresult)
                     if garageresult[1] ~= nil then
                         -- for k, v in pairs(garageresult) do
                         --     if (QBCore.Shared.Vehicles[v.vehicle] ~= nil) and (Garages[v.garage] ~= nil) then
@@ -99,7 +99,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                         PhoneData.Garage = garageresult
                     end
                     
-                    exports.ghmattimysql:execute("SELECT * FROM phone_messages WHERE `citizenid` = '"..Player.PlayerData.citizenid.."'", function(messages)
+                    exports.ghmattimysql:execute("SELECT * FROM phone_messages WHERE `citizenid` = @citizenid", {['@citizenid'] = Player.PlayerData.citizenid}, function(messages)
                         if messages ~= nil and next(messages) ~= nil then 
                             PhoneData.Chats = messages
                         end
@@ -120,7 +120,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                             PhoneData.Tweets = Tweets
                         end
 
-                        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` ASC', function(mails)
+                        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid}, function(mails)
                             if mails[1] ~= nil then
                                 for k, v in pairs(mails) do
                                     if mails[k].button ~= nil then
@@ -130,7 +130,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                                 PhoneData.Mails = mails
                             end
 
-                            exports.ghmattimysql:execute('SELECT * FROM `crypto_transactions` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` ASC', function(transactions)
+                            exports.ghmattimysql:execute('SELECT * FROM `crypto_transactions` WHERE `citizenid` = @citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid}, function(transactions)
                                 if transactions[1] ~= nil then
                                     for _, v in pairs(transactions) do
                                         table.insert(PhoneData.CryptoTransactions, {
@@ -186,9 +186,9 @@ AddEventHandler('qb-phone:server:RemoveMail', function(MailId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
-    exports.ghmattimysql:execute('DELETE FROM `player_mails` WHERE `mailid` = "'..MailId..'" AND `citizenid` = "'..Player.PlayerData.citizenid..'"')
+    exports.ghmattimysql:execute('DELETE FROM `player_mails` WHERE `mailid` = @mailid AND `citizenid` = @citizenid"', {['@mailid'] = MailId, ['@citizenid'] = Player.PlayerData.citizenid})
     SetTimeout(100, function()
-        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` ASC', function(mails)
+        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` ASC',{['@citizenid'] = Player.PlayerData.citizenid}}, function(mails)
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
                     if mails[k].button ~= nil then
@@ -233,7 +233,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
     end
     TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
     SetTimeout(200, function()
-        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` DESC', function(mails)
+        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` DESC', {['@citizenid'] = Player.PlayerData.citizenid}, function(mails)
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
                     if mails[k].button ~= nil then
@@ -278,7 +278,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         end
 
         SetTimeout(200, function()
-            exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` DESC', function(mails)
+            exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` DESC', {['@citizenid'] = Player.PlayerData.citizenid}, function(mails)
                 if mails[1] ~= nil then
                     for k, v in pairs(mails) do
                         if mails[k].button ~= nil then
@@ -337,7 +337,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
         })
     end
     SetTimeout(200, function()
-        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` DESC', function(mails)
+        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` DESC', {['@citizenid'] = Player.PlayerData.citizenid}, function(mails)
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
                     if mails[k].button ~= nil then
@@ -357,7 +357,7 @@ AddEventHandler('qb-phone:server:ClearButtonData', function(mailId)
     local Player = QBCore.Functions.GetPlayer(src)
     exports.ghmattimysql:execute('UPDATE player_mails SET button=@button WHERE mailid=@mailid AND citizenid=@citizenid', {['@button'] = '', ['@mailid'] = mailId, ['@citizenid'] = Player.PlayerData.citizenid})
     SetTimeout(200, function()
-        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` DESC', function(mails)
+        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` DESC', {['@citizenid'] = Player.PlayerData.citizenid}, function(mails)
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
                     if mails[k].button ~= nil then
@@ -381,7 +381,7 @@ AddEventHandler('qb-phone:server:MentionedPlayer', function(firstName, lastName,
                 QBPhone.AddMentionedTweet(Player.PlayerData.citizenid, TweetMessage)
                 TriggerClientEvent('qb-phone:client:GetMentioned', Player.PlayerData.source, TweetMessage, AppAlerts[Player.PlayerData.citizenid]["twitter"])
             else
-                exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..firstName.."%' AND `charinfo` LIKE '%"..lastName.."%'", function(result)
+                exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE @firstname AND `charinfo` LIKE @lastname", {['@firstname'] = "%"..firstName.."%", ['@lastname'] = "'%"..lastName.."%'"}, function(result)
                     if result[1] ~= nil then
                         local MentionedTarget = result[1].citizenid
                         QBPhone.SetPhoneAlerts(MentionedTarget, "twitter")
@@ -415,15 +415,15 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
             Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
             Trgt.Functions.AddMoney('bank', amount, "paid-invoice")
 
-            QBCore.Functions.ExecuteSql(true, "DELETE FROM `phone_invoices` WHERE `invoiceid` = '"..invoiceId.."'")
-            exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
+            exports.ghmattimysql:execute("DELETE FROM `phone_invoices` WHERE `invoiceid` = @invoice", {['@invoice'] = invoiceId})
+            exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = @citizen", {['@citizen'] = Ply.PlayerData.citizenid}, function(invoices)
                 if invoices[1] ~= nil then
                     for k, v in pairs(invoices) do
                         local Target = QBCore.Functions.GetPlayerByCitizenId(v.sender)
                         if Target ~= nil then
                             v.number = Target.PlayerData.charinfo.phone
                         else
-                            QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..v.sender.."'", function(res)
+                            exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @sender", {['@sender'] = v.sender}, function(res)
                                 if res[1] ~= nil then
                                     res[1].charinfo = json.decode(res[1].charinfo)
                                     v.number = res[1].charinfo.phone
@@ -441,21 +441,21 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
             cb(false)
         end
     else
-        exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = '"..sender.."'", function(result)
+        exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @sender", {['@sender'] = v.sender}, function(result)
             if result[1] ~= nil then
                 local moneyInfo = json.decode(result[1].money)
                 moneyInfo.bank = math.ceil((moneyInfo.bank + amount))
                 exports.ghmattimysql:execute('UPDATE players SET money=@money WHERE citizenid=@citizenid', {['@money'] = json.encode(moneyInfo), ['@citizenid'] = sender})
                 Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
                 exports.ghmattimysql:execute('DELETE FROM phone_invoices WHERE invoiceid=@invoiceid', {['@invoiceid'] = invoiceId})
-                exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
+                exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = @citizen", {['@citizen'] = Ply.PlayerData.citizenid} function(invoices)
                     if invoices[1] ~= nil then
                         for k, v in pairs(invoices) do
                             local Target = QBCore.Functions.GetPlayerByCitizenId(v.sender)
                             if Target ~= nil then
                                 v.number = Target.PlayerData.charinfo.phone
                             else
-                                QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..v.sender.."'", function(res)
+                                exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @sender", {['@sender']= v.sender}, function(res)
                                     if res[1] ~= nil then
                                         res[1].charinfo = json.decode(res[1].charinfo)
                                         v.number = res[1].charinfo.phone
@@ -482,15 +482,15 @@ QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(sourc
     local Trgt = QBCore.Functions.GetPlayerByCitizenId(sender)
     local Invoices = {}
 
-    QBCore.Functions.ExecuteSql(true, "DELETE FROM `phone_invoices` WHERE `invoiceid` = '"..invoiceId.."'")
-    exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
+    exports.ghmattimysql:execute("DELETE FROM `phone_invoices` WHERE `invoiceid` = @invoice", {['@invoice'] = invoiceId})
+    exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = @citizen", {['@citizen'] = Ply.PlayerData.citizenid}, function(invoices)
         if invoices[1] ~= nil then
             for k, v in pairs(invoices) do
                 local Target = QBCore.Functions.GetPlayerByCitizenId(v.sender)
                 if Target ~= nil then
                     v.number = Target.PlayerData.charinfo.phone
                 else
-                    QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..v.sender.."'", function(res)
+                    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @sender", {['@sender'] = v.sender}, function(res)
                         if res[1] ~= nil then
                             res[1].charinfo = json.decode(res[1].charinfo)
                             v.number = res[1].charinfo.phone
@@ -558,7 +558,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(s
     for k, v in pairs(Chats) do
         local Player = QBCore.Functions.GetPlayerByPhone(v.number)
         
-        exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..v.number.."%'", function(result)
+        exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE @number", {['@number'] = "'%"..v.number.."%'"}, function(result)
             if result[1] ~= nil then
                 local MetaData = json.decode(result[1].metadata)
 
@@ -578,7 +578,7 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetContactPicture', function(source, cb, Chat)
     local Player = QBCore.Functions.GetPlayerByPhone(Chat.number)
 
-    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..Chat.number.."%'", function(result)
+    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE @number", {['@number'] = "'%"..Chat.number.."%'"}, function(result)
         local MetaData = json.decode(result[1].metadata)
 
         if MetaData.phone.profilepicture ~= nil then
@@ -596,7 +596,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPicture', function(source, c
     local Player = QBCore.Functions.GetPlayerByPhone(number)
     local Picture = nil
 
-    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..number.."%'", function(result)
+    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE @number", {['@number'] = "'%"..number.."%'"}, function(result)
         if result[1] ~= nil then
             local MetaData = json.decode(result[1].metadata)
 
@@ -632,7 +632,7 @@ AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
     local src = source
     local sender = QBCore.Functions.GetPlayer(src)
 
-    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..iban.."%'", function(result)
+    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE @iban", {['@iban'] = "'%"..iban.."%'"}, function(result)
         if result[1] ~= nil then
             local recieverSteam = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
@@ -675,7 +675,11 @@ AddEventHandler('qb-phone:server:RemoveContact', function(Name, Number)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     
-    exports.ghmattimysql:execute("DELETE FROM `player_contacts` WHERE `name` = '"..Name.."' AND `number` = '"..Number.."' AND `citizenid` = '"..Player.PlayerData.citizenid.."'")
+    exports.ghmattimysql:execute("DELETE FROM `player_contacts` WHERE `name` = @name AND `number` = @number AND `citizenid` = @citizen",{
+        ['@name'] = Name,
+        ['@number'] = Number,
+        ['@citizen'] = Player.PlayerData.citizenid
+    })
 end)
 
 RegisterServerEvent('qb-phone:server:AddNewContact')
@@ -695,12 +699,12 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
     local src = source
     local SenderData = QBCore.Functions.GetPlayer(src)
 
-    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..ChatNumber.."%'", function(Player)
+    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE @chat",{['@chat'] = "'%"..ChatNumber.."%'"}, function(Player)
         if Player[1] ~= nil then
             local TargetData = QBCore.Functions.GetPlayerByCitizenId(Player[1].citizenid)
 
             if TargetData ~= nil then
-                exports.ghmattimysql:execute("SELECT * FROM `phone_messages` WHERE `citizenid` = '"..SenderData.PlayerData.citizenid.."' AND `number` = '"..ChatNumber.."'", function(Chat)
+                exports.ghmattimysql:execute("SELECT * FROM `phone_messages` WHERE `citizenid` = @citizen AND `number` = @ChatNumber", {['@citizen'] = SenderData.PlayerData.citizenid, ['@chatnumber'] = ChatNumber}, function(Chat)
                     if Chat[1] ~= nil then
                         -- Update for target
                         exports.ghmattimysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
@@ -738,7 +742,7 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
                     end
                 end)
             else
-                exports.ghmattimysql:execute("SELECT * FROM `phone_messages` WHERE `citizenid` = '"..SenderData.PlayerData.citizenid.."' AND `number` = '"..ChatNumber.."'", function(Chat)
+                exports.ghmattimysql:execute("SELECT * FROM `phone_messages` WHERE `citizenid` = @citizen AND `number` = @number", {['@citizen'] = SenderData.PlayerData.citizenid, ['@number'] = ChatNumber}, function(Chat)
                     if Chat[1] ~= nil then
                         -- Update for target
                         exports.ghmattimysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
@@ -819,7 +823,7 @@ AddEventHandler('qb-phone:server:SaveMetaData', function(MData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
-    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = '"..Player.PlayerData.citizenid.."'", function(result)
+    exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @citizenid", {['@citizenid'] = Player.PlayerData.citizenid}, function(result)
         local MetaData = json.decode(result[1].metadata)
         MetaData.phone = MData
         exports.ghmattimysql:execute('UPDATE players SET metadata=@metadata WHERE citizenid=@citizenid', {['@metadata'] = json.encode(MetaData), ['@citizenid'] = Player.PlayerData.citizenid})
@@ -900,10 +904,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
     local src = source
     local search = escape_sqli(search)
     local searchData = {}
-    exports.ghmattimysql:execute('SELECT * FROM `player_vehicles` WHERE `plate` LIKE "%'..search..'%" OR `citizenid` = "'..search..'"', function(result)
+    exports.ghmattimysql:execute('SELECT * FROM `player_vehicles` WHERE `plate` LIKE @like OR `citizenid` = @search',{['@like'] = "%'"..search.."'%", ['@search']= search}, function(result)
         if result[1] ~= nil then
             for k, v in pairs(result) do
-                QBCore.Functions.ExecuteSql(true, 'SELECT * FROM `players` WHERE `citizenid` = "'..result[k].citizenid..'"', function(player)
+                exports.ghmattimysql:execute('SELECT * FROM `players` WHERE `citizenid` = @citizen', {['@citizen'] = result[k].citizenid}, function(player)
                     if player[1] ~= nil then 
                         local charinfo = json.decode(player[1].charinfo)
                         local vehicleInfo = QBCore.Shared.Vehicles[result[k].vehicle]
@@ -961,9 +965,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
     local src = source
     local vehicleData = {}
     if plate ~= nil then 
-        exports.ghmattimysql:execute('SELECT * FROM `player_vehicles` WHERE `plate` = "'..plate..'"', function(result)
+        exports.ghmattimysql:execute('SELECT * FROM `player_vehicles` WHERE `plate` = @plate', {['@plate'] = plate}, function(result)
             if result[1] ~= nil then
-                QBCore.Functions.ExecuteSql(true, 'SELECT * FROM `players` WHERE `citizenid` = "'..result[1].citizenid..'"', function(player)
+                exports.ghmattimysql:execute('SELECT * FROM `players` WHERE `citizenid` = @citizen', {['@citizen'] = result[1].citizenid}, function(player)
                     local charinfo = json.decode(player[1].charinfo)
                     vehicleData = {
                         plate = plate,
@@ -1037,7 +1041,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
 
-    exports.ghmattimysql:execute("SELECT * FROM `player_vehicles` WHERE `citizenid` = '"..Player.PlayerData.citizenid.."'", function(result)
+    exports.ghmattimysql:execute("SELECT * FROM `player_vehicles` WHERE `citizenid` = @citizenid", {['@citizenid'] = Player.PlayerData.citizenid}, function(result)
         if result[1] ~= nil then
             for k, v in pairs(result) do
                 local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
@@ -1112,7 +1116,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
     local Player = QBCore.Functions.GetPlayer(source)
 
     if (Player.PlayerData.money.bank - amount) >= 0 then
-        exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..iban.."%'", function(result)
+        exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE @like", {['@like'] = "'%"..iban.."%'"}, function(result)
             if result[1] ~= nil then
                 local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
