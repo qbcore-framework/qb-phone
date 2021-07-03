@@ -188,7 +188,7 @@ AddEventHandler('qb-phone:server:RemoveMail', function(MailId)
 
     exports.ghmattimysql:execute('DELETE FROM `player_mails` WHERE `mailid` = @mailid AND `citizenid` = @citizenid"', {['@mailid'] = MailId, ['@citizenid'] = Player.PlayerData.citizenid})
     SetTimeout(100, function()
-        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` ASC',{['@citizenid'] = Player.PlayerData.citizenid}}, function(mails)
+        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = @citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid}, function(mails)
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
                     if mails[k].button ~= nil then
