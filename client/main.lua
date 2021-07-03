@@ -320,6 +320,7 @@ function OpenPhone()
         if HasPhone then
             PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
             SetNuiFocus(true, true)
+            SetNuiFocusKeepInput(true)
             SendNUIMessage({
                 action = "open",
                 Tweets = PhoneData.Tweets,
