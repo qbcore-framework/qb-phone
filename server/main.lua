@@ -73,7 +73,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                         if Ply ~= nil then
                             v.number = Ply.PlayerData.charinfo.phone
                         else
-                            exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @sender", {['sender'] = v.sender} function(res)
+                            exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = @sender", {['sender'] = v.sender}, function(res)
                                 if res[1] ~= nil then
                                     res[1].charinfo = json.decode(res[1].charinfo)
                                     v.number = res[1].charinfo.phone
