@@ -448,7 +448,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
                 exports.ghmattimysql:execute('UPDATE players SET money=@money WHERE citizenid=@citizenid', {['@money'] = json.encode(moneyInfo), ['@citizenid'] = sender})
                 Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
                 exports.ghmattimysql:execute('DELETE FROM phone_invoices WHERE invoiceid=@invoiceid', {['@invoiceid'] = invoiceId})
-                exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = @citizen", {['@citizen'] = Ply.PlayerData.citizenid} function(invoices)
+                exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = @citizen", {['@citizen'] = Ply.PlayerData.citizenid}, function(invoices)
                     if invoices[1] ~= nil then
                         for k, v in pairs(invoices) do
                             local Target = QBCore.Functions.GetPlayerByCitizenId(v.sender)
