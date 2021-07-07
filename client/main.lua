@@ -1565,7 +1565,7 @@ RegisterNUICallback('FetchVehicleScan', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:ScanPlate', function(result)
         QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(flagged)
             result.isFlagged = flagged
-            local vehicleInfo = QBCore.Shared.Vehicles[vehname] ~= nil and QBCore.Shared.Vehicles[vehname]["model"]] or {["brand"] = "Unknown brand..", ["name"] = ""}
+            local vehicleInfo = QBCore.Shared.Vehicles[vehname] ~= nil and QBCore.Shared.Vehicles[vehname]["model"] or {["brand"] = "Unknown brand..", ["name"] = ""}
             result.label = vehicleInfo["name"]
             cb(result)
         end, plate)
