@@ -318,7 +318,7 @@ RegisterServerEvent('qb-phone:server:sendNewEventMail')
 AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
     if mailData.button == nil then
         exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
-            ['@citizenid'] = Player.PlayerData.citizenid,
+            ['@citizenid'] = citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
             ['@message'] = mailData.message,
@@ -327,7 +327,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
         })
     else
         exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
-            ['@citizenid'] = Player.PlayerData.citizenid,
+            ['@citizenid'] = citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
             ['@message'] = mailData.message,
@@ -337,7 +337,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
         })
     end
     SetTimeout(200, function()
-        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..Player.PlayerData.citizenid..'" ORDER BY `date` DESC', function(mails)
+        exports.ghmattimysql:execute('SELECT * FROM `player_mails` WHERE `citizenid` = "'..citizenid..'" ORDER BY `date` DESC', function(mails)
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
                     if mails[k].button ~= nil then
@@ -345,8 +345,6 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
                     end
                 end
             end
-    
-            TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
         end)
     end)
 end)
@@ -634,15 +632,15 @@ AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
 
     exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..iban.."%'", function(result)
         if result[1] ~= nil then
-            local recieverSteam = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
+            local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
-            if recieverSteam ~= nil then
-                local PhoneItem = recieverSteam.Functions.GetItemByName("phone")
-                recieverSteam.Functions.AddMoney('bank', amount, "phone-transfered-from-"..sender.PlayerData.citizenid)
-                sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-"..recieverSteam.PlayerData.citizenid)
+            if reciever ~= nil then
+                local PhoneItem = reciever.Functions.GetItemByName("phone")
+                reciever.Functions.AddMoney('bank', amount, "phone-transfered-from-"..sender.PlayerData.citizenid)
+                sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-"..reciever.PlayerData.citizenid)
 
                 if PhoneItem ~= nil then
-                    TriggerClientEvent('qb-phone:client:TransferMoney', recieverSteam.PlayerData.source, amount, recieverSteam.PlayerData.money.bank)
+                    TriggerClientEvent('qb-phone:client:TransferMoney', reciever.PlayerData.source, amount, reciever.PlayerData.money.bank)
                 end
             else
                 local moneyInfo = json.decode(result[1].money)
