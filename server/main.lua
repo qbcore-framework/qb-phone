@@ -634,15 +634,15 @@ AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
 
     exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `charinfo` LIKE '%"..iban.."%'", function(result)
         if result[1] ~= nil then
-            local recieverSteam = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
+            local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
-            if recieverSteam ~= nil then
-                local PhoneItem = recieverSteam.Functions.GetItemByName("phone")
-                recieverSteam.Functions.AddMoney('bank', amount, "phone-transfered-from-"..sender.PlayerData.citizenid)
-                sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-"..recieverSteam.PlayerData.citizenid)
+            if reciever ~= nil then
+                local PhoneItem = reciever.Functions.GetItemByName("phone")
+                reciever.Functions.AddMoney('bank', amount, "phone-transfered-from-"..sender.PlayerData.citizenid)
+                sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-"..reciever.PlayerData.citizenid)
 
                 if PhoneItem ~= nil then
-                    TriggerClientEvent('qb-phone:client:TransferMoney', recieverSteam.PlayerData.source, amount, recieverSteam.PlayerData.money.bank)
+                    TriggerClientEvent('qb-phone:client:TransferMoney', reciever.PlayerData.source, amount, reciever.PlayerData.money.bank)
                 end
             else
                 local moneyInfo = json.decode(result[1].money)
