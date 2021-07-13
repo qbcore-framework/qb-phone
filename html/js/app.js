@@ -388,6 +388,9 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                     $(".notification-icon").css({"color":"#e74c3c"});
                     $(".notification-title").css({"color":"#e74c3c"});
                 }
+                if (!QB.Phone.Data.IsOpen) {
+                    QB.Phone.Animations.BottomSlideUp('.container', 300, -52);
+                }
                 QB.Phone.Animations.TopSlideDown(".phone-notification-container", 200, 8);
                 if (icon !== "politie") {
                     $(".notification-icon").html('<i class="'+icon+'"></i>');
@@ -401,6 +404,9 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                 }
                 QB.Phone.Notifications.Timeout = setTimeout(function(){
                     QB.Phone.Animations.TopSlideUp(".phone-notification-container", 200, -8);
+                    if (!QB.Phone.Data.IsOpen) {
+                        QB.Phone.Animations.BottomSlideUp('.container', 300, -100);
+                    }
                     QB.Phone.Notifications.Timeout = null;
                 }, timeout);
             } else {
@@ -411,6 +417,9 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                     $(".notification-icon").css({"color":"#e74c3c"});
                     $(".notification-title").css({"color":"#e74c3c"});
                 }
+                if (!QB.Phone.Data.IsOpen) {
+                    QB.Phone.Animations.BottomSlideUp('.container', 300, -52);
+                }
                 $(".notification-icon").html('<i class="'+icon+'"></i>');
                 $(".notification-title").html(title);
                 $(".notification-text").html(text);
@@ -419,6 +428,9 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                 }
                 QB.Phone.Notifications.Timeout = setTimeout(function(){
                     QB.Phone.Animations.TopSlideUp(".phone-notification-container", 200, -8);
+                    if (!QB.Phone.Data.IsOpen) {
+                        QB.Phone.Animations.BottomSlideUp('.container', 300, -100);
+                    }
                     QB.Phone.Notifications.Timeout = null;
                 }, timeout);
             }
