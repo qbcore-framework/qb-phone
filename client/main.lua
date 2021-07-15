@@ -1169,13 +1169,15 @@ RegisterNUICallback('GetWhatsappChats', function(data, cb)
 end)
 
 RegisterNUICallback('CallContact', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline)
+    local contactData = data.ContactData
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline, contactData)
         local status = { 
             CanCall = CanCall, 
             IsOnline = IsOnline,
             InCall = PhoneData.CallData.InCall,
         }
         cb(status)
+
         if CanCall and not status.InCall and (data.ContactData.number ~= PhoneData.PlayerData.charinfo.phone) then
             CallContact(data.ContactData, data.Anonymous)
         end
