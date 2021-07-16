@@ -302,7 +302,7 @@
     border-radius: 0 1px 5px 5px;
     overflow: hidden;
     display: none;
-    max-height: 144px;
+    max-height: 420px;
     overflow-y: auto;
     z-index: 9
 }
