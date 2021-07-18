@@ -1,12 +1,16 @@
 RegisterCommand('phone', function()
-    if not PhoneData.isOpen then
-        local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
-        if not IsHandcuffed then
-            OpenPhone()
+    QBCore.Functions.GetPlayerData(function(PlayerData)
+        if not PhoneData.isOpen and not PlayerData.metadata["isdead"] then
+            local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
+            if not IsHandcuffed then
+                OpenPhone()
+            else
+                QBCore.Functions.Notify("Action not available at the moment..", "error")
+            end
         else
             QBCore.Functions.Notify("Action not available at the moment..", "error")
         end
-    end
+    end)
 end)
 
 RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
