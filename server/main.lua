@@ -404,106 +404,77 @@ AddEventHandler('qb-phone:server:CallContact', function(TargetData, CallId, Anon
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, sender, amount, invoiceId)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local Trgt = QBCore.Functions.GetPlayerByCitizenId(sender)
-    local Invoices = {}
-
-    if Trgt ~= nil then
-        if Ply.PlayerData.money.bank >= amount then
-            Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
-            Trgt.Functions.AddMoney('bank', amount, "paid-invoice")
-
-            QBCore.Functions.ExecuteSql(true, "DELETE FROM `phone_invoices` WHERE `invoiceid` = '"..invoiceId.."'")
-            exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
-                if invoices[1] ~= nil then
-                    for k, v in pairs(invoices) do
-                        local Target = QBCore.Functions.GetPlayerByCitizenId(v.sender)
-                        if Target ~= nil then
-                            v.number = Target.PlayerData.charinfo.phone
-                        else
-                            QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..v.sender.."'", function(res)
-                                if res[1] ~= nil then
-                                    res[1].charinfo = json.decode(res[1].charinfo)
-                                    v.number = res[1].charinfo.phone
-                                else
-                                    v.number = nil
-                                end
-                            end)
-                        end
-                    end
-                    Invoices = invoices
-                end
-                cb(true, Invoices)
-            end)
-        else
-            cb(false)
-        end
-    else
-        exports.ghmattimysql:execute("SELECT * FROM `players` WHERE `citizenid` = '"..sender.."'", function(result)
-            if result[1] ~= nil then
-                local moneyInfo = json.decode(result[1].money)
-                moneyInfo.bank = math.ceil((moneyInfo.bank + amount))
-                exports.ghmattimysql:execute('UPDATE players SET money=@money WHERE citizenid=@citizenid', {['@money'] = json.encode(moneyInfo), ['@citizenid'] = sender})
-                Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
-                exports.ghmattimysql:execute('DELETE FROM phone_invoices WHERE invoiceid=@invoiceid', {['@invoiceid'] = invoiceId})
-                exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
-                    if invoices[1] ~= nil then
-                        for k, v in pairs(invoices) do
-                            local Target = QBCore.Functions.GetPlayerByCitizenId(v.sender)
-                            if Target ~= nil then
-                                v.number = Target.PlayerData.charinfo.phone
-                            else
-                                QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..v.sender.."'", function(res)
-                                    if res[1] ~= nil then
-                                        res[1].charinfo = json.decode(res[1].charinfo)
-                                        v.number = res[1].charinfo.phone
-                                    else
-                                        v.number = nil
-                                    end
-                                end)
-                            end
-                        end
-                        Invoices = invoices
-                    end
-                    cb(true, Invoices)
-                end)
+RegisterServerEvent('qb-phone:server:BillingEmail')
+AddEventHandler('qb-phone:server:BillingEmail', function(data, paid)
+    for k,v in pairs(QBCore.Functions.GetPlayers()) do
+        local target = QBCore.Functions.GetPlayer(v)
+        if target.PlayerData.job.name == data.society then
+            if paid then
+                local name = ''..QBCore.Functions.GetPlayer(source).PlayerData.charinfo.firstname..' '..QBCore.Functions.GetPlayer(source).PlayerData.charinfo.lastname..''
+                TriggerClientEvent('qb-phone:client:BillingEmail', target.PlayerData.source, data, true, name)
             else
-                cb(false)
+                local name = ''..QBCore.Functions.GetPlayer(source).PlayerData.charinfo.firstname..' '..QBCore.Functions.GetPlayer(source).PlayerData.charinfo.lastname..''
+                TriggerClientEvent('qb-phone:client:BillingEmail', target.PlayerData.source, data, false, name)
             end
-        end)
+        end
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, sender, amount, invoiceId)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local Trgt = QBCore.Functions.GetPlayerByCitizenId(sender)
+QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId)
     local Invoices = {}
-
-    QBCore.Functions.ExecuteSql(true, "DELETE FROM `phone_invoices` WHERE `invoiceid` = '"..invoiceId.."'")
-    exports.ghmattimysql:execute("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
+    local Ply = QBCore.Functions.GetPlayer(source)
+    Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
+    TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
+    exports.ghmattimysql:execute("DELETE FROM `phone_invoices` WHERE `id` = " ..invoiceId .. "")
+    exports.ghmattimysql:executeSync("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
         if invoices[1] ~= nil then
-            for k, v in pairs(invoices) do
-                local Target = QBCore.Functions.GetPlayerByCitizenId(v.sender)
-                if Target ~= nil then
-                    v.number = Target.PlayerData.charinfo.phone
-                else
-                    QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..v.sender.."'", function(res)
-                        if res[1] ~= nil then
-                            res[1].charinfo = json.decode(res[1].charinfo)
-                            v.number = res[1].charinfo.phone
-                        else
-                            v.number = nil
-                        end
-                    end)
-                end
-            end
             Invoices = invoices
         end
-        cb(true, invoices)
+        cb(true, Invoices)
     end)
+end)
+
+QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, sender, amount, invoiceId)
+    local Invoices = {}
+    local Ply = QBCore.Functions.GetPlayer(source)
+    exports.ghmattimysql:execute("DELETE FROM `phone_invoices` WHERE `id` = " ..invoiceId .. "")
+    exports.ghmattimysql:executeSync("SELECT * FROM `phone_invoices` WHERE `citizenid` = '"..Ply.PlayerData.citizenid.."'", function(invoices)
+        if invoices[1] ~= nil then
+            Invoices = invoices
+        end
+        cb(true, Invoices)
+    end)
+end)
+
+QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {name='amount', help='Fine Amount'}}, false, function(source, args)
+    local biller = QBCore.Functions.GetPlayer(source)
+    local billed = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local amount = tonumber(args[2]) 
+
+    if biller.PlayerData.job.name == "police" or biller.PlayerData.job.name == 'ambulance' or biller.PlayerData.job.name == 'mechanic' then
+        if billed ~= nil then
+            if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
+                if amount and amount > 0 then
+                    exports.ghmattimysql:execute('INSERT INTO phone_invoices (citizenid, amount, society, sender) VALUES (@citizenid, @amount, @society, @sender)', {
+                        ['@citizenid'] = billed.PlayerData.citizenid,
+                        ['@amount'] = amount,
+                        ['@society'] = biller.PlayerData.job.name,
+                        ['@sender'] = biller.PlayerData.charinfo.firstname
+                    })
+                    TriggerClientEvent('qb-phone:RefreshPhone', billed)
+                    TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
+                else
+                    TriggerClientEvent('QBCore:Notify', source, 'Must Be A Valid Amount Above 0', 'error')
+                end
+            else
+                TriggerClientEvent('QBCore:Notify', source, 'You Cannot Bill Yourself', 'error')
+            end
+        else
+            TriggerClientEvent('QBCore:Notify', source, 'Player Not Online', 'error')
+        end
+    else
+        TriggerClientEvent('QBCore:Notify', source, 'No Access', 'error')
+    end
 end)
 
 RegisterServerEvent('qb-phone:server:UpdateHashtags')
