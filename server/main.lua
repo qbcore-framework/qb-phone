@@ -463,6 +463,7 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {na
                     })
                     TriggerClientEvent('qb-phone:RefreshPhone', billed)
                     TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
+                    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Invoice Received')
                 else
                     TriggerClientEvent('QBCore:Notify', source, 'Must Be A Valid Amount Above 0', 'error')
                 end
