@@ -368,7 +368,7 @@ AddEventHandler('qb-phone:server:MentionedPlayer', function(firstName, lastName,
             else
                 local query1 = '%'..firstName..'%'
                 local query2 = '%'..lastName..'%'
-                local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE query1 AND charinfo LIKE query2', {['query'] = query1, ['query2'] = query2})
+                local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE query1 AND charinfo LIKE query2', {['query1'] = query1, ['query2'] = query2})
                 if result[1] ~= nil then
                     local MentionedTarget = result[1].citizenid
                     QBPhone.SetPhoneAlerts(MentionedTarget, "twitter")
