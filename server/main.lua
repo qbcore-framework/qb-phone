@@ -445,7 +445,7 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {na
                         ['@society'] = biller.PlayerData.job.name,
                         ['@sender'] = biller.PlayerData.charinfo.firstname
                     })
-                    TriggerClientEvent('qb-phone:RefreshPhone', billed)
+                    TriggerClientEvent('qb-phone:RefreshPhone', billed.PlayerData.source)
                     TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
                     TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Invoice Received')
                 else
