@@ -87,11 +87,14 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         local garageresult = exports.ghmattimysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
         if garageresult[1] ~= nil then
             for k, v in pairs(garageresult) do
-                if (QBCore.Shared.Vehicles[v.vehicle] ~= nil) and (Garages[v.garage] ~= nil) then
+			
+		local vehicleModel = v.vehicle	
+                if (QBCore.Shared.Vehicles[vehicleModel] ~= nil) and (Garages[v.garage] ~= nil) then
                     v.garage = Garages[v.garage].label
-                    v.vehicle = QBCore.Shared.Vehicles[v.vehicle].name
-                    v.brand = QBCore.Shared.Vehicles[v.vehicle].brand
+                    v.vehicle = QBCore.Shared.Vehicles[vehicleModel].name
+                    v.brand = QBCore.Shared.Vehicles[vehicleModel].brand
                 end
+				
             end
             PhoneData.Garage = garageresult
         end
