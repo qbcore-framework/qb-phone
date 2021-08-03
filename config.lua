@@ -1,8 +1,7 @@
 Config = Config or {}
 Config.Billing = {
     Commissions = { -- percentages
-        mechanic = 0.10,
-        mechanic2 = 0.10
+        mechanic = 0.10
     }
 }
 Config.RepeatTimeout = 2000
