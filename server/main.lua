@@ -412,21 +412,20 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId, sendercitizenid)
     local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
-    local sender = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
+    local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
+    local billAmount = amount
     local commission, billAmount
 
-    if Config.Billing.Commissions[society] then
-        commission = math.floor((amount * Config.Billing.Commissions[society]) + 0.5)
-        billAmount = math.floor((amount - (amount * Config.Billing.Commissions[society])) + 0.5)
-        sender.Functions.AddMoney('bank', commission)
+    if Config.BillingCommissions[society] then
+        commission = round(amount * Config.BillingCommissions[society])
+        billAmount = round(amount - (amount * Config.BillingCommissions[society]))
+        SenderPly.Functions.AddMoney('bank', commission)
         local mailData = {
             sender = 'Billing Department',
             subject = 'Commission Received',
-            message = string.format('You received a commission check of $%s when a bill of $%s was paid.', commission, amount)
+            message = string.format('You received a commission check of $%s when %s %s paid a bill of $%s.', commission, Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
         }
         TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, mailData)
-    else
-        billAmount = math.floor(amount + 0.5)
     end
 
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
@@ -1181,3 +1180,11 @@ QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, 
 		end
 	end
 end, "god")
+
+function round(num, numDecimalPlaces)
+    if numDecimalPlaces and numDecimalPlaces>0 then
+      local mult = 10^numDecimalPlaces
+      return math.floor(num * mult + 0.5) / mult
+    end
+    return math.floor(num + 0.5)
+end
