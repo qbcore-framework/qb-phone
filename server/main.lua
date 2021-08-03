@@ -409,11 +409,28 @@ AddEventHandler('qb-phone:server:BillingEmail', function(data, paid)
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId)
+QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId, sendercitizenid)
     local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
+    local sender = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
+    local commission, billAmount
+
+    if Config.Billing.Commissions[society] then
+        commission = math.floor((amount * Config.Billing.Commissions[society]) + 0.5)
+        billAmount = math.floor((amount - (amount * Config.Billing.Commissions[society])) + 0.5)
+        sender.Functions.AddMoney('bank', commission)
+        local mailData = {
+            sender = 'Billing Department',
+            subject = 'Commission Received',
+            message = string.format('You received a commission check of $%s when a bill of $%s was paid.', commission, amount)
+        }
+        TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, mailData)
+    else
+        billAmount = math.floor(amount + 0.5)
+    end
+
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
-    TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
+    TriggerEvent("qb-bossmenu:server:addAccountMoney", society, billAmount)
     exports.ghmattimysql:execute('DELETE FROM phone_invoices WHERE id=@id', {['@id'] = invoiceId})
     local invoices = exports.ghmattimysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid=@citizenid', {['@citizenid'] = Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
@@ -440,13 +457,14 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {na
 
     if biller.PlayerData.job.name == "police" or biller.PlayerData.job.name == 'ambulance' or biller.PlayerData.job.name == 'mechanic' then
         if billed ~= nil then
-            if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
+            --if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
                 if amount and amount > 0 then
-                    exports.ghmattimysql:execute('INSERT INTO phone_invoices (citizenid, amount, society, sender) VALUES (@citizenid, @amount, @society, @sender)', {
+                    exports.ghmattimysql:execute('INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid) VALUES (@citizenid, @amount, @society, @sender, @sendercitizenid)', {
                         ['@citizenid'] = billed.PlayerData.citizenid,
                         ['@amount'] = amount,
                         ['@society'] = biller.PlayerData.job.name,
-                        ['@sender'] = biller.PlayerData.charinfo.firstname
+                        ['@sender'] = biller.PlayerData.charinfo.firstname,
+                        ['@sendercitizenid'] = biller.PlayerData.citizenid
                     })
                     TriggerClientEvent('qb-phone:RefreshPhone', billed.PlayerData.source)
                     TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
@@ -454,9 +472,9 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {na
                 else
                     TriggerClientEvent('QBCore:Notify', source, 'Must Be A Valid Amount Above 0', 'error')
                 end
-            else
-                TriggerClientEvent('QBCore:Notify', source, 'You Cannot Bill Yourself', 'error')
-            end
+            --else
+                --TriggerClientEvent('QBCore:Notify', source, 'You Cannot Bill Yourself', 'error')
+            --end
         else
             TriggerClientEvent('QBCore:Notify', source, 'Player Not Online', 'error')
         end
