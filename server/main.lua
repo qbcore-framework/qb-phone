@@ -457,7 +457,7 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {na
 
     if biller.PlayerData.job.name == "police" or biller.PlayerData.job.name == 'ambulance' or biller.PlayerData.job.name == 'mechanic' then
         if billed ~= nil then
-            --if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
+            if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
                 if amount and amount > 0 then
                     exports.ghmattimysql:execute('INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid) VALUES (@citizenid, @amount, @society, @sender, @sendercitizenid)', {
                         ['@citizenid'] = billed.PlayerData.citizenid,
@@ -472,9 +472,9 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {na
                 else
                     TriggerClientEvent('QBCore:Notify', source, 'Must Be A Valid Amount Above 0', 'error')
                 end
-            --else
-                --TriggerClientEvent('QBCore:Notify', source, 'You Cannot Bill Yourself', 'error')
-            --end
+            else
+                TriggerClientEvent('QBCore:Notify', source, 'You Cannot Bill Yourself', 'error')
+            end
         else
             TriggerClientEvent('QBCore:Notify', source, 'Player Not Online', 'error')
         end
