@@ -2129,3 +2129,14 @@ end
 function InPhone()
     return PhoneData.isOpen
 end
+
+RegisterKeyMapping('a', 'Answer Call', 'keyboard', 'A')
+RegisterCommand('a', function()
+    AnswerCall()
+end)
+
+RegisterKeyMapping('h', 'Cancel Call', 'keyboard', 'A')
+RegisterCommand('h', function()
+    SendNUIMessage({ action = "CancelOngoingCall"})
+    CancelCall()
+end)
