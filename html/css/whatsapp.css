@@ -342,6 +342,14 @@
     overflow-y: scroll;
 }
 
+#closebtn{
+position:absolute;
+right:0%;
+top:0%;
+z-index: 2;
+
+}
+
 .whatsapp-openedchat-messages::-webkit-scrollbar {
     position: absolute;
     width: .3vh;
@@ -357,7 +365,7 @@
 .whatsapp-openedchat-message{
     position: relative;
     width: fit-content;
-    max-width: 50%;
+    /* max-width: 50%; */
     overflow-wrap: break-word;
     word-wrap: break-word;
     height: auto;

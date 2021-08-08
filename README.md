@@ -9,7 +9,7 @@ Advanced Phone for QB-Core Framework :iphone:
 - [qb-houses](https://github.com/qbcore-framework/qb-houses) - House and key management 
 - [qb-garages](https://github.com/qbcore-framework/qb-garages) - 
 - [qb-banking](https://github.com/qbcore-framework/qb-banking) - For banking
-- Screenshot-Basic - For screenshot
+- [Screenshot Basic](https://github.com/citizenfx/screenshot-basic) - For photo and camera
 
 
 ## Screenshots

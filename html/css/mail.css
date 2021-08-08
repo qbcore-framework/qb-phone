@@ -333,7 +333,7 @@
     transition: .05s ease-in-out;
 }
 
-.advert-sender {
+.advert-sender, .advert-number {
     position: relative;
     top: .8vh;
     color: rgb(255, 255, 255);
@@ -373,15 +373,54 @@
     overflow: hidden;
     left: -30vh;
 }
-
+#popup {
+    display: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
+}
+ 
+.popupclass {
+    margin:0px auto;
+    margin-top:120px;
+    position:relative;
+    padding:10px;
+    width:820px;
+    min-height:250px;
+    border-radius:4px;
+    box-shadow: 0 2px 5px #666666;
+}
+ 
 .new-advert-footer {
+    display: flex;
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 5vh;
     background-color: rgb(234, 234, 234);
 }
-
+#advert-new-url{
+    position: absolute;
+    border: none;
+    height: 4vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    background-color: rgb(233, 233, 233);
+    outline: none;
+    border-bottom: 2px solid #1da0f200;
+    resize: none;
+    transition: border-bottom 0.1s ease-in-out;
+    font-family: 'Heebo', sans-serif;
+    padding: 0.87vh;
+    font-size: 1.4vh;
+    top: 46vh;
+    width: 22vh;
+    border-radius: 1vh 1vh 1vh 1vh;
+    box-shadow: inset 0 0 2vh 0 rgba(0, 0, 0, 0.089);
+}
 .new-advert-footer-item {
     position: relative;
     float: left;
