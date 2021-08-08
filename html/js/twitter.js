@@ -249,7 +249,7 @@ $(document).on('click', '#send-tweet', function (e) {
         $.post('https://qb-phone/PostNewTweet', JSON.stringify({
             Message: TweetMessage,
             Date: CurrentDate,
-            Picture: PictureLoad,
+            Picture: QB.Phone.Data.MetaData.profilepicture,
             url: Foto1
         }), function (Tweets) {
             QB.Phone.Notifications.LoadTweets(Tweets);
