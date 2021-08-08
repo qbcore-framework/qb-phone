@@ -219,14 +219,11 @@ $(document).on('click','.advert-number',function(e){
                 QB.Phone.Functions.ToggleApp("phone", "none");
                 QB.Phone.Functions.ToggleApp("whatsapp", "block");
                 QB.Phone.Data.currentApplication = "whatsapp";
-             
-               
-            
                 $('.whatsapp-openedchat-messages').animate({scrollTop: 9999}, 150);
                 $(".whatsapp-openedchat").css({"display":"block"});
                 $(".whatsapp-openedchat").css({left: 0+"vh"});
                 $(".whatsapp-chats").animate({left: 30+"vh"},100, function(){
-                    $(".whatsapp-chats").css({"display":"none"});
+                $(".whatsapp-chats").css({"display":"none"});
                 });
             }, 400)
             QB.Phone.Functions.ToggleApp(QB.Phone.Data.currentApplication,"none")
@@ -241,13 +238,35 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
     $("#advert-header-name").html("@"+QB.Phone.Data.PlayerData.charinfo.firstname+""+QB.Phone.Data.PlayerData.charinfo.lastname+" | "+QB.Phone.Data.PlayerData.charinfo.phone);
     if (Adverts.length > 0 || Adverts.length == undefined) {
         $(".advert-list").html("");
+
         $.each(Adverts, function(i, advert){
-            var element = '<div class="advert"><span class="advert-sender">'+advert.name+'</span><span class="advert-number" data-number="'+advert.number+'"> | '+advert.number+'</span><p>'+advert.message+'</p></br><img class="advimage" src='+advert.url +'  style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></div>';
+            
+            if (advert.url){
+                var element = '<div class="advert"><span class="advert-sender">'+advert.name+'</span><span class="advert-number" data-number="'+advert.number+'"> | '+advert.number+'</span><p>'+advert.message+'</p></br><img class="advimage" src='+advert.url +' style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> </span></div>';
+            }else{
+                var element = '<div class="advert"><span class="advert-sender">'+advert.name+'</span><span class="advert-number" data-number="'+advert.number+'"> | '+advert.number+'</span><p>'+advert.message+'</p>';
+            }
             $(".advert-list").append(element);
+            if (advert.citizenid === QB.Phone.Data.PlayerData.citizenid){
+                $(".advert").append('<span><div class="adv-icon"><div id="adv-whataspp"><i class="fas fa-trash"style="font-size: 2.0rem;" id = "adv-delete"></i> </div></div>')
+            }
         });
     } else {
         $(".advert-list").html("");
         var element = '<div class="advert"><span class="advert-sender">There are no advertisements yet!</span></div>';
+        $(".advert-number").append(element);
         $(".advert-list").append(element);
     }
+ 
 }
+$(document).on('click','#adv-delete',function(e){
+    e.preventDefault();
+    $.post('https://qb-phone/DeleteAdvert', JSON.stringify({
+                citizenid: QB.Phone.Data.PlayerData.citizenid
+            }),function(){
+                setTimeout(function(){
+                    QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "The Adv was deleted", "#ff8f1a", 2000);
+                },400)
+               
+            });
+})
