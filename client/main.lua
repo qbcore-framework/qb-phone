@@ -824,6 +824,19 @@ RegisterNUICallback('PostAdvert', function(data)
     TriggerServerEvent('qb-phone:server:AddAdvert', data)
 end)
 
+RegisterNetEvent('qb-phone:client:Adverts',function(Update)  --This function send the adverts to the phone
+    PhoneData.Adverts = Update
+    SendNUIMessage({
+        action = "RefreshAdverts",
+        Adverts = PhoneData.Adverts
+    })
+
+end)
+RegisterNUICallback("DeleteAdvert", function(data,cb) 
+    local Citizenid= data.citizenid
+    TriggerServerEvent("qb-phone:server:DeleteAdvert",Citizenid)
+    cb('ok')
+end)
 RegisterNetEvent('qb-phone:client:UpdateAdverts')
 AddEventHandler('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
     PhoneData.Adverts = Adverts

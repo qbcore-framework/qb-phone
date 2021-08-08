@@ -11,11 +11,24 @@ Citizen.CreateThread(function()
     Wait(500)
 local LoadJson = json.decode(LoadResourceFile(GetCurrentResourceName(), "ad.json"))
 Adverts = LoadJson
-
-TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, "@")
-
+TriggerClientEvent('qb-phone:client:Adverts', -1, Adverts)
 end)
 
+RegisterServerEvent('qb-phone:server:DeleteAdvert')
+AddEventHandler('qb-phone:server:DeleteAdvert', function(citizenid)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(source)
+    local MyCitizenid = Player.PlayerData.citizenid
+    local Citizenid = citizenid
+    if Citizenid == MyCitizenid then
+    Adverts[Citizenid] = nil
+    UpdateJsonAdv(Adverts)
+    end
+end)
+function UpdateJsonAdv(data)
+    TriggerClientEvent("qb-phone:client:Adverts",-1,data)
+    SaveResourceFile(GetCurrentResourceName(), "ad.json", json.encode(data), -1)
+end
 
 RegisterServerEvent('qb-phone:server:AddAdvert')
 AddEventHandler('qb-phone:server:AddAdvert', function(msg)
