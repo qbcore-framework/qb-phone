@@ -2135,7 +2135,7 @@ RegisterCommand('a', function()
     AnswerCall()
 end)
 
-RegisterKeyMapping('h', 'Cancel Call', 'keyboard', 'A')
+RegisterKeyMapping('h', 'Cancel Call', 'keyboard', 'H')
 RegisterCommand('h', function()
     SendNUIMessage({ action = "CancelOngoingCall"})
     CancelCall()
