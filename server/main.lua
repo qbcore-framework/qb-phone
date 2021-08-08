@@ -7,6 +7,16 @@ local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
 
+Citizen.CreateThread(function()
+    Wait(500)
+local LoadJson = json.decode(LoadResourceFile(GetCurrentResourceName(), "ad.json"))
+Adverts = LoadJson
+
+TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, "@")
+
+end)
+
+
 RegisterServerEvent('qb-phone:server:AddAdvert')
 AddEventHandler('qb-phone:server:AddAdvert', function(msg)
     local src = source
@@ -14,17 +24,19 @@ AddEventHandler('qb-phone:server:AddAdvert', function(msg)
     local CitizenId = Player.PlayerData.citizenid
 
     if Adverts[CitizenId] ~= nil then
-        Adverts[CitizenId].message = msg
+        Adverts[CitizenId].message = msg.message
         Adverts[CitizenId].name = "@"..Player.PlayerData.charinfo.firstname..""..Player.PlayerData.charinfo.lastname
         Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
+        Adverts[CitizenId].url = msg.url
     else
         Adverts[CitizenId] = {
-            message = msg,
+            message = msg.message,
             name = "@"..Player.PlayerData.charinfo.firstname..""..Player.PlayerData.charinfo.lastname,
             number = Player.PlayerData.charinfo.phone,
+            url = msg.url
         }
     end
-
+    SaveResourceFile(GetCurrentResourceName(), "ad.json", json.encode(Adverts), -1)
     TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, "@"..Player.PlayerData.charinfo.firstname..""..Player.PlayerData.charinfo.lastname)
 end)
 
@@ -550,6 +562,18 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPicture', function(so
         cb(Chat)
     end)
 end)
+QBCore.Functions.CreateCallback("qb-phone:server:GetInfo",function(source,cb,number)
+    local Player = QBCore.Functions.GetPlayerByPhone(number)
+    if Player ~= nil then
+    cb({name = Player.PlayerData.charinfo.firstname,number = number})
+    else
+        local query = '%'..number..'%'
+        local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
+        local MetaData = json.decode(result[1].metadata)
+        cb({name = number,number = number})
+    end
+end)
+
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetPicture', function(source, cb, number)
     local Player = QBCore.Functions.GetPlayerByPhone(number)

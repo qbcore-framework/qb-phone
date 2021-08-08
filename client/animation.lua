@@ -48,7 +48,7 @@ function newPhoneProp()
 		Citizen.Wait(1)
 	end
 	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, 1, 1, 0)
-
+SetEntityAsNoLongerNeeded(phoneModel)
 	local bone = GetPedBoneIndex(PlayerPedId(), 28422)
 	if phoneModel == `prop_cs_phone_01` then
 		AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 50.0, 320.0, 50.0, 1, 1, 0, 0, 2, 1)

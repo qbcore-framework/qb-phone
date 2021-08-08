@@ -12,7 +12,7 @@ QB.Phone.ContactColors = {
     4: "#1abc9c",
     5: "#9c88ff",
 }
-
+let up = false
 QB.Phone.Data = {
     currentApplication: null,
     PlayerData: {},
@@ -307,31 +307,7 @@ QB.Phone.Functions.ToggleApp = function(app, show) {
 
 QB.Phone.Functions.Close = function() {
 
-    if (QB.Phone.Data.currentApplication == "whatsapp") {
-        setTimeout(function(){
-            QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
-            QB.Phone.Animations.TopSlideUp('.'+QB.Phone.Data.currentApplication+"-app", 400, -160);
-            $(".whatsapp-app").css({"display":"none"});
-            QB.Phone.Functions.HeaderTextColor("white", 300);
-    
-            if (OpenedChatData.number !== null) {
-                setTimeout(function(){
-                    $(".whatsapp-chats").css({"display":"block"});
-                    $(".whatsapp-chats").animate({
-                        left: 0+"vh"
-                    }, 1);
-                    $(".whatsapp-openedchat").animate({
-                        left: -30+"vh"
-                    }, 1, function(){
-                        $(".whatsapp-openedchat").css({"display":"none"});
-                    });
-                    OpenedChatData.number = null;
-                }, 450);
-            }
-            OpenedChatPicture = null;
-            QB.Phone.Data.currentApplication = null;
-        }, 500)
-    } else if (QB.Phone.Data.currentApplication == "meos") {
+     if (QB.Phone.Data.currentApplication == "meos") {
         $(".meos-alert-new").remove();
         $(".meos-recent-alert").removeClass("noodknop");
         $(".meos-recent-alert").css({"background-color":"#004682"}); 
@@ -645,9 +621,39 @@ $(document).ready(function(){
 $(document).on('keydown', function() {
     switch(event.keyCode) {
         case 27: // ESCAPE
+        if (up){
+            $('#popup').fadeOut('slow');
+            $('.popupclass').fadeOut('slow');
+            $('.popupclass').html("");
+        }else{
             QB.Phone.Functions.Close();
+        }
+           
             break;
     }
 });
+QB.Screen.popUp = function(source){
+    if(!up){
+        $('#popup').fadeIn('slow');
+        $('.popupclass').fadeIn('slow');
+        $('<img  src='+source+' style = "width:800px; height: 600px;">').appendTo('.popupclass')
+        up = true
+    }
+}
+QB.Screen.popDown = function(){
+    if(up){
+            $('#popup').fadeOut('slow');
+            $('.popupclass').fadeOut('slow');
+            $('.popupclass').html("");
+        up = false
+    }
+   
 
+}
+$('#popup').on('click', function(){
+    $('#popup').fadeOut('slow');
+    $('.popupclass').fadeOut('slow');
+    $('.popupclass').html("");
+    up = false
+});
 // QB.Phone.Functions.Open();

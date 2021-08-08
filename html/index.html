@@ -8,6 +8,7 @@
     <title>QB Phone Rework</title>
 
     <!-- CSS File's -->
+    <link rel="stylesheet" href="./build/colorbox.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="./css/tooltip.css">
@@ -27,14 +28,24 @@
     <link rel="stylesheet" href="./css/trucker.css">
 
     <!-- CDN's -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- JQuery -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> <!-- Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script> <!-- Color CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script>
+    <script src="./build/jquery.colorbox-min.js"></script> <!-- Bootstrap -->
+  
+    <!-- Color CDN -->
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> <!-- Bootstrap -->
 </head>
     <body style="background-color: transparent !important";>
+        <div id="popup">
+            <div class="popupclass">
+                <div id="close"><img src="images/close.png"/></a></div>
+            </div>
+    </div>
+       
         <div class="container disableSelection">
             <img src="./img/samsung-s10.png" class="phone-frame">
             <div class="phone-container phone-background">
@@ -733,7 +744,7 @@
                                 <span id="advert-header-text">Advertisements</span>
                                 <span id="advert-header-name"></span>
                             </div>
-    
+                            
                             <div class="advert-list">
                                 <!-- <div class="advert">
                                     <span class="advert-sender">@JayNandes | 0612345678</span>
@@ -750,17 +761,23 @@
                             <div class="new-advert-header">
                                 <span id="new-advert-header-text">New advertisement</span>
                             </div>
-
+                            <div id="dialog" style="display: none;"> 
+                              
+                              </div>
                             <textarea class="new-advert-textarea" spellcheck="false" required></textarea>
-
+                            <span><textarea id="advert-new-url" style="text-align:left; padding-left:15px;" placeholder="Picture URL" cols="30" rows="10" spellcheck="false" disabled></textarea></span>
 
                             <div class="new-advert-footer">
                                 <div class="new-advert-footer-item" id="new-advert-submit">
                                     <i class="fas fa-check-circle new-advert-icon"></i>
                                 </div>
+                                <div class="new-advert-footer-item" id="new-advert-photo">
+                                    <i class="fas fa fa-camera new-advert-icon"></i>
+                                </div>
                                 <div class="new-advert-footer-item" id="new-advert-back">
                                     <i class="fas fa-arrow-circle-left new-advert-icon"></i>
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -1005,9 +1022,10 @@
                             <div class="twitter-new-tweet-header"><p>New Tweet</p></div>
 
                             <textarea id="tweet-new-message" placeholder="Twitter message" cols="30" rows="10" spellcheck="false" required></textarea>
-                        
+                            <span><textarea id="tweet-new-url" style="text-align:left; padding-left:15px;" placeholder="Picture URL" cols="30" rows="10" spellcheck="false" disabled></textarea></span>
                             <div class="twitter-new-tweet-buttons">
                                 <div class="twitter-new-tweet-button" id="send-tweet"><p>Send</p></div>
+                                <div class="twitter-new-tweet-button" id="take-pic"><p>Take Pic</p></div>
                                 <div class="twitter-new-tweet-button" id="cancel-tweet"><p>Cancel</p></div>
                             </div>
                         </div>
@@ -1110,7 +1128,7 @@
                             <div class="whatsapp-openedchat-input">
                                 <div class="whatsapp-extra-buttons">
                                     <div class="whatsapp-extra-button" id="send-location"><i class="fas fa-map-marker-alt"></i></div>
-                                    <!-- <div class="whatsapp-extra-button" id="send-image"><i class="fas fa-map-marker-alt"></i></div> -->
+                                    <div class="whatsapp-extra-button" id="send-image"><i class="fas fa-camera"></i></div>
                                     <!-- <div class="whatsapp-extra-button" id="send-location"><i class="fas fa-money-bill"></i></div> -->
                                 </div>
                                 <input type="text" id="whatsapp-openedchat-message" placeholder="Message" spellcheck="false">
@@ -1158,6 +1176,7 @@
         </div> -->
         
         <!-- JavaScript File's -->
+      
         <script src="./js/config.js"></script>
         <script src="./js/app.js"></script>
         <script src="./js/settings.js"></script>
