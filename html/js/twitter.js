@@ -119,7 +119,6 @@ QB.Phone.Notifications.LoadTweets = function (Tweets) {
             if (Tweet.picture !== "default") {
                 PictureUrl = Tweet.picture
             }
-            console.log(Tweet.url)
             if (Tweet.url == "") {
                 let TweetElement = '<div class="twitter-tweet" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
                     '<div class="tweet-tweeter">' + Tweet.firstName + ' ' + Tweet.lastName + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + ' &middot; ' + TimeAgo + '</span></div>' +
@@ -245,7 +244,6 @@ $(document).on('click', '#send-tweet', function (e) {
     e.preventDefault();
     var TweetMessage = $("#tweet-new-message").val();
     let Foto1 = $('#tweet-new-url').val()
-    console.log(Foto1)
     if (TweetMessage != "") {
         var CurrentDate = new Date();
         $.post('https://qb-phone/PostNewTweet', JSON.stringify({
@@ -314,7 +312,6 @@ function CopyMentionTag(elem) {
 QB.Phone.Notifications.LoadHashtags = function (hashtags) {
     if (hashtags !== null) {
         $(".twitter-hashtags").html("");
-        console.log(JSON.stringify(hashtags));
         $.each(hashtags, function (i, hashtag) {
             var Elem = '';
             var TweetHandle = "Tweet";

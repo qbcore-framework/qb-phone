@@ -145,7 +145,6 @@ $(document).on('click', '#accept-profilepicture', function(e){
     } else {
         QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", "Personal avatar set!")
         QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
-        console.log(ProfilePicture)
         $("[data-settingstab='profilepicture']").find('.settings-tab-icon').html('<img src="'+ProfilePicture+'">');
     }
     $.post('https://qb-phone/UpdateProfilePicture', JSON.stringify({

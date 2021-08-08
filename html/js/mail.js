@@ -198,10 +198,8 @@ $(document).on('click','#new-advert-photo',function(e){
 $(document).on('click','.advert-number',function(e){
     e.preventDefault();
     let source = $(this).attr("data-number")
-    console.log(source)
     if (source !== QB.Phone.Data.PlayerData.charinfo.phone) {
         $.post('https://qb-phone/GetInformation', JSON.stringify({phone: source}), function(data){
-            console.log(JSON.stringify(data))
             $.post('https://qb-phone/GetWhatsappChat', JSON.stringify({phone: source}), function(chat){
                 QB.Phone.Functions.SetupChatMessages(chat, {
                     name: data.name,
