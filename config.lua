@@ -180,7 +180,7 @@ Config.StoreApps = {
         slot = 15,
         Alerts = 0,
         password = true,
-        creator = "Qbus",
+        creator = "QBCore",
         title = "Territory",
     },
 }
