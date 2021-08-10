@@ -69,7 +69,7 @@ $(document).on('click', '.twitter-new-tweet', function (e) {
 
     QB.Phone.Animations.TopSlideDown(".twitter-new-tweet-tab", 450, 0);
 });
-let PictureLoad = null
+
 $(document).on('click', '#take-pic', function (e) {
     e.preventDefault();
     $.post('https://qb-phone/GetImage', JSON.stringify({}),function(url){
@@ -83,14 +83,13 @@ $(document).on('click', '#take-pic', function (e) {
     QB.Phone.Functions.Close();
 })
 QB.Phone.Notifications.LoadTweets = function (Tweets) {
-    //console.log(JSON.stringify(Tweets))
     Tweets = Tweets.reverse();
 
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
         $(".twitter-home-tab").html("");
 
-        $.each(Tweets, function (i, Tweet) {
-            var clean = DOMPurify.sanitize(Tweet.message, {
+        $.each(Tweets , function (i, Tweet ) {
+            var clean = DOMPurify.sanitize(Tweets[i].message, {
                 ALLOWED_TAGS: [],
                 ALLOWED_ATTR: []
             });
@@ -119,15 +118,16 @@ QB.Phone.Notifications.LoadTweets = function (Tweets) {
             if (Tweet.picture !== "default") {
                 PictureUrl = Tweet.picture
             }
+          
             if (Tweet.url == "") {
-                let TweetElement = '<div class="twitter-tweet" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
+                let TweetElement = '<div class="twitter-tweet" data-twtcid="'+Tweet.citizenid+'" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
                     '<div class="tweet-tweeter">' + Tweet.firstName + ' ' + Tweet.lastName + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + ' &middot; ' + TimeAgo + '</span></div>' +
                     '<div class="tweet-message">' + TwtMessage + '</div>' +
                     '<div class="twt-img" style="top: 1vh;"><img src="' + PictureUrl + '" class="tweeter-image"></div>' +
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
             } else {
-                let TweetElement = '<div class="twitter-tweet" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
+                let TweetElement = '<div class="twitter-tweet" data-twtcid="'+Tweet.citizenid+'" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
                     '<div class="tweet-tweeter">' + Tweet.firstName + ' ' + Tweet.lastName + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + ' &middot; ' + TimeAgo + '</span></div>' +
                     '<div class="tweet-message">' + TwtMessage + '</div>' +
                     '<img class="image" src= ' + Tweet.url + ' style = " border-radius:4px; width: 70%; position:relative; z-index: 1; left:52px; margin:.6rem .5rem .6rem 1rem;height: auto;">' +
@@ -137,9 +137,35 @@ QB.Phone.Notifications.LoadTweets = function (Tweets) {
                 $(".twitter-home-tab").append(TweetElement);
 
             }
+            
+            if (Tweet.citizenid === QB.Phone.Data.PlayerData.citizenid){
+                $(".tweet-message").append('<span><div class="twt-icon"><i class="fas fa-trash"style="position:absolute; right:2%; font-size: 1.5rem; z-index:4;" id ="twt-delete-click"></i></div>')
+            }
         });
+    }else{
+        $('<div class="twitter-no-tweets"><p>No Tweets have been posted yet.. :(</p></div>').appendTo($(".twitter-home-tab"));
     }
+    
+    
 }
+
+
+$(document).on('click','#twt-delete-click',function(e){
+    e.preventDefault();
+    let source = $('.twitter-tweet').data('twtid')
+    let cid  = $('.twitter-tweet').data('twtcid')
+   $(this).parent().parent().parent().parent().remove()
+    if (cid == QB.Phone.Data.PlayerData.citizenid){
+        $.post('https://qb-phone/DeleteTwt', JSON.stringify({id: source}),function(){
+            window.addEventListener('message', function(event){
+                event.preventDefault();
+                if (event.data.action == "UpdateTweets"){
+                    QB.Phone.Notifications.LoadTweets(event.data.Tweets) 
+                }
+            })
+        })
+    }
+})
 $(document).on('click', '.image', function(e){
     e.preventDefault();
     let source = $(this).attr('src')
@@ -261,10 +287,13 @@ $(document).on('click', '#send-tweet', function (e) {
     } else {
         QB.Phone.Notifications.Add("fab fa-twitter", "Twitter", "Fill a message!", "#1DA1F2");
     }
+    $('#tweet-new-url').val("")
+    $("#tweet-new-message").val("");
 });
 
 $(document).on('click', '#cancel-tweet', function (e) {
     e.preventDefault();
+    $('#tweet-new-url').html("")
 
     QB.Phone.Animations.TopSlideUp(".twitter-new-tweet-tab", 450, -120);
 });
