@@ -40,6 +40,25 @@ PhoneData = {
     SuggestedContacts = {},
     CryptoTransactions = {},
 }
+RegisterNetEvent("qb-phone:client:UpdateTweets1",function(Twt) 
+    PhoneData.Tweets = Twt
+    SendNUIMessage({
+        action = "UpdateTweets",
+        Tweets = PhoneData.Tweets
+    })
+end)
+RegisterNUICallback('DeleteTwt',function(data,cb) 
+    local Number = data.id
+        TriggerServerEvent('qb-phone:server:DeleteTwt',Number)    
+end)
+RegisterNetEvent('qb-phone:client:UpdateAdverts1',function(Update) 
+    PhoneData.Adverts = Update
+    SendNUIMessage({
+        action = "RefreshAdverts",
+        Adverts = PhoneData.Adverts
+    })
+
+end)
 
 RegisterNetEvent('qb-phone:client:RaceNotify')
 AddEventHandler('qb-phone:client:RaceNotify', function(message)
@@ -381,7 +400,6 @@ end)
 
 RegisterNUICallback('RemoveMail', function(data, cb)
     local MailId = data.mailId
-
     TriggerServerEvent('qb-phone:server:RemoveMail', MailId)
     cb('ok')
 end)
@@ -824,19 +842,6 @@ RegisterNUICallback('PostAdvert', function(data)
     TriggerServerEvent('qb-phone:server:AddAdvert', data)
 end)
 
-RegisterNetEvent('qb-phone:client:Adverts',function(Update)  --This function send the adverts to the phone
-    PhoneData.Adverts = Update
-    SendNUIMessage({
-        action = "RefreshAdverts",
-        Adverts = PhoneData.Adverts
-    })
-
-end)
-RegisterNUICallback("DeleteAdvert", function(data,cb) 
-    local Citizenid= data.citizenid
-    TriggerServerEvent("qb-phone:server:DeleteAdvert",Citizenid)
-    cb('ok')
-end)
 RegisterNetEvent('qb-phone:client:UpdateAdverts')
 AddEventHandler('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
     PhoneData.Adverts = Adverts
@@ -864,6 +869,20 @@ RegisterNUICallback('LoadAdverts', function()
         Adverts = PhoneData.Adverts
     })
 end)
+RegisterNetEvent('qb-phone:client:Adverts',function(Update)  --This function send the adverts to the phone
+    PhoneData.Adverts = Update
+    SendNUIMessage({
+        action = "RefreshAdverts",
+        Adverts = PhoneData.Adverts
+    })
+
+end)
+RegisterNUICallback("DeleteAdvert", function(data,cb) 
+    local Citizenid= data.citizenid
+    TriggerServerEvent("qb-phone:server:DeleteAdvert",Citizenid)
+    cb('ok')
+end)
+
 function CellFrontCamActivate(activate)
 	return Citizen.InvokeNative(0x2491A93618B7D838, activate)
 end
@@ -1044,6 +1063,7 @@ end)
 local patt = "[?!@#]"
 
 RegisterNUICallback('PostNewTweet', function(data, cb)
+    local ID = QBCore.Functions.GetPlayerData().citizenid
     local TweetMessage = {
         firstName = PhoneData.PlayerData.charinfo.firstname,
         lastName = PhoneData.PlayerData.charinfo.lastname,
@@ -1051,7 +1071,8 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         time = data.Date,
         tweetId = GenerateTweetId(),
         picture = data.Picture,
-        url = data.url
+        url = data.url,
+        citizenid = ID
     }
 
     local TwitterMessage = data.Message

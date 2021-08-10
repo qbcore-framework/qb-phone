@@ -6,14 +6,23 @@ local Hashtags = {}
 local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
+local TWData = {}
+TWData.NewTweets = {}
+TWData.TweetData = {}
 
 Citizen.CreateThread(function()
     Wait(500)
-local LoadJson = json.decode(LoadResourceFile(GetCurrentResourceName(), "ad.json"))
-Adverts = LoadJson
-TriggerClientEvent('qb-phone:client:Adverts', -1, Adverts)
-end)
+    local LoadJson = json.decode(LoadResourceFile(GetCurrentResourceName(), "ad.json"))
+    Adverts = LoadJson
+    TriggerClientEvent('qb-phone:client:Adverts', -1, Adverts)
 
+end)
+Citizen.CreateThread(function()
+    Wait(500)
+    local LoadResource = json.decode(LoadResourceFile(GetCurrentResourceName(), 'tw.json'))
+    TWData.NewTweets = LoadResource.NewTweets
+    TWData.TweetData = LoadResource.TweetData
+end)
 RegisterServerEvent('qb-phone:server:DeleteAdvert')
 AddEventHandler('qb-phone:server:DeleteAdvert', function(citizenid)
     local src = source
@@ -59,6 +68,19 @@ function GetOnlineStatus(number)
     if Target ~= nil then retval = true end
     return retval
 end
+RegisterServerEvent('qb-phone:server:DeleteTwt')
+AddEventHandler('qb-phone:server:DeleteTwt',function(id)
+
+    for k,v in pairs(TWData.NewTweets) do
+        print(TWData.NewTweets[k].tweetId)
+        if TWData.NewTweets[k].tweetId == id then
+             TWData.NewTweets[k] = nil
+        end
+    end
+ 
+ TriggerClientEvent("qb-phone:client:UpdateTweets1",-1,TWData.NewTweets)
+        SaveResourceFile(GetCurrentResourceName(), "tw.json", json.encode(TWData.NewTweets), -1)
+end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source, cb)
     local src = source
@@ -136,15 +158,12 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         if MentionedTweets[Player.PlayerData.citizenid] ~= nil then 
             PhoneData.MentionedTweets = MentionedTweets[Player.PlayerData.citizenid]
         end
-
+        if TWData.NewTweets ~= nil and next(TWData.NewTweets) ~= nil then
+            PhoneData.Tweets = TWData.NewTweets
+        end
         if Hashtags ~= nil and next(Hashtags) ~= nil then
             PhoneData.Hashtags = Hashtags
         end
-
-        if Tweets ~= nil and next(Tweets) ~= nil then
-            PhoneData.Tweets = Tweets
-        end
-
         local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -617,10 +636,11 @@ end)
 
 RegisterServerEvent('qb-phone:server:UpdateTweets')
 AddEventHandler('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
-    Tweets = NewTweets
-    local TwtData = TweetData
+    TWData.NewTweets = NewTweets
+    TWData.TweetData = TweetData
     local src = source
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, TwtData)
+    SaveResourceFile(GetCurrentResourceName(), 'tw.json', json.encode(TWData), -1)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, TWData.NewTweets, TWData.TweetData)
 end)
 
 RegisterServerEvent('qb-phone:server:TransferMoney')
