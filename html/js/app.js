@@ -636,7 +636,7 @@ QB.Screen.popUp = function(source){
     if(!up){
         $('#popup').fadeIn('slow');
         $('.popupclass').fadeIn('slow');
-        $('<img  src='+source+' style = "width:800px; height: 600px;">').appendTo('.popupclass')
+        $('<img  src='+source+' style = "width:100%; height: 100%;">').appendTo('.popupclass')
         up = true
     }
 }
