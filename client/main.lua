@@ -511,7 +511,6 @@ RegisterNUICallback('SendMessage', function(data, cb)
     local ChatNumber = data.ChatNumber
     local ChatTime = data.ChatTime
     local ChatType = data.ChatType
-    print(ChatMessage,ChatDate,ChatNumber,ChatType)
     local Ped = PlayerPedId()
     local Pos = GetEntityCoords(Ped)
     local NumberKey = GetKeyByNumber(ChatNumber)
@@ -1272,7 +1271,6 @@ end)
 RegisterNUICallback('GetInformation', function(data, cb)
     local numero = data.phone
     QBCore.Functions.TriggerCallback('qb-phone:server:GetInfo', function(Dreturn)
-        print(json.encode(Dreturn))
         cb(Dreturn)
     end, numero)
 end)
@@ -2194,4 +2192,3 @@ end
 function InPhone()
     return PhoneData.isOpen
 end
-
