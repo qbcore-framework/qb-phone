@@ -7,6 +7,7 @@ local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
 local TWData = {}
+local WebHook = "" -- PUT THE WEBHOOK HERE!
 TWData.NewTweets = {}
 TWData.TweetData = {}
 
@@ -23,6 +24,7 @@ Citizen.CreateThread(function()
     TWData.NewTweets = LoadResource.NewTweets
     TWData.TweetData = LoadResource.TweetData
 end)
+
 RegisterServerEvent('qb-phone:server:DeleteAdvert')
 AddEventHandler('qb-phone:server:DeleteAdvert', function(citizenid)
     local src = source
@@ -38,6 +40,14 @@ function UpdateJsonAdv(data)
     TriggerClientEvent("qb-phone:client:Adverts",-1,data)
     SaveResourceFile(GetCurrentResourceName(), "ad.json", json.encode(data), -1)
 end
+QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
+	if WebHook ~= nil and not WebHook == "" then
+		cb(WebHook)			
+	else
+		cb(nil)		
+	end
+	
+end)
 
 RegisterServerEvent('qb-phone:server:AddAdvert')
 AddEventHandler('qb-phone:server:AddAdvert', function(msg)

