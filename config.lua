@@ -3,7 +3,6 @@ Config = Config or {}
 Config.RepeatTimeout = 2000
 Config.CallRepeats = 10
 Config.OpenPhone = 244
-Config.DiscordWebhook = "" --PUT THE WEBHOOK HERE
 Config.PhoneApplications = {
     ["phone"] = {
         app = "phone",
