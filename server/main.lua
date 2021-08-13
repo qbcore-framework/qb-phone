@@ -306,9 +306,10 @@ end)
 
 RegisterServerEvent('qb-phone:server:sendNewEventMail')
 AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
+    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if mailData.button == nil then
         exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
-            ['@citizenid'] = Player.PlayerData.citizenid,
+            ['@citizenid'] = citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
             ['@message'] = mailData.message,
@@ -317,7 +318,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
         })
     else
         exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
-            ['@citizenid'] = Player.PlayerData.citizenid,
+            ['@citizenid'] = citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
             ['@message'] = mailData.message,
@@ -327,7 +328,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
         })
     end
     SetTimeout(200, function()
-        local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
+        local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -336,7 +337,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
             end
         end
 
-        TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
+        TriggerClientEvent('qb-phone:client:UpdateMails', Player.PlayerData.source, mails)
     end)
 end)
 
