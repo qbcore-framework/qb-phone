@@ -1,5 +1,8 @@
+local PlayerJob = {}
+local isLoggedIn = false
+
 RegisterCommand('phone', function()
-    if not PhoneData.isOpen then
+    if not PhoneData.isOpen and isLoggedIn then
         local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
         if not IsHandcuffed then
             OpenPhone()
@@ -10,9 +13,6 @@ RegisterCommand('phone', function()
 end)
 
 RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
-
-local PlayerJob = {}
-local isLoggedIn = false
 
 phoneProp = 0
 local phoneModel = `prop_npc_phone_02`
