@@ -41,7 +41,7 @@ function UpdateJsonAdv(data)
     SaveResourceFile(GetCurrentResourceName(), "ad.json", json.encode(data), -1)
 end
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
-	if WebHook ~= nil and not WebHook == "" then
+	if WebHook ~= "" then
 		cb(WebHook)			
 	else
 		cb(nil)		
