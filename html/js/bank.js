@@ -144,6 +144,7 @@ $(document).on('click', '.pay-invoice', function(event){
             amount: InvoiceData.amount,
             society: InvoiceData.society,
             invoiceId: InvoiceData.id,
+            senderCitizenId: InvoiceData.sendercitizenid
         }), function(CanPay){
             if (CanPay) {
                 $("#"+InvoiceId).animate({
