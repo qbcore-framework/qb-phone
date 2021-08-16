@@ -613,56 +613,6 @@ IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
     }
 }
 
-// IncomingCallAlert = function(CallData, Canceled) {
-//     if (!Canceled) {
-//         if (!QB.Phone.Data.CallActive) {
-//             $(".call-notifications-title").html("Inkomende Oproep");
-//             $(".call-notifications-content").html("Je hebt een inkomende oproep van "+CallData.name);
-//             $(".call-notifications").css({"display":"block"});
-//             $(".call-notifications").animate({
-//                 right: 5+"vh"
-//             }, 400);
-//             $(".phone-call-outgoing").css({"display":"none"});
-//             $(".phone-call-incoming").css({"display":"block"});
-//             $(".phone-call-ongoing").css({"display":"none"});
-//             $(".phone-call-incoming-caller").html(CallData.name);
-//             $(".phone-app").css({"display":"none"});
-//             QB.Phone.Functions.HeaderTextColor("white", 400);
-//             QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
-//             $(".phone-call-app").css({"display":"block"});
-//             setTimeout(function(){
-//                 QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, 0);
-//             }, 450);
-        
-//             QB.Phone.Data.currentApplication = "phone-call";
-//             QB.Phone.Data.CallActive = true;
-//         }
-//         setTimeout(function(){
-//             $(".call-notifications").addClass('call-notifications-shake');
-//             setTimeout(function(){
-//                 $(".call-notifications").removeClass('call-notifications-shake');
-//             }, 1000);
-//         }, 400);
-//     } else {
-//         $(".call-notifications").animate({
-//             right: -35+"vh"
-//         }, 400);
-//         QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
-//         QB.Phone.Animations.TopSlideUp('.'+QB.Phone.Data.currentApplication+"-app", 400, -160);
-//         setTimeout(function(){
-//             QB.Phone.Functions.ToggleApp(QB.Phone.Data.currentApplication, "none");
-//             $(".phone-call-outgoing").css({"display":"none"});
-//             $(".phone-call-incoming").css({"display":"none"});
-//             $(".phone-call-ongoing").css({"display":"none"});
-//             $(".call-notifications").css({"display":"block"});
-//         }, 400)
-//         QB.Phone.Functions.HeaderTextColor("white", 300);
-    
-//         QB.Phone.Data.CallActive = false;
-//         QB.Phone.Data.currentApplication = null;
-//     }
-// }
-
 QB.Phone.Functions.SetupCurrentCall = function(cData) {
     if (cData.InCall) {
         CallData = cData;
