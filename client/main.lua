@@ -1,5 +1,5 @@
 RegisterCommand('phone', function()
-    if not PhoneData.isOpen then
+    if not PhoneData.isOpen and isLoggedIn then
         local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
         if not IsHandcuffed and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] then
             OpenPhone()
