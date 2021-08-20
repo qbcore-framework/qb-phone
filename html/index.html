@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,6 @@
     <title>QB Phone Rework</title>
 
     <!-- CSS File's -->
-    <link rel="stylesheet" href="./build/colorbox.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="./css/tooltip.css">
@@ -26,14 +26,15 @@
     <link rel="stylesheet" href="./css/lawyers.css">
     <link rel="stylesheet" href="./css/qstore.css">
     <link rel="stylesheet" href="./css/trucker.css">
-
+    
+<link rel="stylesheet" href="./css/gallery.css"> 
     <!-- CDN's -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> <!-- Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script>
-    <script src="./build/jquery.colorbox-min.js"></script> <!-- Bootstrap -->
-  
+
     <!-- Color CDN -->
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
@@ -42,9 +43,10 @@
     <body style="background-color: transparent !important";>
         <div id="popup">
             <div class="popupclass">
-                <div id="close"><img src="images/close.png"/></a></div>
+             
             </div>
-    </div>
+        </div>
+
        
         <div class="container disableSelection">
             <img src="./img/samsung-s10.png" class="phone-frame">
@@ -100,7 +102,10 @@
 
                 <!-- Unread Alerts -->
                 <!-- <div class="app-unread-alerts">1</div> -->
-
+                <div class="accepttab">
+                    <button class="accept">Aceptar</button>
+                    <button class="cancelar">Cancelar</button>
+                  </div>
                 <!-- Container for all application's -->
                 <div class="phone-application-container">
                     <div class="settings-app">
@@ -781,7 +786,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="camera-app"></div>
                     <div class="mail-app">
                         <div class="mail-home">
                             <div class="mail-header">
@@ -974,7 +979,25 @@
                             </div>
                         </div>
                     </div>
+                  <!-- GALLERY!-->
+                  <div class="gallery-app">
+                    <div class="topheader">
+                       <div class="menuheader">
 
+                       </div>
+                   </div>
+                   <div class="background-custom1">
+                    <div class="closeback1"><i class="fas fa-times"></i></div>
+                    <div class="background-custom-title1">Select an Option</div>
+                    <div class="background-custom-buttons1">
+                        <div class="custom-background-button1" id="accept-custom-background1"><p>See</p></div>
+                        <div class="custom-background-button1" id="delete-custom-background1"><p>Delete</p></div>
+                        <div class="custom-background-button1" id="cancel-custom-background1"><p>Cancel</p></div>
+                    </div>
+                </div>
+              
+                </div>
+                    
                     <div class="twitter-app">
 
                         <div class="twitter-home-tab">
@@ -1193,5 +1216,8 @@
         <script src="./js/lawyers.js"></script>
         <script src="./js/qstore.js"></script>
         <script src="./js/trucker.js"></script>
+        <script src="./js/camera.js"></script>
+        <script src="./js/gallery.js"></script>
+      
     </body>
 </html>

@@ -109,7 +109,7 @@ $(document).on('click', '.phone-application', function(e){
     e.preventDefault();
     var PressedApplication = $(this).data('app');
     var AppObject = $("."+PressedApplication+"-app");
-
+    $('.menuheader').css({"display":"none"})
     if (AppObject.length !== 0) {
         if (CanOpenApp) {
             if (QB.Phone.Data.currentApplication == null) {
@@ -217,6 +217,16 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/GetTruckerData', JSON.stringify({}), function(data){
                         SetupTruckerInfo(data);
                     });
+                }else if (PressedApplication == "camera") {
+                    SetupCamera()
+                }else if (PressedApplication == "gallery") {
+
+                    $.post('https://qb-phone/GetPhotos',JSON.stringify({}),function(edata){
+                        $('.menuheader').css({"display":"flex"})
+                        SetupGallery(edata)
+                      })
+                }else{
+                    $('.menuheader').css({"display":"none"})
                 }
             }
         }

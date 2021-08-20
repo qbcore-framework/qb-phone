@@ -1,0 +1,122 @@
+.topheader {
+  position: absolute;
+  top: 5vh;
+  width: 100%;
+  height: 5vh;
+  bottom:5vh;
+  border-bottom: 0.2vh solid rgba(20, 23, 26, 0.37);
+}
+
+.galleryApp {
+  display: none;
+  height: 100%;
+  width: 100%;
+  background: #f5f8fa;
+  overflow: hidden;
+}
+.Displayed{
+  display: flex;
+}
+.menuheader {
+
+  height: 61.7vh;
+  width: 29vh;
+  background: rgb(245, 248, 250);
+   place-content: flex-start space-around; 
+   flex-wrap: wrap; 
+ position: relative; 
+  overflow-y: auto;
+}
+
+.menuheader::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+.closeback1{
+  position: absolute;
+  right: 1vh;
+  top: 0.5vh;
+}
+.menuheader::-webkit-scrollbar {
+  width: 2px;
+  background-color: #F5F5F5;
+}
+
+.menuheader::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border: 2px solid #555555;
+}
+
+.wppimage1 {
+  display: flex;
+  bottom:2vh;
+  border-radius:4px;
+  margin-top:1vh;
+  width:9vh;
+  height:5vh;
+
+}
+
+.wppimage1:hover,
+.wppimage1:focus,
+.wppimage1:active {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  -webkit-filter: grayscale(0%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(0%);
+}
+
+.background-custom1 {
+  display: none;
+  position: absolute;
+  height: 30%;
+  width: 80%;
+  background-color: rgb(245, 245, 245);
+  box-shadow: rgba(0, 0, 0, 0.247) 0px 0px 5px 0px inset;
+  margin: 0px auto;
+  left: 0px;
+  right: 0px;
+  bottom: -23vh;
+  border-radius: 2vh;
+  overflow: hidden;
+}
+
+.background-custom-title1 {
+  font-family: 'Samsung Sans Bold';
+  padding: 2vh;
+  font-size: 1.5vh;
+  text-align: center;
+}
+
+.background-custom-buttons1 {
+  position: absolute;
+  bottom: 2vh;
+  width: 100%;
+  height: 5vh;
+  display:flex;
+}
+.closeback{
+  position: absolute;
+  right: 1vh;
+  top: 0.5vh;
+}
+
+.custom-background-button1 {
+  position: relative;
+  float: left;
+  height: 100%;
+  width: 50%;
+  text-align: center;
+  line-height: 4.1vh;
+  color: black;
+  font-family: 'Samsung Sans Regular';
+  font-size: 1.5vh;
+  transition: .08s;
+  border-bottom: 2px solid #e8421800;
+}
+
+.custom-background-button1:hover {
+  background-color: #dadbdb65;
+  border-bottom: 2px solid #e84118;
+}
+

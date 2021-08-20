@@ -6,23 +6,32 @@ local Hashtags = {}
 local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
-local TWData = {}
 local WebHook = "" -- PUT THE WEBHOOK HERE!
+local TWData = {}
+local Photos = {}
+Photos.url= {}
 TWData.NewTweets = {}
 TWData.TweetData = {}
-
-Citizen.CreateThread(function()
-    Wait(500)
-    local LoadJson = json.decode(LoadResourceFile(GetCurrentResourceName(), "ad.json"))
-    Adverts = LoadJson
-    TriggerClientEvent('qb-phone:client:Adverts', -1, Adverts)
-
-end)
 Citizen.CreateThread(function()
     Wait(500)
     local LoadResource = json.decode(LoadResourceFile(GetCurrentResourceName(), 'tw.json'))
+    local LoadPictures = json.decode(LoadResourceFile(GetCurrentResourceName(), 'photos.json'))
+    local LoadJson = json.decode(LoadResourceFile(GetCurrentResourceName(), "ad.json"))
+    Adverts = LoadJson
+   
     TWData.NewTweets = LoadResource.NewTweets
     TWData.TweetData = LoadResource.TweetData
+    Photos =  LoadPictures
+    TriggerClientEvent('qb-phone:client:Adverts', -1, Adverts)
+end)
+RegisterServerEvent('qb-phone:server:SavePhoto1')
+AddEventHandler('qb-phone:server:SavePhoto1', function(player,Data)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local MyCitizenid = Player.PlayerData.citizenid
+        table.insert(Photos,{citizenid = Data.citizenid,url = Data.url})
+  TriggerClientEvent("qb-phone:client:loadPhoto",src,Photos)
+  SaveResourceFile(GetCurrentResourceName(), "photos.json", json.encode(Photos), -1)
 end)
 
 RegisterServerEvent('qb-phone:server:DeleteAdvert')
@@ -32,14 +41,40 @@ AddEventHandler('qb-phone:server:DeleteAdvert', function(citizenid)
     local MyCitizenid = Player.PlayerData.citizenid
     local Citizenid = citizenid
     if Citizenid == MyCitizenid then
-    Adverts[Citizenid] = nil
-    UpdateJsonAdv(Adverts)
+        Adverts[Citizenid] = nil
+        UpdateJsonAdv(Adverts)
     end
+
 end)
+
+
+
 function UpdateJsonAdv(data)
     TriggerClientEvent("qb-phone:client:Adverts",-1,data)
     SaveResourceFile(GetCurrentResourceName(), "ad.json", json.encode(data), -1)
 end
+---Delete Picture
+RegisterServerEvent("qb-phone:server:DeletePicture")
+AddEventHandler("qb-phone:server:DeletePicture",function(citizenid,url) 
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local CitizenId = Player.PlayerData.citizenid
+
+    if citizenid == CitizenId then
+    
+        for k,v in ipairs(Photos) do
+           
+             if Photos[k].url == '"'..url..'"' and Photos[k].citizenid == citizenid then
+              
+                 Photos[k] = {}
+             end
+                 SaveResourceFile(GetCurrentResourceName(), "photos.json", json.encode(Photos), -1)
+        end
+        TriggerClientEvent("qb-phone:client:UpdatePictures",src,Photos)
+    end
+
+end)
+
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
 	if WebHook ~= "" then
 		cb(WebHook)			
@@ -60,12 +95,15 @@ AddEventHandler('qb-phone:server:AddAdvert', function(msg)
         Adverts[CitizenId].name = "@"..Player.PlayerData.charinfo.firstname..""..Player.PlayerData.charinfo.lastname
         Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
         Adverts[CitizenId].url = msg.url
+        Adverts[CitizenId].citizenid = msg.citizenid
+
     else
         Adverts[CitizenId] = {
             message = msg.message,
             name = "@"..Player.PlayerData.charinfo.firstname..""..Player.PlayerData.charinfo.lastname,
             number = Player.PlayerData.charinfo.phone,
-            url = msg.url
+            url = msg.url,
+            citizenid = msg.citizenid
         }
     end
     SaveResourceFile(GetCurrentResourceName(), "ad.json", json.encode(Adverts), -1)
@@ -78,11 +116,11 @@ function GetOnlineStatus(number)
     if Target ~= nil then retval = true end
     return retval
 end
+
 RegisterServerEvent('qb-phone:server:DeleteTwt')
 AddEventHandler('qb-phone:server:DeleteTwt',function(id)
 
     for k,v in pairs(TWData.NewTweets) do
-        print(TWData.NewTweets[k].tweetId)
         if TWData.NewTweets[k].tweetId == id then
              TWData.NewTweets[k] = nil
         end
@@ -91,6 +129,8 @@ AddEventHandler('qb-phone:server:DeleteTwt',function(id)
  TriggerClientEvent("qb-phone:client:UpdateTweets1",-1,TWData.NewTweets)
         SaveResourceFile(GetCurrentResourceName(), "tw.json", json.encode(TWData.NewTweets), -1)
 end)
+
+
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source, cb)
     local src = source
@@ -108,6 +148,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             Adverts = {},
             CryptoTransactions = {},
             Tweets = {},
+            Photos = {},
             InstalledApps = Player.PlayerData.metadata["phonedata"].InstalledApps,
         }
         PhoneData.Adverts = Adverts
@@ -174,6 +215,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         if Hashtags ~= nil and next(Hashtags) ~= nil then
             PhoneData.Hashtags = Hashtags
         end
+        if Photos ~= nil and next(Photos) ~= nil then
+            PhoneData.Photos = Photos
+        end
+        
         local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -291,6 +336,8 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
         TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
     end)
 end)
+
+
 
 RegisterServerEvent('qb-phone:server:sendNewMailToOffline')
 AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mailData)

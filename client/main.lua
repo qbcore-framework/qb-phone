@@ -37,6 +37,7 @@ PhoneData = {
         lib = nil,
         anim = nil,
     },
+    Photos = {},
     SuggestedContacts = {},
     CryptoTransactions = {},
 }
@@ -59,7 +60,13 @@ RegisterNetEvent('qb-phone:client:UpdateAdverts1',function(Update)
     })
 
 end)
-
+RegisterNetEvent("qb-phone:client:UpdatePictures",function(Data) 
+    PhoneData.Photos = Data
+    SendNUIMessage({
+        data = "Pictures",
+        Photos = PhoneData.Photos
+    })
+end)
 RegisterNetEvent('qb-phone:client:RaceNotify')
 AddEventHandler('qb-phone:client:RaceNotify', function(message)
     --if PhoneData.isOpen then
@@ -233,6 +240,9 @@ function LoadPhone()
 
         if pData.MentionedTweets ~= nil and next(pData.MentionedTweets) ~= nil then 
             PhoneData.MentionedTweets = pData.MentionedTweets 
+        end
+        if pData.Photos ~= nil and next(pData.Photos ) ~= nil then 
+            PhoneData.Photos  = pData.Photos  
         end
 
         if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then 
@@ -842,6 +852,11 @@ RegisterNUICallback('PostAdvert', function(data)
     TriggerServerEvent('qb-phone:server:AddAdvert', data)
 end)
 
+RegisterNUICallback('GetUrlData', function(data) 
+   TriggerServerEvent("qb-phone:server:SavePhoto1",GetPlayerServerId(PlayerId()),data)
+end)
+
+
 RegisterNetEvent('qb-phone:client:UpdateAdverts')
 AddEventHandler('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
     PhoneData.Adverts = Adverts
@@ -869,6 +884,20 @@ RegisterNUICallback('LoadAdverts', function()
         Adverts = PhoneData.Adverts
     })
 end)
+RegisterNUICallback('GetPhotos',function(data,cb)
+    cb(PhoneData.Photos)
+end)
+------Delete Function------
+
+RegisterNUICallback('DeletePicture',function(data,cb) 
+    
+    local Cid = data.citizenid
+    local Url = data.url
+TriggerServerEvent("qb-phone:server:DeletePicture",Cid,Url)
+
+end)
+
+
 RegisterNetEvent('qb-phone:client:Adverts',function(Update)  --This function send the adverts to the phone
     PhoneData.Adverts = Update
     SendNUIMessage({
@@ -904,7 +933,9 @@ RegisterNUICallback("GetImage", function(data,cb)
         takePhoto = false
         break
       elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
-         QBCore.Functions.TriggerCallback("qb-phone:server:GetWebhook",function(hook) 
+
+        QBCore.Functions.TriggerCallback("qb-phone:server:GetWebhook",function(hook) 
+
             if hook then
                 exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(data)
                     local image = json.decode(data)
@@ -915,7 +946,9 @@ RegisterNUICallback("GetImage", function(data,cb)
             else
 		       return
             end
+
         end)	
+
         takePhoto = false
           end
           HideHudComponentThisFrame(7)
@@ -1138,18 +1171,7 @@ AddEventHandler('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetDa
     local MyPlayerId = PhoneData.PlayerData.source
 
     if src ~= MyPlayerId then
-        --[[if not PhoneData.isOpen then
-            SendNUIMessage({
-                action = "Notification",
-                NotifyData = {
-                    title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")", 
-                    content = NewTweetData.message, 
-                    icon = "fab fa-twitter", 
-                    timeout = 3500, 
-                    color = nil,
-                },
-            })
-        else]]
+    
             SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
@@ -1159,7 +1181,6 @@ AddEventHandler('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetDa
                     color = "#1DA1F2",
                 },
             })
-        --end
     else
         SendNUIMessage({
             action = "PhoneNotification",
@@ -2195,3 +2216,10 @@ end
 function InPhone()
     return PhoneData.isOpen
 end
+
+RegisterNetEvent("qb-phone:client:loadPhoto",function(data) 
+    PhoneData.Photos = data
+   
+
+end)
+
