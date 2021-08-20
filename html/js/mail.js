@@ -238,9 +238,7 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
     $("#advert-header-name").html("@"+QB.Phone.Data.PlayerData.charinfo.firstname+""+QB.Phone.Data.PlayerData.charinfo.lastname+" | "+QB.Phone.Data.PlayerData.charinfo.phone);
     if (Adverts.length > 0 || Adverts.length == undefined) {
         $(".advert-list").html("");
-
         $.each(Adverts, function(i, advert){
-            
             if (advert.url){
                 var element = '<div class="advert"><span class="advert-sender">'+advert.name+'</span><span class="advert-number" data-number="'+advert.number+'"> | '+advert.number+'</span><p>'+advert.message+'</p></br><img class="advimage" src='+advert.url +' style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> </span></div>';
             }else{
@@ -267,6 +265,6 @@ $(document).on('click','#adv-delete',function(e){
                 setTimeout(function(){
                     QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "The Adv was deleted", "#ff8f1a", 2000);
                 },400)
-               
+           
             });
 })
