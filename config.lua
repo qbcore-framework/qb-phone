@@ -1,6 +1,9 @@
 Config = Config or {}
 
 Config.RepeatTimeout = 2000
+Config.BillingCommissions = { -- This is a percentage (0.10) == 10%
+    mechanic = 0.10
+}
 Config.CallRepeats = 10
 Config.OpenPhone = 244
 Config.PhoneApplications = {

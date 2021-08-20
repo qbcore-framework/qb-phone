@@ -1,7 +1,7 @@
 RegisterCommand('phone', function()
-    if not PhoneData.isOpen then
+    if not PhoneData.isOpen and isLoggedIn then
         local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
-        if not IsHandcuffed then
+        if not IsHandcuffed and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] then
             OpenPhone()
         else
             QBCore.Functions.Notify("Action not available at the moment..", "error")
@@ -933,7 +933,9 @@ RegisterNUICallback("GetImage", function(data,cb)
         takePhoto = false
         break
       elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
+
         QBCore.Functions.TriggerCallback("qb-phone:server:GetWebhook",function(hook) 
+
             if hook then
                 exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(data)
                     local image = json.decode(data)
@@ -944,7 +946,8 @@ RegisterNUICallback("GetImage", function(data,cb)
             else
 		       return
             end
-        end)				
+
+        end)	
 
         takePhoto = false
           end
@@ -980,6 +983,7 @@ end)
 
 RegisterNUICallback('PayInvoice', function(data, cb)
     local sender = data.sender
+    local senderCitizenId = data.senderCitizenId
     local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId
@@ -987,7 +991,7 @@ RegisterNUICallback('PayInvoice', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:PayInvoice', function(CanPay, Invoices)
         if CanPay then PhoneData.Invoices = Invoices end
         cb(CanPay)
-    end, society, amount, invoiceId)
+    end,  society, amount, invoiceId, senderCitizenId)
     TriggerServerEvent('qb-phone:server:BillingEmail', data, true)
 end)
 
