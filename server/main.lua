@@ -18,9 +18,6 @@ Citizen.CreateThread(function()
     local LoadPictures = json.decode(LoadResourceFile(GetCurrentResourceName(), 'photos.json'))
     local LoadJson = json.decode(LoadResourceFile(GetCurrentResourceName(), "ad.json"))
     Adverts = LoadJson
-    if LoadResource and LoadPictures and LoadJson then
-        print(GetCurrentResourceName().." ¡Loaded!")
-    end
    
     TWData.NewTweets = LoadResource.NewTweets
     TWData.TweetData = LoadResource.TweetData
@@ -66,9 +63,11 @@ AddEventHandler("qb-phone:server:DeletePicture",function(citizenid,url)
     if citizenid == CitizenId then
     
         for k,v in ipairs(Photos) do
-         if Photos[k].url == '"'..url..'"' and Photos[k].citizenid == citizenid then
+           
+             if Photos[k].url == '"'..url..'"' and Photos[k].citizenid == citizenid then
+              
                  Photos[k] = {}
-         end
+             end
                  SaveResourceFile(GetCurrentResourceName(), "photos.json", json.encode(Photos), -1)
         end
         TriggerClientEvent("qb-phone:client:UpdatePictures",src,Photos)
