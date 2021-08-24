@@ -10,7 +10,7 @@ shared_scripts {
     'config.lua',
 	'@qb-core/import.lua',
     '@qb-apartments/config.lua',
-    '@qb-garages/SharedConfig.lua',
+    '@qb-garages/config.lua',
 }
 
 client_scripts {
