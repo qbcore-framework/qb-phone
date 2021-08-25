@@ -947,7 +947,13 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         tweetId = GenerateTweetId(),
         picture = data.Picture
     }
-
+		
+    if data.Anonymous then
+        TweetMessage.firstName = 'Anonymous'
+        TweetMessage.lastName = ''
+        TweetMessage.picture = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/1024px-Anonymous_emblem.svg.png'
+    end
+		
     local TwitterMessage = data.Message
     local MentionTag = TwitterMessage:split("@")
     local Hashtag = TwitterMessage:split("#")
