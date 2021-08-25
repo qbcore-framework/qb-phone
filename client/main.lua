@@ -6,14 +6,15 @@ RegisterCommand('phone', function()
     if not PhoneData.isOpen and isLoggedIn then
         local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
         if not IsHandcuffed and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] then
-            OpenPhone()
+	OpenPhone()
+	SetPauseMenuActive(false)		
         else
             QBCore.Functions.Notify("Action not available at the moment..", "error")
         end
     end
 end)
 
-RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
+RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'P')
 
 phoneProp = 0
 local phoneModel = `prop_npc_phone_02`
