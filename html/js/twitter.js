@@ -220,7 +220,8 @@ $(document).on('click', '#send-tweet', function(e){
         $.post('https://qb-phone/PostNewTweet', JSON.stringify({
             Message: TweetMessage,
             Date: CurrentDate,
-            Picture: QB.Phone.Data.MetaData.profilepicture
+            Picture: QB.Phone.Data.MetaData.profilepicture,
+            Anonymous: QB.Phone.Data.AnonymousCall
         }), function(Tweets){
             QB.Phone.Notifications.LoadTweets(Tweets);
         });
