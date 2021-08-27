@@ -137,8 +137,8 @@ $(document).on('click', '.phone-recent-call', function(e){
 
 $(document).on('click', ".phone-keypad-key-call", function(e){
     e.preventDefault();
-
-    var InputNum = toString($(".phone-keypad-input").text());
+    
+    var InputNum = $("#phone-keypad-input").text(); //old "[object Undefined]"
 
     cData = {
         number: InputNum,
