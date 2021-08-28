@@ -1182,6 +1182,13 @@ QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, 
 	end
 end, "god")
 
+QBCore.Commands.Add("resetmetadata", "reset metadata", {}, false, function(source, args)
+	local Player = QBCore.Functions.GetPlayer(source)
+	Player.Functions.SetMetaData("payslips",  {
+		["trucker"] = 0
+	})
+end, "god")
+
 function round(num, numDecimalPlaces)
     if numDecimalPlaces and numDecimalPlaces>0 then
       local mult = 10^numDecimalPlaces
