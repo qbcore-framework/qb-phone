@@ -1,156 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
 .trucker-app {
-    display: none;
-    height: 100%;
-    width: 100%;
-    background: #2f3640;
-    overflow: hidden;
+	display: none;
+	height: 100%;
+	width: 100%;
+	background: #2f3640;
+	overflow: hidden;
 }
 
 .trucker-header {
-    position: absolute;
-    width: 84%;
-    height: 12vh;
-    background-color: #4b5868;
-
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-
-    top: 5vh;
-
-    border-radius: 1vh;
-
-    box-shadow: 0 0 1vh .15vh rgba(0, 0, 0, 0.2);
-
-    overflow: hidden;
+	position: absolute;
+	width: 84%;
+	height: 12vh;
+	background-color: #4b5868;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	top: 5vh;
+	border-radius: 1vh;
+	box-shadow: 0 0 1vh .15vh rgba(0, 0, 0, 0.2);
+	overflow: hidden;
 }
 
 .trucker-header-name {
-    position: absolute;
-    margin: 1.5vh;
-    font-family: 'Samsung Sans Medium';
-    color: white;
-    font-size: 1.4vh;
+	position: absolute;
+	margin: 1.5vh;
+	font-family: 'Poppins', sans-serif;
+	color: white;
+	font-size: 1.4vh;
 }
 
 .trucker-header-progress {
-    position: absolute;
-    width: 90%;
-    height: 1.2vh;
-    background-color: #181c20;
-    bottom: 0;
-    
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    bottom: 2.5vh;
-
-    border-radius: 1vh;
+	position: absolute;
+	width: 90%;
+	height: 1.2vh;
+	background-color: #181c20;
+	bottom: 0;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	bottom: 2.5vh;
+	border-radius: 1vh;
 }
 
 .trucker-header-progress-text {
-    font-size: .8vh;
-    font-family: 'Samsung Sans Medium';
-    color: rgba(255, 255, 255, 0.6);
-    margin: 1.8vh .75vh 0 .6vh;
+	font-size: .8vh;
+	font-family: 'Poppins', sans-serif;
+	color: rgba(255, 255, 255, 0.6);
+	margin: 1.8vh .75vh 0 .6vh;
 }
 
 .trucker-header-progress-fill {
-    position: absolute;
-    width: 20%;
-    height: 100%;
-
-    background-color: rgb(156, 230, 20);
-
-    border-radius: 1vh;
+	position: absolute;
+	width: 20%;
+	height: 100%;
+	background-color: rgb(156, 230, 20);
+	border-radius: 1vh;
 }
 
 .trucker-header-currentlevel {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: 5vh;
-    height: 5vh;
-    
-    background-color: #536070;
-    border-radius: 50%;
-    
-    margin: 1.5vh;
-    box-shadow: 0 0 .5vh .1vh rgba(0, 0, 0, 0.2);
-
-    text-align: center;
-    line-height: 5vh;
-    font-family: 'Samsung Sans Medium';
-    color: rgb(236, 236, 236);
-    font-size: 1.5vh;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 5vh;
+	height: 5vh;
+	background-color: #536070;
+	border-radius: 50%;
+	margin: 1.5vh;
+	box-shadow: 0 0 .5vh .1vh rgba(0, 0, 0, 0.2);
+	text-align: center;
+	line-height: 5vh;
+	font-family: 'Poppins', sans-serif;
+	color: rgb(236, 236, 236);
+	font-size: 1.5vh;
 }
 
 .trucker-header-description {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-family: 'Samsung Sans Light';
-    color: rgba(255, 255, 255, 0.5);
-
-    margin: 1vh;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-family: 'Poppins', sans-serif;
+	color: rgba(255, 255, 255, 0.5);
+	margin: 1vh;
 }
 
 #trucker-header-tier {
-    float: right;
-    color: rgba(255, 255, 255, 0.9);
+	float: right;
+	color: rgba(255, 255, 255, 0.9);
 }
 
 .trucker-jobinfo {
-    position: absolute;
-    width: 84%;
-    height: 37vh;
-    background-color: #4b5868;
-
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-
-    top: 18vh;
-
-    border-radius: 1vh;
-    box-shadow: 0 0 1vh .15vh rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+	position: absolute;
+	width: 84%;
+	height: 37vh;
+	background-color: #4b5868;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	top: 18vh;
+	border-radius: 1vh;
+	box-shadow: 0 0 1vh .15vh rgba(0, 0, 0, 0.2);
+	overflow: hidden;
 }
 
-.trucker-jobinfo-nojob {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: #3a3c3f;
+.trucker-jobinfo-offduty {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #3a3c3f;
 }
 
-.trucker-jobinfo-nojob > i {
-    position: absolute;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-
-    text-align: center;
-    line-height: 15vh;
-
-    color: rgb(241, 63, 63);
-    font-size: 4vh;
+.trucker-jobinfo-offduty > i {
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	text-align: center;
+	line-height: 15vh;
+	color: rgb(241, 63, 63);
+	font-size: 4vh;
 }
 
-#trucker-jobinfo-nojob-text {
+#trucker-jobinfo-offduty {
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	width: 20vh;
+	text-align: center;
+	font-family: 'Poppins', sans-serif;
+	color: rgba(255, 255, 255, 0.8);
+	top: 11vh;
+	font-size: 1.7vh;
+}
+
+.trucker-jobinfo-tabs {
+	position: absolute;
+	width: 100%;
+	height: 4vh;
+	background-color: #38414d;
+	border-bottom: .2vh solid #262d35;
+}
+
+.trucker-jobinfo-tab {
+	position: relative;
+	width: 50%;
+	height: 100%;
+	float: left;
+	text-align: center;
+	line-height: 4vh;
+	font-family: 'Poppins', sans-serif;
+	font-size: 1.2vh;
+	text-transform: uppercase;
+	color: white;
+	border-bottom: .2vh solid rgba(255, 255, 255, 0.0);
+	transition: .05s ease;
+}
+
+.trucker-jobinfo-tab:hover {
+	background-color: #586577;
+	border-bottom: .2vh solid rgba(255, 255, 255, 0.5);
+}
+
+.trucker-jobinfo-tab-selected {
+	background-color: #505b6b;
+	border-bottom: .2vh solid rgba(255, 255, 255, 0.5);
+}
+
+.trucker-general-tab {
+	position: absolute;
+	width: 93%;
+	height: 85%;
+	background-color: #2c323b;
+	top: 4.7vh;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	border-radius: .5vh;
+	overflow: hidden;
+}
+
+.trucker-work-tab {
+	position: absolute;
+	width: 93%;
+	height: 85%;
+	background-color: #2c323b;
+	top: 4.7vh;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	border-radius: .5vh;
+	overflow: hidden;
+}
+
+.trucker-general-tab-payslip {
+	position: absolute;
+	width: 100%;
+	height: 7vh;
+	background-color: #22272e;
+}
+
+#trucker-general-tab-payslip-title {
+	position: absolute;
+	font-family: 'Poppins', sans-serif;
+	color: white;
+	font-size: 1.4vh;
+	margin: 1vh;
+}
+
+#trucker-general-tab-payslip-outstandingamount {
+	position: absolute;
+	font-family: 'Poppins', sans-serif;
+	color: white;
+	font-size: 1.1vh;
+	margin: 1vh;
+	margin-top: 3.5vh;
+}
+
+#outstandingamount {
+	color: green;
+	font-family: 'Poppins', sans-serif;
+}
+
+.trucker-general-tab-payslip-outstandingamount-payout {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	background-color: #44bd32;
+	font-family: 'Poppins', sans-serif;
+	color: white;
+	font-size: 1.1vh;
+	padding: .5vh;
+	margin: 1vh;
+	text-transform: uppercase;
+	transition: .05s ease;
+}
+
+.trucker-general-tab-payslip-outstandingamount-payout:hover {
+	background-color: #3aa02a;
+}
+
+.trucker-work-tab-canceljob {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 10%;
+	background-color: #e84118;
+	text-align: center;
+	font-family: 'Poppins', sans-serif;
+	line-height: 3.2vh;
+	text-transform: uppercase;
+	color: white;
+	font-size: 1.15vh;
+	transition: .05s ease;
+}
+
+.trucker-work-tab-canceljob:hover {
+    background-color: #c23616;
+}
+
+.trucker-work-tab-locations {
+	position: absolute;
+	width: 100%;
+	height: 90%;
+	background-color: rgba(33, 37, 44, 0.541);
+	overflow-y: scroll;
+}
+
+.trucker-work-tab-locations::-webkit-scrollbar {
+    display: none;
+}
+
+.trucker-work-tab-location {
+	position: relative;
+	width: 100%;
+	height: 5vh;
+	background-color: #1a1e24;
+	margin-bottom: .2vh;
+}
+
+.trucker-work-tab-location-count {
+	position: absolute;
+	width: 3vh;
+	height: 3vh;
+	background-color: #292f38;
+	font-family: 'Poppins', sans-serif;
+	font-size: 1vh;
+	color: white;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 3vh;
+	margin: 1vh;
+}
+
+.trucker-work-tab-location-title {
+	position: absolute;
+	font-family: 'Poppins', sans-serif;
+	color: white;
+	top: 1.2vh;
+	left: 5vh;
+	font-size: 1.1vh;
+}
+
+.trucker-work-tab-location-gps {
     position: absolute;
+    font-family: 'Poppins', sans-serif;
+    color: #3498db;
+    bottom: .7vh;
+    left: 5vh;
+    font-size: 1vh;
+    border-bottom: .1vh solid #297fb900;
+}
 
-    margin: 0 auto;
-    left: 0;
-    right: 0;
+.trucker-work-tab-location-done {
+    position: absolute;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    bottom: .7vh;
+    left: 5vh;
+    font-size: 1.1vh;
+}
 
-    width: 20vh;
-    text-align: center;
-    font-family: 'Samsung Sans Light';
-    color: rgba(255, 255, 255, 0.8);
+.trucker-work-tab-location-gps:hover {
+    color: #2980b9;
+    border-bottom: .1vh solid #2980b9;
+}
 
-    top: 11vh;
-
-    font-size: 1.7vh;
+.trucker-work-tab-location-jobdoneicon {
+    position: absolute;
+    right: 1.5vh;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5vh;
+    color: #e84118;
 }
