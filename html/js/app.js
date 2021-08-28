@@ -213,7 +213,7 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
                         SetupAppstore(data); 
                     });
-                } else if (PressedApplication == "trucker") {
+                } else if (PressedApplication == "trucker") { --already exists 
                     $.post('https://qb-phone/GetTruckerData', JSON.stringify({}), function(data){
                         SetupTruckerInfo(data);
                     });
