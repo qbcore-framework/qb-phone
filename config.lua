@@ -143,6 +143,17 @@ Config.PhoneApplications = {
         slot = 12,
         Alerts = 0,
     },
+    ["trucker"] = {
+        app = "trucker",
+        color = "#cccc33",
+        icon = "fas fa-truck-moving",
+        tooltipText = "Dumbo",
+        tooltipPos = "right",
+        job = false,
+        blockedjobs = {},
+        slot = 14,
+        Alerts = 0,
+    },    
    --[[ ["store"] = {
         app = "store",
         color = "#27ae60",
