@@ -1927,9 +1927,100 @@ AddEventHandler('qb-phone:RefreshPhone', function()
 end)
 
 RegisterNUICallback('GetTruckerData', function(data, cb)
-    local TruckerMeta = QBCore.Functions.GetPlayerData().metadata["jobrep"]["trucker"]
-    local TierData = exports['qb-trucker']:GetTier(TruckerMeta)
-    cb(TierData)
+    local TruckerRep = QBCore.Functions.GetPlayerData().metadata["jobrep"]["trucker"]
+    local TruckerTier = QBCore.Functions.GetPlayerData().metadata["jobtier"]["trucker"]
+    cb({
+        jobtier = TruckerTier,
+        jobrep = TruckerRep,
+    })
+end)
+
+RegisterNetEvent('qb-trucker:client:updateWorkingLocations')
+AddEventHandler("qb-trucker:client:updateWorkingLocations", function(nWorkingLocations)
+    local WorkingData = {
+        action = "UpdateWorkingLocations",
+        Working = exports['qb-trucker']:IsWorking(),
+        onlyShow = nWorkingLocations[QBCore.Functions.GetPlayerData().source]
+    }
+    if WorkingData.Working then
+        WorkingData.JobInfo = exports['qb-trucker']:GetJobInfo()
+        WorkingData.JobInfo.WorkingLocations = nWorkingLocations
+    end
+    SendNUIMessage(WorkingData)
+end)
+
+RegisterNetEvent('qb-trucker:client:locationsDoneUpdate')
+AddEventHandler("qb-trucker:client:locationsDoneUpdate", function()
+    local JobInfo = exports['qb-trucker']:GetJobInfo();
+    local WorkingData = {
+        action = "UpdateWorkingLocations",
+        Working = exports['qb-trucker']:IsWorking(),
+        onlyShow = JobInfo.WorkingLocations[QBCore.Functions.GetPlayerData().source]
+    }
+    if WorkingData.Working then
+        WorkingData.JobInfo = JobInfo
+    end
+    SendNUIMessage(WorkingData)
+end)
+
+RegisterNetEvent('qb-trucker:client:payslipsUpdate')
+AddEventHandler("qb-trucker:client:payslipsUpdate", function(payslips)
+    local JobInfo = exports['qb-trucker']:GetJobInfo();
+    local WorkingData = {
+        action = "UpdatePayslips",
+        Working = exports['qb-trucker']:IsWorking(),
+        JobInfo = {}
+    }
+    if WorkingData.Working then
+        WorkingData.JobInfo = JobInfo
+        WorkingData.JobInfo.payslips = payslips
+    end
+    SendNUIMessage(WorkingData)
+end)
+
+RegisterNUICallback('IsWorkingAsTrucker', function(data, cb)
+    local WorkingData = {
+        Working = exports['qb-trucker']:IsWorking(),
+        JobInfo = {
+            payslip = QBCore.Functions.GetPlayerData().metadata["payslips"]["trucker"] ~= nil and QBCore.Functions.GetPlayerData().metadata["payslips"]["trucker"] or 0
+        }
+    }
+    if WorkingData.Working then
+        WorkingData.JobInfo = exports['qb-trucker']:GetJobInfo()
+        WorkingData.JobInfo.payslips = QBCore.Functions.GetPlayerData().metadata["payslips"] and (QBCore.Functions.GetPlayerData().metadata["payslips"]["trucker"] ~= nil and QBCore.Functions.GetPlayerData().metadata["payslips"]["trucker"] or 0) or 0
+    end
+    cb(WorkingData)
+end)
+
+RegisterNUICallback('SetTruckerRoute', function(data, cb)
+    exports['qb-trucker']:SetCurrentLocation(data.location)
+end)
+
+RegisterNUICallback('CancelTruckerJob', function(data, cb)
+    local WorkingData = {
+        Working = exports['qb-trucker']:IsWorking(),
+    }
+    exports['qb-trucker']:CancelJob()
+    cb()
+end)
+
+RegisterNUICallback('PayoutPayslip', function()
+    local amount = QBCore.Functions.GetPlayerData().metadata["payslips"]["trucker"]
+
+    if amount > 0 then
+        TriggerServerEvent("qb-trucker:server:payslips", amount)
+        local JobInfo = exports['qb-trucker']:GetJobInfo();
+        local WorkingData = {
+            action = "UpdatePayslips",
+            Working = exports['qb-trucker']:IsWorking(),
+            JobInfo = {}
+        }
+        if WorkingData.Working then
+            WorkingData.JobInfo = JobInfo
+            WorkingData.JobInfo.payslips = 0
+        end
+        SendNUIMessage(WorkingData)
+    end
 end)
 
 -- Disables GTA controls when display is active
