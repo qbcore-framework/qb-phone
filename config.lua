@@ -155,17 +155,17 @@ Config.PhoneApplications = {
         slot = 14,
         Alerts = 0,
     },]]
-    -- ["trucker"] = {
-    --     app = "trucker",
-    --     color = "#cccc33",
-    --     icon = "fas fa-truck-moving",
-    --     tooltipText = "Dumbo",
-    --     tooltipPos = "right",
-    --     job = false,
-    --     blockedjobs = {},
-    --     slot = 17,
-    --     Alerts = 0,
-    -- },
+    ["trucker"] = {
+         app = "trucker",
+         color = "#cccc33",
+         icon = "fas fa-truck-moving",
+         tooltipText = "Dumbo",
+         tooltipPos = "right",
+         job = false,
+         blockedjobs = {},
+         slot = 14,
+         Alerts = 0,
+    },
 }
 Config.MaxSlots = 20
 
