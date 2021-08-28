@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="./css/houses.css">
     <link rel="stylesheet" href="./css/lawyers.css">
     <link rel="stylesheet" href="./css/qstore.css">
-    <link rel="stylesheet" href="./css/trucker.css">
+    <link rel="stylesheet" href="./css/trucker.css"> <!-- already exists -->
 
     <!-- CDN's -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- JQuery -->
@@ -454,24 +454,52 @@
 
                     <div class="trucker-app">
                         <div class="trucker-header">
-                            <span class="trucker-header-name"><span style="font-size: 1vh; color: rgba(255, 255, 255, 0.6);">Welcome</span><br><span id="trucker-name">Jay Yay</span></span>
+                            <span class="trucker-header-name"><span style="font-size: 1vh; color: rgba(255, 255, 255, 0.6);">welcome</span><br><span id="trucker-name">QBCore</span></span>
                             <div class="trucker-header-progress">
                                 <div class="trucker-header-progress-fill"></div>
                                 <span class="trucker-header-progress-text" id="trucker-header-progress-current" style="float: left;">Current: 100 REP</span>
                                 <span class="trucker-header-progress-text" id="trucker-header-progress-next" style="float: right;">Next: 200 REP</span>
                             </div>
                             <!-- <div class="trucker-header-currentlevel">1</div> -->
-                            <span class="trucker-header-description">Your current progression<br><span id="trucker-header-tier">Tier 1</span></span>
+                            <span class="trucker-header-description">Your current progression<br><span id="trucker-header-tier">Tier 0</span></span>
                         </div>
 
                         <div class="trucker-jobinfo">
-                            <div class="trucker-jobinfo-nojob">
+                            <!-- <div class="trucker-jobinfo-offduty">
                                 <i class="fas fa-ban"></i>
-                                <span id="trucker-jobinfo-nojob-text">You are currently not working</span>
+                                <span id="trucker-jobinfo-offduty-text">You are not currently working</span>
+                            </div>
+                            <div class="trucker-jobinfo-induty">
+                                <div class="trucker-jobinfo-induty-tasks">
+
+                                </div>
+                            </div> -->
+
+                            <div class="trucker-jobinfo-tabs">
+                                <div class="trucker-jobinfo-tab" id="trucker-general-tab">Genral</div>
+                                <div class="trucker-jobinfo-tab" id="trucker-work-tab">Job</div>
+                            </div>
+
+                            <div class="trucker-general-tab">
+                                <div class="trucker-general-tab-payslip">
+                                    <span id="trucker-general-tab-payslip-title">Salary</span>
+                                    <span id="trucker-general-tab-payslip-outstandingamount">Payslip<br><span id="outstandingamount">&dollar;1000,-</span></span>
+                                    <div class="trucker-general-tab-payslip-outstandingamount-payout">Payout</div>
+                                </div>
+                            </div>
+
+                            <div class="trucker-work-tab">
+
+                                <!-- Work locations (Route) -->
+                                <div class="trucker-work-tab-locations">
+                                    <!-- <div class="trucker-work-tab-location"> <div class="trucker-work-tab-location-count">1</div> <div class="trucker-work-tab-location-title">24/7 Supermarket</div> <i class="fas fa-times-circle" id="trucker-work-tab-location-jobdoneicon"></i> </div> -->
+                                </div>
+
+                                <!-- Cancel Job "STATIC" -->
+                                <div class="trucker-work-tab-canceljob">Cancel Job</div>
                             </div>
                         </div>
                     </div>
-
                     <div class="lawyers-app">
                         <div class="lawyers-header">
                             <p>Services</p>
@@ -1173,6 +1201,6 @@
         <script src="./js/houses.js"></script>
         <script src="./js/lawyers.js"></script>
         <script src="./js/qstore.js"></script>
-        <script src="./js/trucker.js"></script>
+        <script src="./js/trucker.js"></script> <!-- already exists -->
     </body>
 </html>
