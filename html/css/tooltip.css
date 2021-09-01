@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
 .tooltip-inner {
-    font-family: 'Roboto';
+    font-family: 'Poppins', sans-serif;
     font-size: 11px;
     color: white;
 }
