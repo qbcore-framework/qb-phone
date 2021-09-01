@@ -24,7 +24,7 @@
     height: 100%;
     text-align: center;
     line-height: 5vh;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Poppins', sans-serif;
     border-bottom: .3vh solid rgb(189, 189, 189);
     transition: .075s linear;
 }
@@ -122,7 +122,7 @@
     left: 5.5vh;
     top: 1.7vh;
     color: white;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
 }
 
@@ -131,7 +131,7 @@
     left: 5.5vh;
     bottom: 1.7vh;
     color: white;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
 }
 
@@ -170,7 +170,7 @@
     color: rgb(27, 27, 27);
     text-align: center;
     line-height: 5vh;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     border-bottom: .1vh solid rgba(0, 0, 0, 0.26);
 }
@@ -182,7 +182,7 @@
     width: 12vh;
     height: 5vh;
     color: white;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
     border-radius: .3vh;
     top: 6vh;
@@ -271,7 +271,7 @@
     color: rgb(27, 27, 27);
     text-align: center;
     line-height: 5vh;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     border-bottom: .1vh solid rgba(0, 0, 0, 0.26);
 }
@@ -286,7 +286,7 @@
     top: 7.5vh;
     border: none;
     outline: none;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     text-indent: 1vh;
     background: rgba(223, 223, 223, 0.5);
@@ -336,7 +336,7 @@
     text-overflow: ellipsis;
     position: absolute;
     padding: 1.2vh;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
     color: white;
 }
@@ -413,7 +413,7 @@
     top: 0;
     left: 0;
     color: white;
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     margin: 1vh;
 }
@@ -423,7 +423,7 @@
     bottom: 0;
     left: 0;
     color: rgb(153, 153, 153);
-    font-family: 'Source Sans Pro';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.2vh;
     margin: 1vh;
 }
