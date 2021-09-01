@@ -16,7 +16,7 @@
     text-align: center;
     line-height: 12.5vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
 }
 
@@ -72,7 +72,7 @@
     padding-right: 1.6vh;
     border-radius: 50%;
     color: white;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     transition: .05s linear;
 }
@@ -86,7 +86,7 @@
     left: 7vh;
     color: white;
     line-height: 7vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
 }
 
 .garage-cardetails {
@@ -106,7 +106,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -118,7 +118,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -130,7 +130,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -142,7 +142,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -154,7 +154,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -166,7 +166,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -178,7 +178,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -190,7 +190,7 @@
     background-color: rgb(54, 54, 54);
     padding: .8vh;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: .1vh solid #fff;
     margin-bottom: 1vh;
     font-size: 1.2vh;
@@ -212,7 +212,7 @@
     transition: .05s linear;
     text-align: center;
     line-height: 5vh;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
 }
 
