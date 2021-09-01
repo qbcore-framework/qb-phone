@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato|Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
 .bank-app {
     display: none;
@@ -24,7 +24,7 @@
     line-height: 6vh;
     background: #353b48;
     border-bottom: .3vh solid rgba(0, 0, 0, 0);
-    font-family: 'Lato';
+    font-family: 'Poppins', sans-serif;
     color: white;
     transition: .08s;
 }
@@ -94,7 +94,7 @@
     top: 1vh;
     left: 2vh;
     color: white;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
 }
 .bank-app-invoice-amount {
@@ -102,7 +102,7 @@
     bottom: 1vh;
     left: 2vh;
     color: rgba(255, 255, 255, 0.781);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.22vh;
 }
 .bank-app-invoice-buttons {
@@ -163,7 +163,7 @@
     position: absolute;
     top: 1vh;
     left: 1vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     letter-spacing: .1vh;
     color: white;
     font-size: 1.1vh;
@@ -172,7 +172,7 @@
     position: absolute;
     top: 3vh;
     left: 1vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     letter-spacing: .1vh;
     width: 100%;
     color: white;
@@ -191,7 +191,7 @@
     position: absolute;
     top: 6.5vh;
     left: 1vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     letter-spacing: .1vh;
     color: white;
     font-size: 1.5vh;
@@ -246,7 +246,7 @@
     left: 9vh;
     font-size: 4.5vh;
     color: white;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     z-index: 100;
     opacity: 0;
 }
@@ -256,7 +256,7 @@
     top: 5.5vh;
     left: 3vh;
     color: white;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     font-size: 2vh;
 }
 
@@ -268,7 +268,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid #f5f6fa;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     /* background: rgb(33,36,43); */
     /* background: linear-gradient(0deg, rgba(33,36,43,0.5) 0%, rgba(178,132,254,0) 100%); */
     height: 3.5vh;
@@ -295,7 +295,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid #f5f6fa;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     /* background: rgb(33,36,43); */
     /* background: linear-gradient(0deg, rgba(33,36,43,0.5) 0%, rgba(178,132,254,0) 100%); */
     height: 3.5vh;
@@ -353,7 +353,7 @@
     height: 100%;
     text-align: center;
     line-height: 4.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 1.4vh;
     border-top: .2vh solid #fbc53100;
@@ -383,7 +383,7 @@
 .bank-app-my-contacts-header {
     position: relative;
     padding: 5vh 0 0 1.85vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 2vh;
     color: white;
 }
@@ -420,14 +420,14 @@
     text-align: center;
     line-height: 3.6vh;
     border-radius: 50%;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     color: white;
 }
 .bank-app-my-contact-name {
     position: absolute;
     left: 5vh;
     line-height: 4.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
     color: white;
 }
@@ -451,13 +451,13 @@
     height: 2.5vh;
     border-radius: 1vh;
     box-shadow: 0 0 .2vh 0 rgba(0, 0, 0, 0.281);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     outline: none;
     text-indent: 1vh;
     z-index: 100;
 }
 #bank-app-my-contact-search::placeholder{
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: rgba(39, 39, 39, 0.9);
 }
 .bank-app-my-contacts-list-back {
@@ -469,7 +469,7 @@
     line-height: 5vh;
     text-transform: uppercase;
     color: white;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
     background: #22272e;
     transition: .1s;
@@ -477,4 +477,3 @@
 .bank-app-my-contacts-list-back:hover {
     background-color: #15181d;
 }
-
