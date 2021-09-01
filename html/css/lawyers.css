@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
 .lawyers-app {
     display: none;
     height: 100%;
@@ -14,7 +16,7 @@
     top: 0;
     border-bottom: .3vh solid #26d4ce;
     color: white;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
 }
 
@@ -73,7 +75,7 @@
     left: 1vh;
     line-height: 3.5vh;
     border-radius: 50%;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
 
     color: rgb(255, 255, 255);
@@ -84,7 +86,7 @@
     top: 50%;
     transform: translateY(-50%);
     left: 5.5vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
 
     max-width: 14vh;
@@ -100,7 +102,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
 
     margin: 0 auto;
