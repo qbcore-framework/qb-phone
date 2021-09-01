@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
 .trucker-app {
     display: none;
     height: 100%;
@@ -28,7 +30,7 @@
 .trucker-header-name {
     position: absolute;
     margin: 1.5vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 1.4vh;
 }
@@ -50,7 +52,7 @@
 
 .trucker-header-progress-text {
     font-size: .8vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     color: rgba(255, 255, 255, 0.6);
     margin: 1.8vh .75vh 0 .6vh;
 }
@@ -81,7 +83,7 @@
 
     text-align: center;
     line-height: 5vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     color: rgb(236, 236, 236);
     font-size: 1.5vh;
 }
@@ -90,7 +92,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    font-family: 'Samsung Sans Light';
+    font-family: 'Poppins', sans-serif;
     color: rgba(255, 255, 255, 0.5);
 
     margin: 1vh;
@@ -147,7 +149,7 @@
 
     width: 20vh;
     text-align: center;
-    font-family: 'Samsung Sans Light';
+    font-family: 'Poppins', sans-serif;
     color: rgba(255, 255, 255, 0.8);
 
     top: 11vh;
