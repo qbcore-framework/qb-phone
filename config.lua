@@ -167,7 +167,7 @@ Config.PhoneApplications = {
     --     Alerts = 0,
     -- },
 }
-Config.MaxSlots = 20
+Config.MaxSlots = 30
 
 Config.StoreApps = {
     ["territory"] = {
