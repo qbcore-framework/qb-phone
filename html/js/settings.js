@@ -1,9 +1,9 @@
 QB.Phone.Settings = {};
-QB.Phone.Settings.Background = "default-qbus";
+QB.Phone.Settings.Background = "default-qbcore";
 QB.Phone.Settings.OpenedTab = null;
 QB.Phone.Settings.Backgrounds = {
-    'default-qbus': {
-        label: "Standard Qbus"
+    'default-qbcore': {
+        label: "Standard QBCore"
     }
 };
 
@@ -40,7 +40,7 @@ $(document).on('click', '#accept-background', function(e){
     var hasCustomBackground = QB.Phone.Functions.IsBackgroundCustom();
 
     if (hasCustomBackground === false) {
-        QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", QB.Phone.Settings.Backgrounds[QB.Phone.Settings.Background].label+" is ingesteld!")
+        QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", QB.Phone.Settings.Backgrounds[QB.Phone.Settings.Background].label+" is set!")
         QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
         $(".phone-background").css({"background-image":"url('/html/img/backgrounds/"+QB.Phone.Settings.Background+".png')"})
     } else {
@@ -58,7 +58,7 @@ QB.Phone.Functions.LoadMetaData = function(MetaData) {
     if (MetaData.background !== null && MetaData.background !== undefined) {
         QB.Phone.Settings.Background = MetaData.background;
     } else {
-        QB.Phone.Settings.Background = "default-qbus";
+        QB.Phone.Settings.Background = "default-qbcore";
     }
 
     var hasCustomBackground = QB.Phone.Functions.IsBackgroundCustom();
