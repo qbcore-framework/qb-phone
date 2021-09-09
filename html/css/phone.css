@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
 .phone-app {
     display: none;
     height: 100%;
@@ -8,7 +10,7 @@
 
 .phone-app-header {
     position: relative;
-    font-family: 'Samsung Sans thin';
+    font-family: 'Poppins', sans-serif;
     font-size: 3.2vh;
     top: 8vh;
     height: 20vh;
@@ -18,7 +20,7 @@
 #total-contacts {
     position: relative;
     font-size: 1.1vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     top: -3vh;
     color: rgba(0, 0, 0, 0.75);
 }
@@ -39,7 +41,7 @@
     text-align: center;
     line-height: 5vh;
     float: left;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
     color: black;
     border-bottom: .4vh solid #686de000;
@@ -66,7 +68,7 @@
 .phone-keypad-header {
     padding-top: 6vh;
     padding-left: 3vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
 }
 
@@ -84,7 +86,7 @@
     outline: none;
     box-shadow: inset 0 0 .5vh 0 rgba(0, 0, 0, 0.171);
     text-indent: 1vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     text-align: left;
     line-height: 3.9vh;
     font-size: 1.75vh;
@@ -112,7 +114,7 @@
 .phone-recent-header {
     padding-top: 6vh;
     padding-left: 3vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
 }
 .phone-recent-calls::-webkit-scrollbar {
@@ -154,7 +156,7 @@
     font-size: 1.6vh;
     color: white;
     border-radius: 50%;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     background: #4e54c8;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -163,7 +165,7 @@
     position: absolute;
     top: 1.1vh;
     left: 6vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
 }
 .phone-recent-call-type {
     position: absolute;
@@ -177,7 +179,7 @@
     bottom: 1.1vh;
     right: 1.75vh;
     font-size: 1.2vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: rgba(54, 54, 54, 0.808);
 }
 
@@ -216,7 +218,7 @@
     width: 33.33%;
     text-align: center;
     line-height: 7vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 2vh;
     color: black;
     border-bottom: 2px solid rgba(0, 0, 0, 0);
@@ -273,14 +275,14 @@
     height: 2.5vh;
     border-radius: 1vh;
     box-shadow: 0 0 .2vh 0 rgba(0, 0, 0, 0.281);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     outline: none;
     text-indent: 1vh;
     z-index: 100;
 }
 
 #contact-search::placeholder{
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
 }
 
 .phone-contact-list::-webkit-scrollbar {
@@ -328,7 +330,7 @@
     text-align: center;
     line-height: 3.5vh;
     border-radius: 50%;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     color: white;
 }
 
@@ -336,7 +338,7 @@
     position: absolute;
     left: 5vh;
     line-height: 4.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
 }
 
@@ -391,7 +393,7 @@
 .phone-add-contact-header {
     padding-top: 6vh;
     padding-left: 3vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 2vh;
 }
 
@@ -403,7 +405,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 20vh;
     text-indent: .4vh;
@@ -435,7 +437,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 20vh;
     text-indent: .4vh;
@@ -464,7 +466,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 20vh;
     text-indent: .4vh;
@@ -513,7 +515,7 @@
     height: 5vh;
     text-align: center;
     line-height: 4.3vh;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     border-top: 2px solid #30336b00;
     transition: .1s;
     font-size: 1.4vh;
@@ -539,7 +541,7 @@
 .phone-edit-contact-header {
     padding-top: 6vh;
     padding-left: 3vh;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 2vh;
 }
 
@@ -551,7 +553,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 20vh;
     text-indent: .4vh;
@@ -583,7 +585,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 20vh;
     text-indent: .4vh;
@@ -612,7 +614,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 20vh;
     text-indent: .4vh;
@@ -661,7 +663,7 @@
     height: 5vh;
     text-align: center;
     line-height: 4.3vh;
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     border-top: 2px solid #30336b00;
     transition: .1s;
     font-size: 1.4vh;
@@ -697,7 +699,7 @@
     position: relative;
     text-align: center;
     top: 7.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 1.1vh;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -706,7 +708,7 @@
     position: relative;
     text-align: center;
     top: 10vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 2.5vh;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -773,7 +775,7 @@
     position: relative;
     text-align: center;
     top: 7.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 1.1vh;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -782,7 +784,7 @@
     position: relative;
     text-align: center;
     top: 10vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 2.5vh;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -872,7 +874,7 @@
     position: relative;
     text-align: center;
     top: 7.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 1.1vh;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -881,7 +883,7 @@
     position: relative;
     text-align: center;
     top: 10vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 2.5vh;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -904,7 +906,7 @@
     position: relative;
     text-align: center;
     top: 28vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 1.2vh;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -943,7 +945,7 @@
     height: 8vh;
     top: 8vh;
     text-align: center;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.6vh;
     line-height: 5vh;
     color: black;
@@ -995,13 +997,13 @@
     position: absolute;
     left: 5vh;
     top: 2.1vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: black;
     font-size: 1.3vh;
 }
 
 .suggested-number {
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: rgb(31, 31, 31);
     font-size: 1.2vh;
 }

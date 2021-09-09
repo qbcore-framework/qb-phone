@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
 .mail-app {
     display: none;
     height: 100%;
@@ -22,7 +24,7 @@
     position: absolute;
     top: 5vh;
     left: 4.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
     color: black;
 }
@@ -31,7 +33,7 @@
     position: absolute;
     top: 7vh;
     left: 4.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
     color: gray;
 }
@@ -40,7 +42,7 @@
     position: absolute;
     top: 10vh;
     right: 1.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1vh;
     color: gray;
 }
@@ -77,7 +79,7 @@
 
 .mail-sender {
     position: absolute;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.6vh;
     color: rgb(80, 80, 80);
     left: 4.5vh;
@@ -88,7 +90,7 @@
     position: absolute;
     top: 3.3vh;
     left: 4.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.15vh;
     color: rgb(83, 83, 83);
     max-width: 18vh;
@@ -107,7 +109,7 @@
 
 .mail-time {
     position: absolute;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
     color: rgb(80, 80, 80);
     right: 2vh;
@@ -151,7 +153,7 @@
     position: absolute;
     top: 8vh;
     left: 2vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     max-width: 22vh;
 }
@@ -166,7 +168,7 @@
     position: absolute;
     top: 13vh;
     left: 2vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
     color: rgb(51, 51, 51);
 }
@@ -187,7 +189,7 @@
     position: absolute;
     top: 17.3vh;
     left: 2vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
     color: rgb(24, 24, 24);
     max-width: 23vh;
@@ -276,7 +278,7 @@
     position: absolute;
     top: 5vh;
     left: 2vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     color: black;
 }
@@ -285,7 +287,7 @@
     position: absolute;
     top: 8vh;
     left: 2vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
     color: rgba(26, 26, 26, 0.842);
 }
@@ -323,7 +325,7 @@
 .advert > p {
     margin-top: 1.5vh;
     padding-bottom: 1vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     color: rgb(255, 255, 255);
     max-width: 25vh;
 }
@@ -337,7 +339,7 @@
     position: relative;
     top: .8vh;
     color: rgb(255, 255, 255);
-    font-family: 'Samsung Sans Bold';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
 }
 
@@ -416,7 +418,7 @@
     position: absolute;
     top: 5vh;
     left: 2vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
     color: black;
 }
@@ -435,7 +437,7 @@
     /* border-radius: 1.5vh 1.5vh 1.5vh 1.5vh; */
     box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0.233);
     padding: 1.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Poppins', sans-serif;
     border-bottom: 0.5vh solid #000;
     transition: .1s linear;
 }
@@ -456,7 +458,7 @@
 .nomails {
     text-align: center;
     color: black;
-    font-family: 'Samsung Sans Medium';
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
     line-height: 20vh;
 }
