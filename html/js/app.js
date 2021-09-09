@@ -24,7 +24,7 @@ QB.Phone.Data = {
     AnonymousCall: false,
 }
 
-QB.Phone.Data.MaxSlots = 16;
+QB.Phone.Data.MaxSlots = 30;
 
 OpenedChatData = {
     number: null,
