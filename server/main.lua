@@ -55,7 +55,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         }
         PhoneData.Adverts = Adverts
 
-        local result = exports.ghmattimysql:executeSync('SELECT * FROM player_contacts WHERE citizenid=@citizenid ORDER BY name ASC', {['@citizenid'] = Player.PlayerData.citizenid})
+        local result = exports.oxmysql:fetchSync('SELECT * FROM player_contacts WHERE citizenid=@citizenid ORDER BY name ASC', {['@citizenid'] = Player.PlayerData.citizenid})
         local Contacts = {}
         if result[1] ~= nil then
             for k, v in pairs(result) do
@@ -65,14 +65,14 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.PlayerContacts = result
         end
 
-        local invoices = exports.ghmattimysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
+        local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
         if invoices[1] ~= nil then
             for k, v in pairs(invoices) do
                 local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
                 if Ply ~= nil then
                     v.number = Ply.PlayerData.charinfo.phone
                 else
-                    local res = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = v.sender})
+                    local res = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = v.sender})
                     if res[1] ~= nil then
                         res[1].charinfo = json.decode(res[1].charinfo)
                         v.number = res[1].charinfo.phone
@@ -84,7 +84,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Invoices = invoices
         end
 
-        local garageresult = exports.ghmattimysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
+        local garageresult = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
         if garageresult[1] ~= nil then
             for k, v in pairs(garageresult) do
 			
@@ -99,7 +99,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Garage = garageresult
         end
 
-        local messages = exports.ghmattimysql:executeSync('SELECT * FROM phone_messages WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
+        local messages = exports.oxmysql:fetchSync('SELECT * FROM phone_messages WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
         if messages ~= nil and next(messages) ~= nil then 
             PhoneData.Chats = messages
         end
@@ -120,7 +120,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Tweets = Tweets
         end
 
-        local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
+        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -130,7 +130,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Mails = mails
         end
 
-        local transactions = exports.ghmattimysql:executeSync('SELECT * FROM crypto_transactions WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
+        local transactions = exports.oxmysql:fetchSync('SELECT * FROM crypto_transactions WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
         if transactions[1] ~= nil then
             for _, v in pairs(transactions) do
                 table.insert(PhoneData.CryptoTransactions, {
@@ -179,9 +179,9 @@ RegisterServerEvent('qb-phone:server:RemoveMail')
 AddEventHandler('qb-phone:server:RemoveMail', function(MailId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.ghmattimysql:execute('DELETE FROM player_mails WHERE mailid=@mailid AND citizenid=@citizenid', {['@mailid'] = MailId, ['@citizenid'] = Player.PlayerData.citizenid})
+    exports.oxmysql:execute('DELETE FROM player_mails WHERE mailid=@mailid AND citizenid=@citizenid', {['@mailid'] = MailId, ['@citizenid'] = Player.PlayerData.citizenid})
     SetTimeout(100, function()
-        local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
+        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -204,7 +204,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
     local Player = QBCore.Functions.GetPlayer(src)
 
     if mailData.button == nil then
-        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
             ['@citizenid'] = Player.PlayerData.citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
@@ -213,7 +213,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
             ['@read'] = 0
         })
     else
-        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
             ['@citizenid'] = Player.PlayerData.citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
@@ -225,7 +225,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
     end
     TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
     SetTimeout(200, function()
-        local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` DESC', {['@citizenid'] = Player.PlayerData.citizenid})
+        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` DESC', {['@citizenid'] = Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -246,7 +246,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         local src = Player.PlayerData.source
 
         if mailData.button == nil then
-            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -256,7 +256,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
             })
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
         else
-            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -269,7 +269,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         end
 
         SetTimeout(200, function()
-            local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
+            local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
                     if mails[k].button ~= nil then
@@ -282,7 +282,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         end)
     else
         if mailData.button == nil then
-            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -291,7 +291,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
                 ['@read'] = 0
             })
         else
-            exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
                 ['@citizenid'] = Player.PlayerData.citizenid,
                 ['@sender'] = mailData.sender,
                 ['@subject'] = mailData.subject,
@@ -308,7 +308,7 @@ RegisterServerEvent('qb-phone:server:sendNewEventMail')
 AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if mailData.button == nil then
-        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
+        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read)', {
             ['@citizenid'] = citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
@@ -317,7 +317,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
             ['@read'] = 0
         })
     else
-        exports.ghmattimysql:execute('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
+        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (@citizenid, @sender, @subject, @message, @mailid, @read, @button)', {
             ['@citizenid'] = citizenid,
             ['@sender'] = mailData.sender,
             ['@subject'] = mailData.subject,
@@ -328,7 +328,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
         })
     end
     SetTimeout(200, function()
-        local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = citizenid})
+        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -345,9 +345,9 @@ RegisterServerEvent('qb-phone:server:ClearButtonData')
 AddEventHandler('qb-phone:server:ClearButtonData', function(mailId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.ghmattimysql:execute('UPDATE player_mails SET button=@button WHERE mailid=@mailid AND citizenid=@citizenid', {['@button'] = '', ['@mailid'] = mailId, ['@citizenid'] = Player.PlayerData.citizenid})
+    exports.oxmysql:execute('UPDATE player_mails SET button=@button WHERE mailid=@mailid AND citizenid=@citizenid', {['@button'] = '', ['@mailid'] = mailId, ['@citizenid'] = Player.PlayerData.citizenid})
     SetTimeout(200, function()
-        local mails = exports.ghmattimysql:executeSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
+        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid=@citizenid ORDER BY `date` ASC', {['@citizenid'] = Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -372,7 +372,7 @@ AddEventHandler('qb-phone:server:MentionedPlayer', function(firstName, lastName,
             else
                 local query1 = '%'..firstName..'%'
                 local query2 = '%'..lastName..'%'
-                local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query1 AND charinfo LIKE @query2', {['@query1'] = query1, ['@query2'] = query2})
+                local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE @query1 AND charinfo LIKE @query2', {['@query1'] = query1, ['@query2'] = query2})
                 if result[1] ~= nil then
                     local MentionedTarget = result[1].citizenid
                     QBPhone.SetPhoneAlerts(MentionedTarget, "twitter")
@@ -431,8 +431,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
 
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
     TriggerEvent("qb-bossmenu:server:addAccountMoney", society, billAmount)
-    exports.ghmattimysql:execute('DELETE FROM phone_invoices WHERE id=@id', {['@id'] = invoiceId})
-    local invoices = exports.ghmattimysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid=@citizenid', {['@citizenid'] = Ply.PlayerData.citizenid})
+    exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id=@id', {['@id'] = invoiceId})
+    local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid=@citizenid', {['@citizenid'] = Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
         Invoices = invoices
     end
@@ -442,8 +442,8 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, sender, amount, invoiceId)
     local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
-    exports.ghmattimysql:execute('DELETE FROM phone_invoices WHERE id=@id', {['@id'] = invoiceId})
-    local invoices = exports.ghmattimysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid=@citizenid', {['@citizenid'] = Ply.PlayerData.citizenid})
+    exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id=@id', {['@id'] = invoiceId})
+    local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid=@citizenid', {['@citizenid'] = Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
         Invoices = invoices
     end
@@ -459,7 +459,7 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name='id', help='Player ID'}, {na
         if billed ~= nil then
             if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
                 if amount and amount > 0 then
-                    exports.ghmattimysql:execute('INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid) VALUES (@citizenid, @amount, @society, @sender, @sendercitizenid)', {
+                    exports.oxmysql:insert('INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid) VALUES (@citizenid, @amount, @society, @sender, @sendercitizenid)', {
                         ['@citizenid'] = billed.PlayerData.citizenid,
                         ['@amount'] = amount,
                         ['@society'] = biller.PlayerData.job.name,
@@ -536,7 +536,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(s
         local Player = QBCore.Functions.GetPlayerByPhone(v.number)
         
         local query = '%'..v.number..'%'
-        local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
+        local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
         if result[1] ~= nil then
             local MetaData = json.decode(result[1].metadata)
 
@@ -556,7 +556,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPicture', function(so
     local Player = QBCore.Functions.GetPlayerByPhone(Chat.number)
 
     local query = '%'..Chat.number..'%'
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
     local MetaData = json.decode(result[1].metadata)
 
     if MetaData.phone.profilepicture ~= nil then
@@ -574,7 +574,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPicture', function(source, c
     local Picture = nil
 
     local query = '%'..number..'%'
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
     if result[1] ~= nil then
         local MetaData = json.decode(result[1].metadata)
 
@@ -610,7 +610,7 @@ AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
     local sender = QBCore.Functions.GetPlayer(src)
 
     local query = '%'..iban..'%'
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
     if result[1] ~= nil then
         local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
@@ -625,7 +625,7 @@ AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
         else
             local moneyInfo = json.decode(result[1].money)
             moneyInfo.bank = round((moneyInfo.bank + amount))
-            exports.ghmattimysql:execute('UPDATE players SET money=@money WHERE citizenid=@citizenid', {['@money'] = json.encode(moneyInfo), ['@citizenid'] = result[1].citizenid})
+            exports.oxmysql:execute('UPDATE players SET money=@money WHERE citizenid=@citizenid', {['@money'] = json.encode(moneyInfo), ['@citizenid'] = result[1].citizenid})
             sender.Functions.RemoveMoney('bank', amount, "phone-transfered")
         end
     else
@@ -637,7 +637,7 @@ RegisterServerEvent('qb-phone:server:EditContact')
 AddEventHandler('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber, oldIban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.ghmattimysql:execute('UPDATE player_contacts SET name=@newname, number=@newnumber, iban=@newiban WHERE citizenid=@citizenid AND name=@oldname AND number=@oldnumber', {
+    exports.oxmysql:execute('UPDATE player_contacts SET name=@newname, number=@newnumber, iban=@newiban WHERE citizenid=@citizenid AND name=@oldname AND number=@oldnumber', {
         ['@newname'] = newName,
         ['@newnumber'] = newNumber,
         ['@newiban'] = newIban,
@@ -651,7 +651,7 @@ RegisterServerEvent('qb-phone:server:RemoveContact')
 AddEventHandler('qb-phone:server:RemoveContact', function(Name, Number)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.ghmattimysql:execute('DELETE FROM player_contacts WHERE name=@name AND number=@number AND citizenid=@citizenid', {
+    exports.oxmysql:execute('DELETE FROM player_contacts WHERE name=@name AND number=@number AND citizenid=@citizenid', {
         ['@name'] = Name,
         ['@number'] = Number,
         ['@citizenid'] = Player.PlayerData.citizenid
@@ -662,7 +662,7 @@ RegisterServerEvent('qb-phone:server:AddNewContact')
 AddEventHandler('qb-phone:server:AddNewContact', function(name, number, iban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.ghmattimysql:execute('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (@citizenid, @name, @number, @iban)', {
+    exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (@citizenid, @name, @number, @iban)', {
         ['@citizenid'] = Player.PlayerData.citizenid,
         ['@name'] = tostring(name),
         ['@number'] = tostring(number),
@@ -676,22 +676,22 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
     local SenderData = QBCore.Functions.GetPlayer(src)
 
     local query = '%'..ChatNumber..'%'
-    local Player = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
+    local Player = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
     if Player[1] ~= nil then
         local TargetData = QBCore.Functions.GetPlayerByCitizenId(Player[1].citizenid)
 
         if TargetData ~= nil then
-            local Chat = exports.ghmattimysql:executeSync('SELECT * FROM phone_messages WHERE citizenid=@citizenid AND number=@number', {['@citizenid'] = SenderData.PlayerData.citizenid, ['@number'] = ChatNumber})
+            local Chat = exports.oxmysql:fetchSync('SELECT * FROM phone_messages WHERE citizenid=@citizenid AND number=@number', {['@citizenid'] = SenderData.PlayerData.citizenid, ['@number'] = ChatNumber})
             if Chat[1] ~= nil then
                 -- Update for target
-                exports.ghmattimysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
+                exports.oxmysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
                     ['@messages'] = json.encode(ChatMessages), 
                     ['@citizenid'] = TargetData.PlayerData.citizenid,
                     ['@number'] = SenderData.PlayerData.charinfo.phone
                 })
                         
                 -- Update for sender
-                exports.ghmattimysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
+                exports.oxmysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
                     ['@messages'] = json.encode(ChatMessages), 
                     ['@citizenid'] = SenderData.PlayerData.citizenid,
                     ['@number'] = TargetData.PlayerData.charinfo.phone
@@ -701,14 +701,14 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
                 TriggerClientEvent('qb-phone:client:UpdateMessages', TargetData.PlayerData.source, ChatMessages, SenderData.PlayerData.charinfo.phone, false)
             else
                 -- Insert for target
-                exports.ghmattimysql:execute('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
+                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
                     ['@citizenid'] = TargetData.PlayerData.citizenid, 
                     ['@number'] = SenderData.PlayerData.charinfo.phone,
                     ['@messages'] = json.encode(ChatMessages)
                 })
                                     
                 -- Insert for sender
-                exports.ghmattimysql:execute('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
+                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
                     ['@citizenid'] = SenderData.PlayerData.citizenid, 
                     ['@number'] = TargetData.PlayerData.charinfo.phone,
                     ['@messages'] = json.encode(ChatMessages)
@@ -718,24 +718,24 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
                 TriggerClientEvent('qb-phone:client:UpdateMessages', TargetData.PlayerData.source, ChatMessages, SenderData.PlayerData.charinfo.phone, true)
             end
         else
-            local Chat = exports.ghmattimysql:executeSync('SELECT * FROM phone_messages WHERE citizenid=@citizenid AND number=@number', {['@citizenid'] = SenderData.PlayerData.citizenid, ['@number'] = ChatNumber})
+            local Chat = exports.oxmysql:fetchSync('SELECT * FROM phone_messages WHERE citizenid=@citizenid AND number=@number', {['@citizenid'] = SenderData.PlayerData.citizenid, ['@number'] = ChatNumber})
             if Chat[1] ~= nil then
                 -- Update for target
-                exports.ghmattimysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
+                exports.oxmysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
                     ['@messages'] = json.encode(ChatMessages), 
                     ['@citizenid'] = Player[1].citizenid,
                     ['@number'] = SenderData.PlayerData.charinfo.phone
                 })
                 -- Update for sender
                 Player[1].charinfo = json.decode(Player[1].charinfo)
-                exports.ghmattimysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
+                exports.oxmysql:execute('UPDATE phone_messages SET messages=@messages WHERE citizenid=@citizenid AND number=@number', {
                     ['@messages'] = json.encode(ChatMessages), 
                     ['@citizenid'] = SenderData.PlayerData.citizenid,
                     ['@number'] = Player[1].charinfo.phone
                 })
             else
                 -- Insert for target
-                exports.ghmattimysql:execute('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
+                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
                     ['@citizenid'] = Player[1].citizenid, 
                     ['@number'] = SenderData.PlayerData.charinfo.phone,
                     ['@messages'] = json.encode(ChatMessages)
@@ -743,7 +743,7 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
                 
                 -- Insert for sender
                 Player[1].charinfo = json.decode(Player[1].charinfo)
-                exports.ghmattimysql:execute('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
+                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (@citizenid, @number, @messages)', {
                     ['@citizenid'] = SenderData.PlayerData.citizenid, 
                     ['@number'] = Player[1].charinfo.phone,
                     ['@messages'] = json.encode(ChatMessages)
@@ -796,10 +796,10 @@ RegisterServerEvent('qb-phone:server:SaveMetaData')
 AddEventHandler('qb-phone:server:SaveMetaData', function(MData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
     local MetaData = json.decode(result[1].metadata)
     MetaData.phone = MData
-    exports.ghmattimysql:execute('UPDATE players SET metadata=@metadata WHERE citizenid=@citizenid', {['@metadata'] = json.encode(MetaData), ['@citizenid'] = Player.PlayerData.citizenid})
+    exports.oxmysql:execute('UPDATE players SET metadata=@metadata WHERE citizenid=@citizenid', {['@metadata'] = json.encode(MetaData), ['@citizenid'] = Player.PlayerData.citizenid})
     Player.Functions.SetMetaData("phone", MData)
 end)
 
@@ -828,12 +828,12 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
         query = query .. ' OR `charinfo` LIKE "%'..search..'%"'
     end
     
-    local ApartmentData = exports.ghmattimysql:executeSync('SELECT * FROM apartments')
+    local ApartmentData = exports.oxmysql:fetchSync('SELECT * FROM apartments', {})
     for k, v in pairs(ApartmentData) do
         ApaData[v.citizenid] = ApartmentData[k]
     end
 
-    local result = exports.ghmattimysql:executeSync(query)
+    local result = exports.oxmysql:fetchSync(query)
     if result[1] ~= nil then
         for k, v in pairs(result) do
             local charinfo = json.decode(v.charinfo)
@@ -874,10 +874,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
     local search = escape_sqli(search)
     local searchData = {}
     local query = '%'..search..'%'
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM player_vehicles WHERE plate LIKE @query OR citizenid=@citizenid', {['@query'] = query, ['@citizenid'] = search})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE plate LIKE @query OR citizenid=@citizenid', {['@query'] = query, ['@citizenid'] = search})
     if result[1] ~= nil then
         for k, v in pairs(result) do
-            local player = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = result[k].citizenid})
+            local player = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = result[k].citizenid})
             if player[1] ~= nil then 
                 local charinfo = json.decode(player[1].charinfo)
                 local vehicleInfo = QBCore.Shared.Vehicles[result[k].vehicle]
@@ -933,9 +933,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
     local src = source
     local vehicleData = {}
     if plate ~= nil then
-        local result = exports.ghmattimysql:executeSync('SELECT * FROM player_vehicles WHERE plate=@plate', {['@plate'] = plate})
+        local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE plate=@plate', {['@plate'] = plate})
         if result[1] ~= nil then
-            local player = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = result[1].citizenid})
+            local player = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = result[1].citizenid})
             local charinfo = json.decode(player[1].charinfo)
             vehicleData = {
                 plate = plate,
@@ -1007,7 +1007,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
     
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid})
     if result[1] ~= nil then
         for k, v in pairs(result) do
             local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
@@ -1082,7 +1082,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
 
     if (Player.PlayerData.money.bank - amount) >= 0 then
         local query = '%'..iban..'%'
-        local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
+        local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE @query', {['@query'] = query})
         if result[1] ~= nil then
             local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
@@ -1093,7 +1093,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
             else
                 local RecieverMoney = json.decode(result[1].money)
                 RecieverMoney.bank = (RecieverMoney.bank + amount)
-                exports.ghmattimysql:execute('UPDATE players SET money=@money WHERE citizenid=@citizenid', {['@money'] = json.encode(RecieverMoney), ['@citizenid'] = result[1].citizenid})
+                exports.oxmysql:execute('UPDATE players SET money=@money WHERE citizenid=@citizenid', {['@money'] = json.encode(RecieverMoney), ['@citizenid'] = result[1].citizenid})
             end
             cb(true)
         else
@@ -1124,7 +1124,7 @@ RegisterServerEvent('qb-phone:server:AddTransaction')
 AddEventHandler('qb-phone:server:AddTransaction', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.ghmattimysql:execute('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (@citizenid, @title, @message)', {
+    exports.oxmysql:insert('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (@citizenid, @title, @message)', {
         ['@citizenid'] = Player.PlayerData.citizenid, 
         ['@title'] = escape_sqli(data.TransactionTitle),
         ['@message'] = escape_sqli(data.TransactionMessage)
