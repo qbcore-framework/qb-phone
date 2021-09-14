@@ -217,13 +217,12 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
 
     if mailData.button == nil then
         exports.oxmysql:insert(
-            'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (?, ?, ?, ?, ?, ?)',
+            'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)',
             {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
     else
         exports.oxmysql:insert(
-            'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0,
-             json.encode(mailData.button)})
+            'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
     end
     TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
     SetTimeout(200, function()
@@ -250,12 +249,12 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
 
         if mailData.button == nil then
             exports.oxmysql:insert(
-                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (?, ?, ?, ?, ?, ?)',
+                'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)',
                 {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
         else
             exports.oxmysql:insert(
-                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0,
                  json.encode(mailData.button)})
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
@@ -277,11 +276,11 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
     else
         if mailData.button == nil then
             exports.oxmysql:insert(
-                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (?, ?, ?, ?, ?, ?)',
+                'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)',
                 {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
         else
             exports.oxmysql:insert(
-                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0,
                  json.encode(mailData.button)})
         end
@@ -293,11 +292,11 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if mailData.button == nil then
         exports.oxmysql:insert(
-            'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read) VALUES (?, ?, ?, ?, ?, ?)',
+            'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)',
             {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
     else
         exports.oxmysql:insert(
-            'INSERT INTO player_mails (citizenid, sender, subject, message, mailid, read, button) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)',
             {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0,
              json.encode(mailData.button)})
     end
