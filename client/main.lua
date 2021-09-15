@@ -1577,6 +1577,7 @@ AddEventHandler('qb-phone:client:GiveContactDetails', function()
     if player ~= -1 and distance < 2.5 then
         local PlayerId = GetPlayerServerId(player)
         TriggerServerEvent('qb-phone:server:GiveContactDetails', PlayerId)
+	QBCore.Functions.Notify("The phone number has been received", "success")
     else
         QBCore.Functions.Notify("No one nearby!", "error")
     end
