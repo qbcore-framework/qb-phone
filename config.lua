@@ -143,7 +143,7 @@ Config.PhoneApplications = {
         slot = 12,
         Alerts = 0,
     },
-   --[[ ["store"] = {
+	["store"] = {
         app = "store",
         color = "#27ae60",
         icon = "fas fa-cart-arrow-down",
@@ -154,7 +154,7 @@ Config.PhoneApplications = {
         blockedjobs = {},
         slot = 14,
         Alerts = 0,
-    },]]
+    },
     -- ["trucker"] = {
     --     app = "trucker",
     --     color = "#cccc33",
