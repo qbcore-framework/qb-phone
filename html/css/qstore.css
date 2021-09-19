@@ -257,3 +257,10 @@
 .download-password-deny:hover {
     color: rgb(114, 114, 114);
 }
+
+.download-password-containerx {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
