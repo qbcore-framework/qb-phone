@@ -11,7 +11,7 @@ SetupAppstore = function(data) {
             app.app = i;
             $("#app-"+i).data('AppData', app);
         } else {
-            var elem = '<div class="storeapp" id="app-'+i+'" data-app="'+i+'"><div class="storeapp-icon"><i class="'+app.icon+'"></i></div><div class="storeapp-title">'+app.title+'<span style="font-size: 1vh;"> - Geïnstalleerd</span></div> <div class="storeapp-creator">'+app.creator+'</div><div class="storeapp-remove"><i class="fas fa-trash"></i></div></div>'
+            var elem = '<div class="storeapp" id="app-'+i+'" data-app="'+i+'"><div class="storeapp-icon"><i class="'+app.icon+'"></i></div><div class="storeapp-title">'+app.title+'<span style="font-size: 1vh;"> - Installed</span></div> <div class="storeapp-creator">'+app.creator+'</div><div class="storeapp-remove"><i class="fas fa-trash"></i></div></div>'
             $(".store-apps").append(elem);
             app.app = i;
             $("#app-"+i).data('AppData', app);
@@ -28,9 +28,73 @@ $(document).on('click', '.storeapp-download', function(e){
     $(".download-progressbar-fill").css("width", "0%");
 
     CurrentApp = AppData.app;
-
+	var lol = 1
+	var them = 1
     if (AppData.password) {
         $(".download-password-container").fadeIn(150);
+	} else {
+		$(".download-password-containerx").fadeIn(150);
+		if (lol == them) {
+        $(".download-password-buttons").fadeOut(150);
+        IsDownloading = true;
+        $(".download-password-input").attr('readonly', true);
+
+        $(".download-progressbar-fill").animate({
+            width: "100%",
+        }, 5000, function(){
+            IsDownloading = false;
+            $(".download-password-input").attr('readonly', false);
+            $(".download-password-containerx").fadeOut(150, function(){
+                $(".download-progressbar-fill").css("width", "0%");
+            });
+
+            $.post('https://qb-phone/InstallApplication', JSON.stringify({
+                app: CurrentApp,
+            }), function(Installed){
+                if (Installed) {
+                    var applicationSlot = $(".phone-applications").find('[data-appslot="'+Installed.data.slot+'"]');
+                    var blockedapp = IsAppJobBlocked(Installed.data.blockedjobs, QB.Phone.Data.PlayerJob.name)
+                    if ((!Installed.data.job || Installed.data.job === QB.Phone.Data.PlayerJob.name) && !blockedapp) {
+                        $(applicationSlot).css({"background-color":Installed.data.color});
+                        var icon = '<i class="ApplicationIcon '+Installed.data.icon+'" style="'+Installed.data.style+'"></i>';
+                        if (Installed.data.app == "meos") {
+                            icon = '<img src="./img/politie.png" class="police-icon">';
+                        }
+                        $(applicationSlot).html(icon+'<div class="app-unread-alerts">0</div>');
+                        $(applicationSlot).prop('title', Installed.data.tooltipText);
+                        $(applicationSlot).data('app', Installed.data.app);
+            
+                        if (Installed.data.tooltipPos !== undefined) {
+                            $(applicationSlot).data('placement', Installed.data.tooltipPos)
+                        }
+                    }
+                    $(".phone-applications").find('[data-appslot="'+Installed.data.slot+'"]').tooltip();
+
+                    var AppObject = $(".phone-applications").find("[data-appslot='"+Installed.data.slot+"']").find('.app-unread-alerts');
+
+                    if (Installed.data.Alerts > 0) {
+                        $(AppObject).html(Installed.data.Alerts);
+                        $(AppObject).css({"display":"block"});
+                    } else {
+                        $(AppObject).css({"display":"none"});
+                    }
+                    QB.Phone.Data.Applications[Installed.data.app] = Installed.data;
+
+                    setTimeout(function(){
+                        $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
+                            SetupAppstore(data);
+                            $(".download-password-input").attr('readonly', false);
+                            $(".download-progressbar-fill").css("width", "0%");
+                            $(".download-password-buttons").show();
+                            $(".download-password-input").val("");
+                        });
+                    }, 100);
+					QB.Phone.Functions.closemaybe()
+                }
+            });
+			
+        });
+    }
     }
 });
 
@@ -61,6 +125,8 @@ $(document).on('click', '.storeapp-remove', function(e){
             SetupAppstore(data); 
         });
     }, 100);
+	QB.Phone.Functions.closemaybe()
+	
 });
 
 $(document).on('click', '.download-password-accept', function(e){
@@ -123,6 +189,8 @@ $(document).on('click', '.download-password-accept', function(e){
                             $(".download-password-input").val("");
                         });
                     }, 100);
+					QB.Phone.Functions.closemaybe()
+					
                 }
             });
         });
