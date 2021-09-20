@@ -244,7 +244,7 @@ RegisterServerEvent('qb-phone:server:sendNewMailToOffline')
 AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mailData)
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
 
-    if Player ~= nil then
+    if Player then
         local src = Player.PlayerData.source
 
         if mailData.button == nil then
@@ -277,12 +277,11 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         if mailData.button == nil then
             exports.oxmysql:insert(
                 'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)',
-                {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+                {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
         else
             exports.oxmysql:insert(
                 'INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0,
-                 json.encode(mailData.button)})
+                {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
         end
     end
 end)
@@ -391,37 +390,37 @@ AddEventHandler('qb-phone:server:BillingEmail', function(data, paid)
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice',
-    function(source, cb, society, amount, invoiceId, sendercitizenid)
-        local Invoices = {}
-        local Ply = QBCore.Functions.GetPlayer(source)
-        local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
-        local billAmount = amount
-        local commission, billAmount
-
-        if Config.BillingCommissions[society] then
-            commission = round(amount * Config.BillingCommissions[society])
-            billAmount = round(amount - (amount * Config.BillingCommissions[society]))
-            SenderPly.Functions.AddMoney('bank', commission)
-            local mailData = {
-                sender = 'Billing Department',
-                subject = 'Commission Received',
-                message = string.format('You received a commission check of $%s when %s %s paid a bill of $%s.',
-                    commission, Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
-            }
-            TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, mailData)
-        end
-
-        Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
-        TriggerEvent("qb-bossmenu:server:addAccountMoney", society, billAmount)
-        exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-        local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
-            {Ply.PlayerData.citizenid})
-        if invoices[1] ~= nil then
-            Invoices = invoices
-        end
-        cb(true, Invoices)
-    end)
+QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId, sendercitizenid)
+    local Invoices = {}
+    local Ply = QBCore.Functions.GetPlayer(source)
+    local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
+    local invoiceMailData = {}
+    if SenderPly and Config.BillingCommissions[society] then
+        local commission = round(amount * Config.BillingCommissions[society])
+        SenderPly.Functions.AddMoney('bank', commission)
+        invoiceMailData = {
+            sender = 'Billing Department',
+            subject = 'Commission Received',
+            message = string.format('You received a commission check of $%s when %s %s paid a bill of $%s.', commission, Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
+        }
+    elseif not SenderPly and Config.BillingCommissions[society] then
+        invoiceMailData = {
+            sender = 'Billing Department',
+            subject = 'Bill Paid',
+            message = string.format('%s %s paid a bill of $%s', Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
+        }
+    end
+    Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
+    TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, invoiceMailData)
+    TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
+    exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
+    local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
+        {Ply.PlayerData.citizenid})
+    if invoices[1] ~= nil then
+        Invoices = invoices
+    end
+    cb(true, Invoices)
+end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, sender, amount, invoiceId)
     local Invoices = {}
