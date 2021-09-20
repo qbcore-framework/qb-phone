@@ -769,7 +769,7 @@ function escape_sqli(source)
         ['"'] = '\\"',
         ["'"] = "\\'"
     }
-    return source:gsub("['\"]", replacements) -- or string.gsub( source, "['\"]", replacements )
+    return source:gsub("['\"]", replacements)
 end
 
 QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, cb, search)
@@ -1181,8 +1181,11 @@ RegisterServerEvent('qb-phone:server:AddTransaction')
 AddEventHandler('qb-phone:server:AddTransaction', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:insert('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (?, ?, ?)', {Player.PlayerData
-        .citizenid, escape_sqli(data.TransactionTitle), escape_sqli(data.TransactionMessage)})
+    exports.oxmysql:insert('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (?, ?, ?)', {
+        Player.PlayerData.citizenid,
+        data.TransactionTitle,
+        data.TransactionMessage
+    })
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(source, cb)
