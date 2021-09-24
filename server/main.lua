@@ -1149,7 +1149,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
             else
                 local RecieverMoney = json.decode(result[1].money)
                 RecieverMoney.bank = (RecieverMoney.bank + amount)
-                exports.oxmysql:execute('UPDATE players SET money = ?y WHERE citizenid = ?',
+                exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?',
                     {json.encode(RecieverMoney), result[1].citizenid})
             end
             cb(true)
