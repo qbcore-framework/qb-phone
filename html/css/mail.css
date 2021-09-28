@@ -187,6 +187,7 @@
 
 .mail-content {
     position: absolute;
+    height: calc(100% - 250px);
     top: 17.3vh;
     left: 2vh;
     font-family: 'Poppins', sans-serif;
