@@ -613,6 +613,14 @@ AddEventHandler('qb-phone:client:UpdateMessages', function(ChatMessages, SenderN
     local NumberKey = GetKeyByNumber(SenderNumber)
 
     if New then
+	table.insert(PhoneData.Chats, {
+            name = IsNumberInContacts(SenderNumber),
+            number = SenderNumber,
+            messages = {},
+        })
+
+        NumberKey = GetKeyByNumber(SenderNumber)
+	
         PhoneData.Chats[NumberKey] = {
             name = IsNumberInContacts(SenderNumber),
             number = SenderNumber,
