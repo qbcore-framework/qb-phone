@@ -1667,6 +1667,7 @@ end)
 RegisterNetEvent('qb-phone:client:RemoveBankMoney')
 AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
     --if PhoneData.isOpen then
+      if amount > 0 then 
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
@@ -1677,6 +1678,7 @@ AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
                 timeout = 3500,
             },
         })
+    end
 end)
 
 RegisterNetEvent('qb-phone:client:AddTransaction')
