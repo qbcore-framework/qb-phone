@@ -104,7 +104,7 @@ SetupLawyers = function(data) {
                 $("#lawyerid5-" + i).data('LawyerData', lawyer5);
             });
         } else {
-            var element = '<div class="lawyer-list"><div class="no-lawyers">There are no ems available.</div></div>'
+            var element = '<div class="lawyer-list"><div class="no-lawyers">There is no ems available.</div></div>'
             $(".lawyers-list").append(element);
         }
     } else {
