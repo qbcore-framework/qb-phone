@@ -165,8 +165,14 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
     if (Adverts.length > 0 || Adverts.length == undefined) {
         $(".advert-list").html("");
         $.each(Adverts, function(i, advert){
-            console.log(advert.name)
-            var element = '<div class="advert"><span class="advert-sender">'+advert.name+' | '+advert.number+'</span><p>'+advert.message+'</p></div>';
+            var clean = DOMPurify.sanitize(advert.message , {
+                ALLOWED_TAGS: [], 
+                ALLOWED_ATTR: []
+            });
+
+            if (clean == '') { clean = 'I\'m a silly goose :/' }
+
+            var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></div>`;
             $(".advert-list").append(element);
         });
     } else {
