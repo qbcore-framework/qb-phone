@@ -1971,3 +1971,30 @@ end
 function InPhone()
     return PhoneData.isOpen
 end
+
+RegisterNUICallback('track-vehicle', function(data, cb) 
+    local veh = data.veh
+
+    if findVehFromPlateAndLocate(veh.plate) then
+        QBCore.Functions.Notify("Your vehicle has been marked", "success")
+    else 
+        QBCore.Functions.Notify("This vehicle cannot be located", "error")
+    end
+end)
+
+function findVehFromPlateAndLocate(plate)
+
+    local gameVehicles = QBCore.Functions.GetVehicles()
+  
+    for i = 1, #gameVehicles do
+        local vehicle = gameVehicles[i]
+
+        if DoesEntityExist(vehicle) then
+            if GetVehicleNumberPlateText(vehicle) == plate then
+                local vehCoords = GetEntityCoords(vehicle)
+                SetNewWaypoint(vehCoords.x, vehCoords.y)
+                return true
+            end
+        end
+    end
+end
