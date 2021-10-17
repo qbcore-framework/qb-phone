@@ -440,20 +440,24 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{
 }, {
     name = 'amount',
     help = 'Fine Amount'
-}}, false, function(source, args)
+},  {
+    name = 'comment',
+    help = "Explain Bill"
+}}, true, function(source, args)
     local biller = QBCore.Functions.GetPlayer(source)
     local billed = QBCore.Functions.GetPlayer(tonumber(args[1]))
     local amount = tonumber(args[2])
+    local comment = tostring(args[3])
 
     if biller.PlayerData.job.name == "police" or biller.PlayerData.job.name == 'ambulance' or biller.PlayerData.job.name ==
-        'mechanic' then
+        'mechanic' or biller.PlayerData.job.name == "taxi" then
         if billed ~= nil then
             if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
                 if amount and amount > 0 then
                     exports.oxmysql:insert(
-                        'INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid) VALUES (?, ?, ?, ?, ?)',
+                        'INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid,comment) VALUES (?, ?, ?, ?, ?,?)',
                         {billed.PlayerData.citizenid, amount, biller.PlayerData.job.name,
-                         biller.PlayerData.charinfo.firstname, biller.PlayerData.citizenid})
+                         biller.PlayerData.charinfo.firstname, biller.PlayerData.citizenid,comment})
                     TriggerClientEvent('qb-phone:RefreshPhone', billed.PlayerData.source)
                     TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
                     TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Invoice Received')

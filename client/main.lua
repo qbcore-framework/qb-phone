@@ -836,6 +836,7 @@ RegisterNUICallback('PayInvoice', function(data, cb)
     local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId
+    local comment = data.comment
 
     QBCore.Functions.TriggerCallback('qb-phone:server:PayInvoice', function(CanPay, Invoices)
         if CanPay then PhoneData.Invoices = Invoices end
