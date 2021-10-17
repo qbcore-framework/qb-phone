@@ -309,12 +309,16 @@ $(document).on('click', '.meos-recent-alert', function(e){
     e.preventDefault();
     var alertData = $(this).data("alertData");
 
-    if (alertData.coords != undefined && alertData.coords != null) {
-        $.post('https://qb-phone/SetAlertWaypoint', JSON.stringify({
-            alert: alertData,
-        }));
-    } else {
-        QB.Phone.Notifications.Add("politie", "MDT", "This alert doesn't have a GPS location!");
+    if (alertData != undefined){
+        if (alertData.coords != undefined && alertData.coords != null) {
+            $.post('https://qb-phone/SetAlertWaypoint', JSON.stringify({
+                alert: alertData,
+            }));
+        } else {
+            QB.Phone.Notifications.Add("politie", "MDT", "This alert doesn't have a GPS location!");
+        }
+    }else {
+        QB.Phone.Notifications.Add("politie", "MDT", "There are no alerts available.");
     }
 });
 
