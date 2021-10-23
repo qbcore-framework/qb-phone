@@ -8,14 +8,14 @@ ui_page 'html/index.html'
 
 shared_scripts {
     'config.lua',
-	'@qb-core/import.lua',
     '@qb-apartments/config.lua',
     '@qb-garages/config.lua',
 }
 
 client_scripts {
     'client/main.lua',
-    'client/animation.lua'
+    'client/animation.lua',
+    'client/photo.lua'
 }
 
 server_script 'server/main.lua'
