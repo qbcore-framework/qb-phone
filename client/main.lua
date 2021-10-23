@@ -1045,8 +1045,9 @@ AddEventHandler('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetDa
     local MyPlayerId = PhoneData.PlayerData.source
 
     if src ~= MyPlayerId then
+         if not PhoneData.isOpen then
             SendNUIMessage({
-               action = "Notification",
+                action = "Notification",
                 NotifyData = {
                     title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")", 
                     content = NewTweetData.message, 
