@@ -1020,7 +1020,7 @@ while takePhoto do
         CellFrontCamActivate(frontCam)
 
     else if IsControlJustPressed(1, 176) then
-    exports['screenshot-basic']:requestScreenshotUpload('https://discord.com/api/webhooks/901341984655044648/m7c7-SWmT8p6n7hG6xaj1D0KHXlKGXth2bipQGxyRyxFqIBhMtUXUz9h9wVK4_l0r7DI', 'files[]', function(data2)
+    exports['screenshot-basic']:requestScreenshotUpload(Config.Webhook, 'files[]', function(data2)
         DestroyMobilePhone()
         CellCamActivate(false, false)
         local resp = json.decode(data2)
