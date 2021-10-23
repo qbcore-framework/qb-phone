@@ -1004,10 +1004,12 @@
                         <div class="twitter-new-tweet-tab">
                             <div class="twitter-new-tweet-header"><p>New Tweet</p></div>
 
-                            <textarea id="tweet-new-message" placeholder="Twitter message" cols="30" rows="10" spellcheck="false" required></textarea>
+                            <textarea id="tweet-new-message" style="text-align:left; padding-top:10px; padding-left:15px;" placeholder="Message" cols="30" rows="10" spellcheck="false" required></textarea>
+                            <textarea id="tweet-new-url" style="text-align:left; padding-left:15px;" placeholder="Picture URL" cols="30" rows="10" spellcheck="false"></textarea>
                         
                             <div class="twitter-new-tweet-buttons">
                                 <div class="twitter-new-tweet-button" id="send-tweet"><p>Send</p></div>
+                                <div class="twitter-new-tweet-button send-photo" id="send-photo"><p>Take Photo</p></div>
                                 <div class="twitter-new-tweet-button" id="cancel-tweet"><p>Cancel</p></div>
                             </div>
                         </div>
@@ -1016,8 +1018,10 @@
                             <div id="twitter-home" data-twittertab="twitter-home" class="twitter-header-tab selected-twitter-header-tab"><i class="fas fa-home"></i></div>
                             <div id="twitter-mentions" data-twittertab="twitter-mentions" class="twitter-header-tab"><i class="fas fa-at"></i></div>
                             <div id="twitter-hashtags" data-twittertab="twitter-hashtags" class="twitter-header-tab"><i class="fas fa-hashtag"></i></div>
+                            <div id="twitter-self" data-twittertab="twitter-self" class="twitter-header-tab"><i class="fas fa-user"></i></div>
                         </div>
                     </div>
+
 
                     <div class="bank-app">
                         <div class="bank-app-loading">
