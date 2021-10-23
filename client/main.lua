@@ -1,3 +1,5 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
 local PlayerJob = {}
 local isLoggedIn = false
 
@@ -951,10 +953,16 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         firstName = PhoneData.PlayerData.charinfo.firstname,
         lastName = PhoneData.PlayerData.charinfo.lastname,
         message = escape_str(data.Message),
+        url = test or "",
         time = data.Date,
         tweetId = GenerateTweetId(),
         picture = data.Picture
     }
+    if data.Anonymous then
+        TweetMessage.firstName = 'Anonymous'
+        TweetMessage.lastName = ''
+        TweetMessage.picture = 'http://thumbor.forbes.com/thumbor/fit-in/1200x0/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5efc6a13531e1500073c6521%2F0x0.jpg'
+    end
 
     local TwitterMessage = data.Message
     local MentionTag = TwitterMessage:split("@")
@@ -994,6 +1002,40 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     TriggerServerEvent('qb-phone:server:UpdateTweets', PhoneData.Tweets, TweetMessage)
 end)
 
+local takePhoto = false
+RegisterNUICallback('PostNewImage', function(data, cb)
+
+    SetNuiFocus(false, false)
+	CreateMobilePhone(1)
+    CellCamActivate(true, true)
+    takePhoto = true
+
+
+
+while takePhoto do
+    Citizen.Wait(0)
+
+    if IsControlJustPressed(1, 27) then -- Toogle Mode
+        frontCam = not frontCam
+        CellFrontCamActivate(frontCam)
+
+    else if IsControlJustPressed(1, 176) then
+    exports['screenshot-basic']:requestScreenshotUpload('https://discord.com/api/webhooks/901341984655044648/m7c7-SWmT8p6n7hG6xaj1D0KHXlKGXth2bipQGxyRyxFqIBhMtUXUz9h9wVK4_l0r7DI', 'files[]', function(data2)
+        DestroyMobilePhone()
+        CellCamActivate(false, false)
+        local resp = json.decode(data2)
+        test = resp.attachments[1].proxy_url
+        cb(resp.attachments[1].proxy_url)
+    end)
+     DestroyMobilePhone()
+     takePhoto = false
+    end
+    end
+    end
+    OpenPhone()
+
+end)
+
 RegisterNetEvent('qb-phone:client:TransferMoney')
 AddEventHandler('qb-phone:client:TransferMoney', function(amount, newmoney)
     PhoneData.PlayerData.money.bank = newmoney
@@ -1014,7 +1056,8 @@ AddEventHandler('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetDa
                     title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")", 
                     text = NewTweetData.message, 
                     icon = "fab fa-twitter",
-                    color = "#1DA1F2",
+                    timeout = 3500, 
+                    color = nil,
                 },
             })
     else
