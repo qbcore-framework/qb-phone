@@ -1,3 +1,5 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
 local QBPhone = {}
 local Tweets = {}
 local AppAlerts = {}
