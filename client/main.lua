@@ -958,11 +958,6 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         tweetId = GenerateTweetId(),
         picture = data.Picture
     }
-    if data.Anonymous then
-        TweetMessage.firstName = 'Anonymous'
-        TweetMessage.lastName = ''
-        TweetMessage.picture = 'http://thumbor.forbes.com/thumbor/fit-in/1200x0/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5efc6a13531e1500073c6521%2F0x0.jpg'
-    end
 
     local TwitterMessage = data.Message
     local MentionTag = TwitterMessage:split("@")
