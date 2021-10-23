@@ -42,7 +42,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		
-		if IsControlJustPressed(1, 27) or IsControlJustPressed(1, 177) and phone == true then -- CLOSE PHONE
+		if IsControlJustPressed(1, 177) and phone == true then -- CLOSE PHONE
 			DestroyMobilePhone()
 			phone = false
 			
@@ -87,12 +87,5 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		
-		-- ren = GetMobilePhoneRenderId()
-		-- SetTextRenderId(ren)
-		
-		-- Everything rendered inside here will appear on your phone.
-		
-		-- SetTextRenderId(1) -- NOTE: 1 is default
 	end
 end)
