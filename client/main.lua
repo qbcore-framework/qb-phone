@@ -1046,21 +1046,32 @@ AddEventHandler('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetDa
 
     if src ~= MyPlayerId then
             SendNUIMessage({
+               action = "Notification",
+                NotifyData = {
+                    title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")", 
+                    content = NewTweetData.message, 
+                    icon = "fab fa-twitter", 
+                    timeout = 3500, 
+                    color = nil,
+                },
+            })
+        else
+            SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
                     title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")", 
                     text = NewTweetData.message, 
                     icon = "fab fa-twitter",
-                    timeout = 3500, 
-                    color = nil,
+                    color = "#1DA1F2",
                 },
             })
+        end
     else
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
                 title = "Twitter", 
-                text = "The Tweet has been posted!", 
+                text = "The tweet has been posted!", 
                 icon = "fab fa-twitter",
                 color = "#1DA1F2",
                 timeout = 1000,
