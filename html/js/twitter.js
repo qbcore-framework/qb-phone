@@ -405,7 +405,7 @@ $(document).on('click', '#send-tweet', function (e) {
         $('#tweet-new-url').val("")
         $("#tweet-new-message").val("");
     } else {
-        QB.Phone.Notifications.Add("fab fa-twitter", QB.Phone.Functions.Lang("TWITTER_TITLE"), QB.Phone.Functions.Lang("TWITTER_ENTER_MSG"), "#1DA1F2");
+        QB.Phone.Notifications.Add("fab fa-twitter", "Twitter", "Fill a message!", "#1DA1F2");
     }
 });
 
@@ -483,7 +483,7 @@ function CopyMentionTag(elem) {
     var $temp = $("<input>");
     $("body").append($temp);
     $temp.val($(elem).data('mentiontag')).select();
-    QB.Phone.Notifications.Add("fab fa-twitter", QB.Phone.Functions.Lang("TWITTER_TITLE"), $(elem).data('mentiontag') + " Kopyalandı!", "rgb(27, 149, 224)", 1250);
+       QB.Phone.Notifications.Add("fab fa-twitter", "Twitter", $(elem).data('mentiontag')+ " copied!", "rgb(27, 149, 224)", 1250);
     document.execCommand("copy");
     $temp.remove();
 }
