@@ -1,30 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@900&display=swap');
+
 
 .twitter-app {
     display: none;
     height: 100%;
     width: 100%;
-    background: #F5F8FA;
+    background: #283344;
     overflow: hidden;
 }
 
 .twitter-header {
     position: absolute;
-    top: 5vh;
+    top: 6.7vh;
     width: 100%;
     height: 5vh;
+    background: #283344;
+
     border-bottom: .2vh solid rgba(20, 23, 26, 0.37);
 }
 
 .twitter-header-tab {
     position: relative;
     float: left;
-    width: 33.33%;
-    height: 100%;
+    width: 23.33%;
+    height: 95%;
     text-align: center;
     line-height: 5vh;
     font-size: 1.5vh;
-    color: rgba(20, 23, 26, 0.685);
+    color: rgba(239, 240, 241, 0.774);
     transition: .07s;
 }
 
@@ -40,20 +43,23 @@
 .twitter-app-header {
     position: relative;
     padding: 5vh 0 0 1.85vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     font-size: 2vh;
 }
 
 .twitter-home-tab {
     display: block;
     position: absolute;
-    height: 75%;
+    height: 90%;
+    background: #2D384D;
     width: 100%;
     top: 12vh;
     overflow: hidden;
     overflow-y: scroll !important;
     overflow-x: hidden !important;
 }
+
+
 
 .twitter-home-tab::-webkit-scrollbar {
     width: .7vh;
@@ -67,12 +73,43 @@
     background-color: #ebebeb00;
 }
 
+
+
+.twitter-self-tab{
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 12vh;
+    background: #2D384D;
+
+    overflow: hidden;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+}
+
+.twitter-self-tab::-webkit-scrollbar {
+    width: .7vh;
+}
+
+.twitter-self-tab::-webkit-scrollbar-thumb {
+    background-color: rgb(0, 0, 0);
+}
+
+.twitter-self-tab::-webkit-scrollbar-track {
+    background-color: #ebebeb00;
+}
+
+
+
 .twitter-mentions-tab {
     display: none;
     position: absolute;
-    height: 75%;
+    height: 100%;
     width: 100%;
     top: 12vh;
+    background: #2D384D;
+
     overflow: hidden;
     overflow-y: scroll !important;
     overflow-x: hidden !important;
@@ -93,9 +130,11 @@
 .twitter-hashtags-tab {
     display: none;
     position: absolute;
-    height: 75%;
+    height: 100%;
     width: 100%;
-    top: 12vh;
+    top: 10vh;
+    background: #2D384D;
+
     overflow: hidden;
     overflow-y: scroll !important;
     overflow-x: hidden !important;
@@ -113,12 +152,22 @@
     background-color: #ebebeb00;
 }
 
+.tt {
+    position: absolute;
+    right: 700px;
+    top: 400px;
+    padding: 1rem;
+}
+
 .twitter-tweet {
     position: relative;
-    height: auto;
     width: 100%;
-    border-top: 2px solid rgba(20, 23, 26, 0.37);
-    margin-bottom: 2.5vh;
+    margin: 1rem;
+    border-bottom: 2px solid #283344;
+}
+
+.twitter-tweet:hover {
+    opacity: 0.7;
 }
 
 .twitter-tweet-hashtag {
@@ -144,23 +193,38 @@
     width: 100%;
 }
 
-.twt-img > img {
+.twt-img>img {
     width: 4vh;
     height: 4vh;
     border-radius: 50%;
 }
 
 .tweet-reply {
-    position: absolute;
-    top: 5.5vh;
-    margin-bottom: 5vh;
-    margin-left: 2.4vh;
-    color: rgba(0, 0, 0, 0.8);
+
+    color: whitesmoke;
+    margin-left: 4vh;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    left: 2rem;
     transition: .05 linear;
     z-index: 100;
+    position: relative;
     pointer-events: all;
 }
 
+
+
+.tweet-delete{
+    color: whitesmoke;
+    margin-left: 4vh;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    left: 2rem;
+    transition: .05 linear;
+    z-index: 100;
+    position: relative;
+    pointer-events: all;  
+}
 .tweet-reply:hover i {
     color: rgba(0, 0, 0, 1.0);
 }
@@ -168,13 +232,14 @@
 .tweet-tweeter {
     padding-left: 6vh;
     padding-top: .6vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     font-size: 1.1vh;
+    color: white;
 }
 
-.tweet-tweeter > span {
+.tweet-tweeter>span {
     position: relative;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     font-size: 1.0vh;
     top: -.1vh;
 }
@@ -182,13 +247,26 @@
 .tweet-message {
     margin-top: .3vh;
     padding-left: 6vh;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.3vh;
+    padding-bottom: 1vh;
+    overflow-wrap: break-word;
+    color: whitesmoke;
+    word-wrap: break-word;
+}
+
+.tweet-image {
+    margin-top: .3vh;
+    padding-left: 6vh;
     top: .5vh;
-    font-family: 'Poppins', sans-serif;
+    z-index: 100;
+    font-family: 'Heebo', sans-serif;
     font-size: 1.3vh;
     padding-bottom: 1vh;
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
+
 
 .twitter-new-tweet {
     position: absolute;
@@ -196,18 +274,21 @@
     right: 0;
     width: 5.5vh;
     height: 5.5vh;
-    background-color: #1DA1F2;
+    background-color: #2A3344;
     margin: 2.2vh;
     border-radius: 50%;
     text-align: center;
+    z-index: 101;
+
     transition: .1s;
 }
 
 .twitter-new-tweet:hover {
     background-color: rgb(62, 179, 252);
+    z-index: 101;
 }
 
-.twitter-new-tweet > i {
+.twitter-new-tweet>i {
     line-height: 5.5vh;
     font-size: 2vh;
     transform: rotate(-20deg);
@@ -228,8 +309,9 @@
 
 .twitter-new-tweet-header {
     position: relative;
-    padding: 5vh 0 0 1.85vh;
-    font-family: 'Poppins', sans-serif;
+
+    padding: 8vh 0 0 3.85vh;
+    font-family: 'Heebo', sans-serif;
     font-size: 2vh;
 }
 
@@ -245,13 +327,35 @@
     border-bottom: 2px solid #1da0f200;
     resize: none;
     transition: border-bottom 0.1s ease-in-out;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     padding: 0.87vh;
     font-size: 1.4vh;
     top: 12vh;
     width: 22vh;
-    border-radius: 1vh 1vh 0 0 ;
+    border-radius: 1vh 1vh 0 0;
     box-shadow: inset 0 0 2vh 0 rgba(0, 0, 0, 0.089);
+}
+
+
+#tweet-new-url{
+    position: absolute;
+    border: none;
+    height: 5vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    background-color: rgb(233, 233, 233);
+    outline: none;
+    border-bottom: 2px solid #1da0f200;
+    resize: none;
+    transition: border-bottom 0.1s ease-in-out;
+    font-family: 'Heebo', sans-serif;
+    padding: 0.87vh;
+    font-size: 1.4vh;
+    top: 30vh;
+    width: 22vh;
+    border-radius: 1vh 1vh 0 0;
+    box-shadow: inset 0 0 2vh 0 rgba(0, 0, 0, 0.089);  
 }
 
 #tweet-new-message::-webkit-scrollbar {
@@ -260,7 +364,7 @@
 
 #tweet-new-message::placeholder {
     font-size: 1.4vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
 }
 
 #tweet-new-message:focus {
@@ -281,11 +385,11 @@
 .twitter-new-tweet-button {
     position: relative;
     float: left;
-    width: 50%;
+    width: 33%;
     height: 100%;
     text-align: center;
     line-height: 4.5vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     font-size: 1.5vh;
     border-top: .3vh solid #6ab04c00;
     transition: .1s;
@@ -301,8 +405,8 @@
     top: 4vh;
     width: 100%;
     font-size: 2vh;
-    font-family: 'Poppins', sans-serif;
-    color: black;
+    font-family: 'Heebo', sans-serif;
+    color: whitesmoke;
 }
 
 .mentioned-tag {
@@ -337,15 +441,16 @@
     background-color: rgb(238, 238, 238);
     transition: .2s;
 }
+
 .twitter-hashtag:hover {
     background-color: rgb(224, 224, 224);
 }
 
-.twitter-hashtag-status{
+.twitter-hashtag-status {
     position: absolute;
     top: .8vh;
     left: 1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     font-size: 1.1vh;
     color: rgb(99, 111, 121);
 }
@@ -354,27 +459,30 @@
     position: absolute;
     top: 2.5vh;
     left: 1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     font-size: 1.4vh;
     color: rgb(66, 66, 66);
 }
+
 .twitter-hashtag-messages {
     position: absolute;
     bottom: .8vh;
     left: 1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Heebo', sans-serif;
     font-size: 1.1vh;
     color: rgb(99, 111, 121);
 }
+
 .twitter-hashtags {
     position: absolute;
     display: block;
     width: 100%;
 }
+
 .twitter-hashtag-tweets {
     display: none;
     position: absolute;
-    top: 0;
+    top: 2vh;
     left: 30;
     width: 100%;
     height: 40vh;
