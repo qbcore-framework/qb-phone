@@ -13,7 +13,30 @@ RegisterCommand('phone', function()
     end
 end)
 
-RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
+RegisterCommand('answer', function()
+    local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
+    if not IsHandcuffed then
+        AnswerCall()
+    else
+        QBCore.Functions.Notify("Action not available at the moment..", "error")
+    end
+end)
+
+RegisterCommand('hangup', function()
+    local IsHandcuffed = exports['qb-policejob']:IsHandcuffed()
+    if not IsHandcuffed then
+        CancelCall()
+        SendNUIMessage({
+            action = "CancelOngoingCall"
+        })
+    else
+        QBCore.Functions.Notify("Action not available at the moment..", "error")
+    end
+end)
+
+RegisterKeyMapping('answer', '[PHONE] Answer Phone', 'keyboard', 'A')
+RegisterKeyMapping('hangup', '[PHONE] Hangup Phone', 'keyboard', 'H')
+RegisterKeyMapping('phone', '[PHONE] Phone', 'keyboard', 'M')
 
 phoneProp = 0
 local phoneModel = `prop_npc_phone_02`
