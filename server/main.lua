@@ -7,8 +7,7 @@ local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
 
-RegisterServerEvent('qb-phone:server:AddAdvert')
-AddEventHandler('qb-phone:server:AddAdvert', function(msg)
+RegisterServerEvent('qb-phone:server:AddAdvert', function(msg)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local CitizenId = Player.PlayerData.citizenid
@@ -59,7 +58,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         }
         PhoneData.Adverts = Adverts
 
-        local result = exports.oxmysql:fetchSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC',
+        local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC',
             {Player.PlayerData.citizenid})
         local Contacts = {}
         if result[1] ~= nil then
@@ -70,7 +69,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.PlayerContacts = result
         end
 
-        local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
+        local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
             {Player.PlayerData.citizenid})
         if invoices[1] ~= nil then
             for k, v in pairs(invoices) do
@@ -78,7 +77,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                 if Ply ~= nil then
                     v.number = Ply.PlayerData.charinfo.phone
                 else
-                    local res = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', {v.sender})
+                    local res = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {v.sender})
                     if res[1] ~= nil then
                         res[1].charinfo = json.decode(res[1].charinfo)
                         v.number = res[1].charinfo.phone
@@ -90,7 +89,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Invoices = invoices
         end
 
-        local garageresult = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
+        local garageresult = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
             {Player.PlayerData.citizenid})
         if garageresult[1] ~= nil then
             for k, v in pairs(garageresult) do
@@ -106,7 +105,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Garage = garageresult
         end
 
-        local messages = exports.oxmysql:fetchSync('SELECT * FROM phone_messages WHERE citizenid = ?',
+        local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?',
             {Player.PlayerData.citizenid})
         if messages ~= nil and next(messages) ~= nil then
             PhoneData.Chats = messages
@@ -128,7 +127,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Tweets = Tweets
         end
 
-        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
+        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
             {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -139,7 +138,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Mails = mails
         end
 
-        local transactions = exports.oxmysql:fetchSync(
+        local transactions = exports.oxmysql:executeSync(
             'SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if transactions[1] ~= nil then
             for _, v in pairs(transactions) do
@@ -172,8 +171,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source,
     end
 end)
 
-RegisterServerEvent('qb-phone:server:SetCallState')
-AddEventHandler('qb-phone:server:SetCallState', function(bool)
+RegisterServerEvent('qb-phone:server:SetCallState', function(bool)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
 
@@ -185,14 +183,13 @@ AddEventHandler('qb-phone:server:SetCallState', function(bool)
     end
 end)
 
-RegisterServerEvent('qb-phone:server:RemoveMail')
-AddEventHandler('qb-phone:server:RemoveMail', function(MailId)
+RegisterServerEvent('qb-phone:server:RemoveMail', function(MailId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:execute('DELETE FROM player_mails WHERE mailid = ? AND citizenid = ?',
         {MailId, Player.PlayerData.citizenid})
     SetTimeout(100, function()
-        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
+        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
             {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -210,8 +207,7 @@ function GenerateMailId()
     return math.random(111111, 999999)
 end
 
-RegisterServerEvent('qb-phone:server:sendNewMail')
-AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
+RegisterServerEvent('qb-phone:server:sendNewMail' function(mailData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -226,7 +222,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
     end
     TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
     SetTimeout(200, function()
-        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',
+        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',
             {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -240,8 +236,7 @@ AddEventHandler('qb-phone:server:sendNewMail', function(mailData)
     end)
 end)
 
-RegisterServerEvent('qb-phone:server:sendNewMailToOffline')
-AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mailData)
+RegisterServerEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mailData)
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
 
     if Player then
@@ -261,7 +256,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
         end
 
         SetTimeout(200, function()
-            local mails = exports.oxmysql:fetchSync(
+            local mails = exports.oxmysql:executeSync(
                 'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
@@ -286,8 +281,7 @@ AddEventHandler('qb-phone:server:sendNewMailToOffline', function(citizenid, mail
     end
 end)
 
-RegisterServerEvent('qb-phone:server:sendNewEventMail')
-AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
+RegisterServerEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if mailData.button == nil then
         exports.oxmysql:insert(
@@ -300,7 +294,7 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
              json.encode(mailData.button)})
     end
     SetTimeout(200, function()
-        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
+        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
             {citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -314,14 +308,13 @@ AddEventHandler('qb-phone:server:sendNewEventMail', function(citizenid, mailData
     end)
 end)
 
-RegisterServerEvent('qb-phone:server:ClearButtonData')
-AddEventHandler('qb-phone:server:ClearButtonData', function(mailId)
+RegisterServerEvent('qb-phone:server:ClearButtonData', function(mailId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:execute('UPDATE player_mails SET button = ? WHERE mailid = ? AND citizenid = ?',
         {'', mailId, Player.PlayerData.citizenid})
     SetTimeout(200, function()
-        local mails = exports.oxmysql:fetchSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
+        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC',
             {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -335,8 +328,7 @@ AddEventHandler('qb-phone:server:ClearButtonData', function(mailId)
     end)
 end)
 
-RegisterServerEvent('qb-phone:server:MentionedPlayer')
-AddEventHandler('qb-phone:server:MentionedPlayer', function(firstName, lastName, TweetMessage)
+RegisterServerEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName, TweetMessage)
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then
@@ -348,7 +340,7 @@ AddEventHandler('qb-phone:server:MentionedPlayer', function(firstName, lastName,
             else
                 local query1 = '%' .. firstName .. '%'
                 local query2 = '%' .. lastName .. '%'
-                local result = exports.oxmysql:fetchSync(
+                local result = exports.oxmysql:executeSync(
                     'SELECT * FROM players WHERE charinfo LIKE ? AND charinfo LIKE ?', {query1, query2})
                 if result[1] ~= nil then
                     local MentionedTarget = result[1].citizenid
@@ -360,8 +352,7 @@ AddEventHandler('qb-phone:server:MentionedPlayer', function(firstName, lastName,
     end
 end)
 
-RegisterServerEvent('qb-phone:server:CallContact')
-AddEventHandler('qb-phone:server:CallContact', function(TargetData, CallId, AnonymousCall)
+RegisterServerEvent('qb-phone:server:CallContact', function(TargetData, CallId, AnonymousCall)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
     local Target = QBCore.Functions.GetPlayerByPhone(TargetData.number)
@@ -372,8 +363,7 @@ AddEventHandler('qb-phone:server:CallContact', function(TargetData, CallId, Anon
     end
 end)
 
-RegisterServerEvent('qb-phone:server:BillingEmail')
-AddEventHandler('qb-phone:server:BillingEmail', function(data, paid)
+RegisterServerEvent('qb-phone:server:BillingEmail'), function(data, paid)
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local target = QBCore.Functions.GetPlayer(v)
         if target.PlayerData.job.name == data.society then
@@ -414,7 +404,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
     TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, invoiceMailData)
     TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-    local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
+    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
         {Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
         Invoices = invoices
@@ -426,7 +416,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(sourc
     local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-    local invoices = exports.oxmysql:fetchSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
+    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?',
         {Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
         Invoices = invoices
@@ -530,7 +520,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(s
         local Player = QBCore.Functions.GetPlayerByPhone(v.number)
 
         local query = '%' .. v.number .. '%'
-        local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
         if result[1] ~= nil then
             local MetaData = json.decode(result[1].metadata)
 
@@ -550,7 +540,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPicture', function(so
     local Player = QBCore.Functions.GetPlayerByPhone(Chat.number)
 
     local query = '%' .. Chat.number .. '%'
-    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     local MetaData = json.decode(result[1].metadata)
 
     if MetaData.phone.profilepicture ~= nil then
@@ -568,7 +558,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPicture', function(source, c
     local Picture = nil
 
     local query = '%' .. number .. '%'
-    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     if result[1] ~= nil then
         local MetaData = json.decode(result[1].metadata)
 
@@ -583,28 +573,25 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPicture', function(source, c
     end
 end)
 
-RegisterServerEvent('qb-phone:server:SetPhoneAlerts')
-AddEventHandler('qb-phone:server:SetPhoneAlerts', function(app, alerts)
+RegisterServerEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
     local src = source
     local CitizenId = QBCore.Functions.GetPlayer(src).citizenid
     QBPhone.SetPhoneAlerts(CitizenId, app, alerts)
 end)
 
-RegisterServerEvent('qb-phone:server:UpdateTweets')
-AddEventHandler('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
+RegisterServerEvent('qb-phone:server:UpdateTweets' function(NewTweets, TweetData)
     Tweets = NewTweets
     local TwtData = TweetData
     local src = source
     TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, TwtData)
 end)
 
-RegisterServerEvent('qb-phone:server:TransferMoney')
-AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
+RegisterServerEvent('qb-phone:server:TransferMoney', function(iban, amount)
     local src = source
     local sender = QBCore.Functions.GetPlayer(src)
 
     local query = '%' .. iban .. '%'
-    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     if result[1] ~= nil then
         local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
@@ -629,8 +616,7 @@ AddEventHandler('qb-phone:server:TransferMoney', function(iban, amount)
     end
 end)
 
-RegisterServerEvent('qb-phone:server:EditContact')
-AddEventHandler('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber, oldIban)
+RegisterServerEvent('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber, oldIban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:execute(
@@ -638,34 +624,31 @@ AddEventHandler('qb-phone:server:EditContact', function(newName, newNumber, newI
         {newName, newNumber, newIban, Player.PlayerData.citizenid, oldName, oldNumber})
 end)
 
-RegisterServerEvent('qb-phone:server:RemoveContact')
-AddEventHandler('qb-phone:server:RemoveContact', function(Name, Number)
+RegisterServerEvent('qb-phone:server:RemoveContact', function(Name, Number)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:execute('DELETE FROM player_contacts WHERE name = ? AND number = ? AND citizenid = ?',
         {Name, Number, Player.PlayerData.citizenid})
 end)
 
-RegisterServerEvent('qb-phone:server:AddNewContact')
-AddEventHandler('qb-phone:server:AddNewContact', function(name, number, iban)
+RegisterServerEvent('qb-phone:server:AddNewContact', function(name, number, iban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (?, ?, ?, ?)',
         {Player.PlayerData.citizenid, tostring(name), tostring(number), tostring(iban)})
 end)
 
-RegisterServerEvent('qb-phone:server:UpdateMessages')
-AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNumber, New)
+RegisterServerEvent('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNumber, New)
     local src = source
     local SenderData = QBCore.Functions.GetPlayer(src)
 
     local query = '%' .. ChatNumber .. '%'
-    local Player = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local Player = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     if Player[1] ~= nil then
         local TargetData = QBCore.Functions.GetPlayerByCitizenId(Player[1].citizenid)
 
         if TargetData ~= nil then
-            local Chat = exports.oxmysql:fetchSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?',
+            local Chat = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?',
                 {SenderData.PlayerData.citizenid, ChatNumber})
             if Chat[1] ~= nil then
                 -- Update for target
@@ -693,7 +676,7 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
                     SenderData.PlayerData.charinfo.phone, true)
             end
         else
-            local Chat = exports.oxmysql:fetchSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?',
+            local Chat = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?',
                 {SenderData.PlayerData.citizenid, ChatNumber})
             if Chat[1] ~= nil then
                 -- Update for target
@@ -717,8 +700,7 @@ AddEventHandler('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNum
     end
 end)
 
-RegisterServerEvent('qb-phone:server:AddRecentCall')
-AddEventHandler('qb-phone:server:AddRecentCall', function(type, data)
+RegisterServerEvent('qb-phone:server:AddRecentCall' function(type, data)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
 
@@ -738,8 +720,7 @@ AddEventHandler('qb-phone:server:AddRecentCall', function(type, data)
     end
 end)
 
-RegisterServerEvent('qb-phone:server:CancelCall')
-AddEventHandler('qb-phone:server:CancelCall', function(ContactData)
+RegisterServerEvent('qb-phone:server:CancelCall', function(ContactData)
     local Ply = QBCore.Functions.GetPlayerByPhone(ContactData.TargetData.number)
 
     if Ply ~= nil then
@@ -747,8 +728,7 @@ AddEventHandler('qb-phone:server:CancelCall', function(ContactData)
     end
 end)
 
-RegisterServerEvent('qb-phone:server:AnswerCall')
-AddEventHandler('qb-phone:server:AnswerCall', function(CallData)
+RegisterServerEvent('qb-phone:server:AnswerCall', function(CallData)
     local Ply = QBCore.Functions.GetPlayerByPhone(CallData.TargetData.number)
 
     if Ply ~= nil then
@@ -756,11 +736,10 @@ AddEventHandler('qb-phone:server:AnswerCall', function(CallData)
     end
 end)
 
-RegisterServerEvent('qb-phone:server:SaveMetaData')
-AddEventHandler('qb-phone:server:SaveMetaData', function(MData)
+RegisterServerEvent('qb-phone:server:SaveMetaData', function(MData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {Player.PlayerData.citizenid})
     local MetaData = json.decode(result[1].metadata)
     MetaData.phone = MData
     exports.oxmysql:execute('UPDATE players SET metadata = ? WHERE citizenid = ?',
@@ -796,12 +775,12 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
         query = query .. ' OR `charinfo` LIKE "%' .. search .. '%"'
     end
 
-    local ApartmentData = exports.oxmysql:fetchSync('SELECT * FROM apartments', {})
+    local ApartmentData = exports.oxmysql:executeSync('SELECT * FROM apartments', {})
     for k, v in pairs(ApartmentData) do
         ApaData[v.citizenid] = ApartmentData[k]
     end
 
-    local result = exports.oxmysql:fetchSync(query)
+    local result = exports.oxmysql:executeSync(query)
     if result[1] ~= nil then
         for k, v in pairs(result) do
             local charinfo = json.decode(v.charinfo)
@@ -842,11 +821,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
     local search = escape_sqli(search)
     local searchData = {}
     local query = '%' .. search .. '%'
-    local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
+    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
         {query, search})
     if result[1] ~= nil then
         for k, v in pairs(result) do
-            local player = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
+            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
             if player[1] ~= nil then
                 local charinfo = json.decode(player[1].charinfo)
                 local vehicleInfo = QBCore.Shared.Vehicles[result[k].vehicle]
@@ -902,9 +881,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
     local src = source
     local vehicleData = {}
     if plate ~= nil then
-        local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
+        local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
         if result[1] ~= nil then
-            local player = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', {result[1].citizenid})
+            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[1].citizenid})
             local charinfo = json.decode(player[1].charinfo)
             vehicleData = {
                 plate = plate,
@@ -1066,7 +1045,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
 
-    local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
+    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
         {Player.PlayerData.citizenid})
     if result[1] ~= nil then
         for k, v in pairs(result) do
@@ -1142,7 +1121,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
 
     if (Player.PlayerData.money.bank - amount) >= 0 then
         local query = '%' .. iban .. '%'
-        local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
         if result[1] ~= nil then
             local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
@@ -1153,7 +1132,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
             else
                 local RecieverMoney = json.decode(result[1].money)
                 RecieverMoney.bank = (RecieverMoney.bank + amount)
-                exports.oxmysql:execute('UPDATE players SET money = ?y WHERE citizenid = ?',
+                exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?',
                     {json.encode(RecieverMoney), result[1].citizenid})
             end
             cb(true)
@@ -1164,8 +1143,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
     end
 end)
 
-RegisterServerEvent('qb-phone:server:GiveContactDetails')
-AddEventHandler('qb-phone:server:GiveContactDetails', function(PlayerId)
+RegisterServerEvent('qb-phone:server:GiveContactDetails', function(PlayerId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -1181,8 +1159,7 @@ AddEventHandler('qb-phone:server:GiveContactDetails', function(PlayerId)
     TriggerClientEvent('qb-phone:client:AddNewSuggestion', PlayerId, SuggestionData)
 end)
 
-RegisterServerEvent('qb-phone:server:AddTransaction')
-AddEventHandler('qb-phone:server:AddTransaction', function(data)
+RegisterServerEvent('qb-phone:server:AddTransaction', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:insert('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (?, ?, ?)', {
@@ -1212,8 +1189,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(so
     cb(Lawyers)
 end)
 
-RegisterServerEvent('qb-phone:server:InstallApplication')
-AddEventHandler('qb-phone:server:InstallApplication', function(ApplicationData)
+RegisterServerEvent('qb-phone:server:InstallApplication', function(ApplicationData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     Player.PlayerData.metadata["phonedata"].InstalledApps[ApplicationData.app] = ApplicationData
@@ -1222,8 +1198,7 @@ AddEventHandler('qb-phone:server:InstallApplication', function(ApplicationData)
     -- TriggerClientEvent('qb-phone:RefreshPhone', src)
 end)
 
-RegisterServerEvent('qb-phone:server:RemoveInstallation')
-AddEventHandler('qb-phone:server:RemoveInstallation', function(App)
+RegisterServerEvent('qb-phone:server:RemoveInstallation', function(App)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     Player.PlayerData.metadata["phonedata"].InstalledApps[App] = nil

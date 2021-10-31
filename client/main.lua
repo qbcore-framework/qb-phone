@@ -40,8 +40,7 @@ PhoneData = {
     CryptoTransactions = {},
 }
 
-RegisterNetEvent('qb-phone:client:RaceNotify')
-AddEventHandler('qb-phone:client:RaceNotify', function(message)
+RegisterNetEvent('qb-phone:client:RaceNotify', function(message)
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
@@ -54,8 +53,7 @@ AddEventHandler('qb-phone:client:RaceNotify', function(message)
         })
 end)
 
-RegisterNetEvent('qb-phone:client:AddRecentCall')
-AddEventHandler('qb-phone:client:AddRecentCall', function(data, time, type)
+RegisterNetEvent('qb-phone:client:AddRecentCall', function(data, time, type)
     table.insert(PhoneData.RecentCalls, {
         name = IsNumberInContacts(data.number),
         time = time,
@@ -71,8 +69,7 @@ AddEventHandler('qb-phone:client:AddRecentCall', function(data, time, type)
     })
 end)
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate')
-AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     SendNUIMessage({
         action = "UpdateApplications",
         JobData = JobInfo,
@@ -260,8 +257,7 @@ Citizen.CreateThread(function()
     LoadPhone()
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload')
-AddEventHandler('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     PhoneData = {
         MetaData = {},
         isOpen = false,
@@ -288,8 +284,7 @@ AddEventHandler('QBCore:Client:OnPlayerUnload', function()
 
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     LoadPhone()
 end)
 
@@ -370,8 +365,7 @@ RegisterNUICallback('RemoveMail', function(data, cb)
     cb('ok')
 end)
 
-RegisterNetEvent('qb-phone:client:UpdateMails')
-AddEventHandler('qb-phone:client:UpdateMails', function(NewMails)
+RegisterNetEvent('qb-phone:client:UpdateMails', function(NewMails)
     SendNUIMessage({
         action = "UpdateMails",
         Mails = NewMails
@@ -602,8 +596,7 @@ RegisterNUICallback('SharedLocation', function(data)
     })
 end)
 
-RegisterNetEvent('qb-phone:client:UpdateMessages')
-AddEventHandler('qb-phone:client:UpdateMessages', function(ChatMessages, SenderNumber, New)
+RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, SenderNumber, New)
     local Sender = IsNumberInContacts(SenderNumber)
 
     local NumberKey = GetKeyByNumber(SenderNumber)
@@ -747,8 +740,7 @@ AddEventHandler('qb-phone:client:UpdateMessages', function(ChatMessages, SenderN
     end
 end)
 
-RegisterNetEvent("qb-phone-new:client:BankNotify")
-AddEventHandler("qb-phone-new:client:BankNotify", function(text)
+RegisterNetEvent("qb-phone-new:client:BankNotify", function(text)
     SendNUIMessage({
         action = "PhoneNotification",
         NotifyData = {
@@ -761,8 +753,7 @@ AddEventHandler("qb-phone-new:client:BankNotify", function(text)
     })
 end)
 
-RegisterNetEvent('qb-phone:client:NewMailNotify')
-AddEventHandler('qb-phone:client:NewMailNotify', function(MailData)
+RegisterNetEvent('qb-phone:client:NewMailNotify', function(MailData)
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
@@ -781,8 +772,7 @@ RegisterNUICallback('PostAdvert', function(data)
     TriggerServerEvent('qb-phone:server:AddAdvert', data.message)
 end)
 
-RegisterNetEvent('qb-phone:client:UpdateAdverts')
-AddEventHandler('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
+RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
     PhoneData.Adverts = Adverts
         SendNUIMessage({
             action = "PhoneNotification",
@@ -854,8 +844,7 @@ RegisterNUICallback('DeclineInvoice', function(data, cb)
     TriggerServerEvent('qb-phone:server:BillingEmail', data, false)
 end)
 
-RegisterNetEvent('qb-phone:client:BillingEmail')
-AddEventHandler('qb-phone:client:BillingEmail', function(data, paid, name)
+RegisterNetEvent('qb-phone:client:BillingEmail', function(data, paid, name)
     if paid then
         TriggerServerEvent('qb-phone:server:sendNewMail', {
             sender = 'Billing Department',
@@ -903,8 +892,7 @@ function GenerateTweetId()
     return tweetId
 end
 
-RegisterNetEvent('qb-phone:client:UpdateHashtags')
-AddEventHandler('qb-phone:client:UpdateHashtags', function(Handle, msgData)
+RegisterNetEvent('qb-phone:client:UpdateHashtags', function(Handle, msgData)
     if PhoneData.Hashtags[Handle] ~= nil then
         table.insert(PhoneData.Hashtags[Handle].messages, msgData)
     else
@@ -991,16 +979,14 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     TriggerServerEvent('qb-phone:server:UpdateTweets', PhoneData.Tweets, TweetMessage)
 end)
 
-RegisterNetEvent('qb-phone:client:TransferMoney')
-AddEventHandler('qb-phone:client:TransferMoney', function(amount, newmoney)
+RegisterNetEvent('qb-phone:client:TransferMoney', function(amount, newmoney)
     PhoneData.PlayerData.money.bank = newmoney
         SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "QBank", text = "&#36;"..amount.." has been added to your account!", icon = "fas fa-university", color = "#8c7ae6", }, })
         SendNUIMessage({ action = "UpdateBank", NewBalance = PhoneData.PlayerData.money.bank })
 end)
 
 
-RegisterNetEvent('qb-phone:client:UpdateTweets')
-AddEventHandler('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData)
+RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
 
@@ -1040,8 +1026,7 @@ RegisterNUICallback('GetHashtags', function(data, cb)
     end
 end)
 
-RegisterNetEvent('qb-phone:client:GetMentioned')
-AddEventHandler('qb-phone:client:GetMentioned', function(TweetMessage, AppAlerts)
+RegisterNetEvent('qb-phone:client:GetMentioned', function(TweetMessage, AppAlerts)
     Config.PhoneApplications["twitter"].Alerts = AppAlerts
         SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "You have been mentioned in a Tweet!", text = TweetMessage.message, icon = "fab fa-twitter", color = "#1DA1F2", }, })
     local TweetMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
@@ -1233,9 +1218,7 @@ CancelCall = function()
         })
     end
 end
-
-RegisterNetEvent('qb-phone:client:CancelCall')
-AddEventHandler('qb-phone:client:CancelCall', function()
+RegisterNetEvent('qb-phone:client:CancelCall', function()
     if PhoneData.CallData.CallType == "ongoing" then
         SendNUIMessage({
             action = "CancelOngoingCall"
@@ -1292,8 +1275,7 @@ AddEventHandler('qb-phone:client:CancelCall', function()
     end
 end)
 
-RegisterNetEvent('qb-phone:client:GetCalled')
-AddEventHandler('qb-phone:client:GetCalled', function(CallerNumber, CallId, AnonymousCall)
+RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, AnonymousCall)
     local RepeatCount = 0
     local CallData = {
         number = CallerNumber,
@@ -1433,9 +1415,7 @@ function AnswerCall()
         })
     end
 end
-
-RegisterNetEvent('qb-phone:client:AnswerCall')
-AddEventHandler('qb-phone:client:AnswerCall', function()
+RegisterNetEvent('qb-phone:client:AnswerCall', function()
     if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing") and PhoneData.CallData.InCall and not PhoneData.CallData.AnsweredCall then
         PhoneData.CallData.CallType = "ongoing"
         PhoneData.CallData.AnsweredCall = true
@@ -1523,8 +1503,7 @@ RegisterNUICallback('FetchVehicleScan', function(data, cb)
     end, plate)
 end)
 
-RegisterNetEvent('qb-phone:client:addPoliceAlert')
-AddEventHandler('qb-phone:client:addPoliceAlert', function(alertData)
+RegisterNetEvent('qb-phone:client:addPoliceAlert', function(alertData)
     PlayerJob = QBCore.Functions.GetPlayerData().job
     if PlayerJob.name == 'police' and PlayerJob.onduty then
         SendNUIMessage({
@@ -1574,8 +1553,7 @@ function GetClosestPlayer()
 	return closestPlayer, closestDistance
 end
 
-RegisterNetEvent('qb-phone:client:GiveContactDetails')
-AddEventHandler('qb-phone:client:GiveContactDetails', function()
+RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
     local ped = PlayerPedId()
 
     local player, distance = GetClosestPlayer()
@@ -1617,8 +1595,7 @@ RegisterNUICallback('DeleteContact', function(data, cb)
     TriggerServerEvent('qb-phone:server:RemoveContact', Name, Number)
 end)
 
-RegisterNetEvent('qb-phone:client:AddNewSuggestion')
-AddEventHandler('qb-phone:client:AddNewSuggestion', function(SuggestionData)
+RegisterNetEvent('qb-phone:client:AddNewSuggestion', function(SuggestionData)
     table.insert(PhoneData.SuggestedContacts, SuggestionData)
 
     --if PhoneData.isOpen then
@@ -1660,9 +1637,7 @@ RegisterNUICallback('TransferCrypto', function(data, cb)
         cb(CryptoData)
     end, data)
 end)
-
-RegisterNetEvent('qb-phone:client:RemoveBankMoney')
-AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
+RegisterNetEvent('qb-phone:client:RemoveBankMoney', function(amount)
     --if PhoneData.isOpen then
       if amount > 0 then 
         SendNUIMessage({
@@ -1677,9 +1652,7 @@ AddEventHandler('qb-phone:client:RemoveBankMoney', function(amount)
         })
     end
 end)
-
-RegisterNetEvent('qb-phone:client:AddTransaction')
-AddEventHandler('qb-phone:client:AddTransaction', function(SenderData, TransactionData, Message, Title)
+RegisterNetEvent('qb-phone:client:AddTransaction', function(SenderData, TransactionData, Message, Title)
     local Data = {
         TransactionTitle = Title,
         TransactionMessage = Message,
@@ -1728,9 +1701,7 @@ end)
 RegisterNUICallback('StartRace', function(data)
     TriggerServerEvent('qb-lapraces:server:StartRace', data.RaceData.RaceId)
 end)
-
-RegisterNetEvent('qb-phone:client:UpdateLapraces')
-AddEventHandler('qb-phone:client:UpdateLapraces', function()
+RegisterNetEvent('qb-phone:client:UpdateLapraces', function()
     SendNUIMessage({
         action = "UpdateRacingApp",
     })
@@ -1922,8 +1893,7 @@ RegisterNUICallback('RemoveApplication', function(data, cb)
     TriggerServerEvent('qb-phone:server:RemoveInstallation', data.app)
 end)
 
-RegisterNetEvent('qb-phone:RefreshPhone')
-AddEventHandler('qb-phone:RefreshPhone', function()
+RegisterNetEvent('qb-phone:RefreshPhone', function()
     LoadPhone()
     SetTimeout(250, function()
         SendNUIMessage({
