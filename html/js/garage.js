@@ -1,3 +1,5 @@
+let veh
+
 $(document).on('click', '.garage-vehicle', function(e){
     e.preventDefault();
 
@@ -10,10 +12,19 @@ $(document).on('click', '.garage-vehicle', function(e){
 
     var Id = $(this).attr('id');
     var VehData = $("#"+Id).data('VehicleData');
+    veh = VehData
     SetupDetails(VehData);  
 });
 
-$(document).on('click', '.garage-cardetails-footer', function(e){
+$(document).on('click', '#track-vehicle', function(e){
+    e.preventDefault()
+    $.post("https://qb-phone/track-vehicle", JSON.stringify({
+        veh: veh,
+    })); 
+});
+
+
+$(document).on('click', '#return-button', function(e){
     e.preventDefault();
 
     $(".garage-homescreen").animate({
