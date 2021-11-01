@@ -90,6 +90,7 @@
     border-bottom: .2vh solid #363d4b;
 }
 .bank-app-invoice-title {
+    text-transform : capitalize;
     position: absolute;
     top: 1vh;
     left: 2vh;
