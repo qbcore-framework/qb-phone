@@ -207,7 +207,7 @@ function GenerateMailId()
     return math.random(111111, 999999)
 end
 
-RegisterServerEvent('qb-phone:server:sendNewMail' function(mailData)
+RegisterServerEvent('qb-phone:server:sendNewMail', function(mailData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -363,7 +363,7 @@ RegisterServerEvent('qb-phone:server:CallContact', function(TargetData, CallId, 
     end
 end)
 
-RegisterServerEvent('qb-phone:server:BillingEmail'), function(data, paid)
+RegisterServerEvent('qb-phone:server:BillingEmail', function(data, paid)
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local target = QBCore.Functions.GetPlayer(v)
         if target.PlayerData.job.name == data.society then
@@ -579,7 +579,7 @@ RegisterServerEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
     QBPhone.SetPhoneAlerts(CitizenId, app, alerts)
 end)
 
-RegisterServerEvent('qb-phone:server:UpdateTweets' function(NewTweets, TweetData)
+RegisterServerEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     Tweets = NewTweets
     local TwtData = TweetData
     local src = source
@@ -700,7 +700,7 @@ RegisterServerEvent('qb-phone:server:UpdateMessages', function(ChatMessages, Cha
     end
 end)
 
-RegisterServerEvent('qb-phone:server:AddRecentCall' function(type, data)
+RegisterServerEvent('qb-phone:server:AddRecentCall',function(type, data)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
 
