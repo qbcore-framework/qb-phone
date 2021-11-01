@@ -1,10 +1,13 @@
 Config = Config or {}
+
 Config.BillingCommissions = { -- This is a percentage (0.10) == 10%
     mechanic = 0.10
 }
+
 Config.RepeatTimeout = 2000
 Config.CallRepeats = 10
 Config.OpenPhone = 244
+
 Config.PhoneApplications = {
     ["phone"] = {
         app = "phone",
@@ -122,16 +125,6 @@ Config.PhoneApplications = {
         slot = 11,
         Alerts = 0,
     },
-    ["meos"] = {
-        app = "meos",
-        color = "#004682",
-        icon = "fas fa-ad",
-        tooltipText = "MDT",
-        job = "police",
-        blockedjobs = {},
-        slot = 13,
-        Alerts = 0,
-    },
     ["lawyers"] = {
         app = "lawyers",
         color = "#26d4ce",
@@ -142,30 +135,40 @@ Config.PhoneApplications = {
         blockedjobs = {},
         slot = 12,
         Alerts = 0,
-    },
-   --[[ ["store"] = {
-        app = "store",
-        color = "#27ae60",
-        icon = "fas fa-cart-arrow-down",
-        tooltipText = "App Store",
-        tooltipPos = "right",
-        style = "padding-right: .3vh; font-size: 2.2vh";
-        job = false,
+    },	
+    ["meos"] = {
+        app = "meos",
+        color = "#004682",
+        icon = "fas fa-ad",
+        tooltipText = "MDT",
+        job = "police",
         blockedjobs = {},
-        slot = 14,
+        slot = 13,
         Alerts = 0,
-    },]]
-    -- ["trucker"] = {
-    --     app = "trucker",
-    --     color = "#cccc33",
-    --     icon = "fas fa-truck-moving",
-    --     tooltipText = "Dumbo",
-    --     tooltipPos = "right",
-    --     job = false,
-    --     blockedjobs = {},
-    --     slot = 17,
-    --     Alerts = 0,
-    -- },
+    },
+	-- ["store"] = {
+		-- app = "store",
+		-- color = "#27ae60",
+		-- icon = "fas fa-cart-arrow-down",
+		-- tooltipText = "App Store",
+		-- tooltipPos = "right",
+		-- style = "padding-right: .3vh; font-size: 2.2vh";
+		-- job = false,
+		-- blockedjobs = {},
+		-- slot = 14,
+		-- Alerts = 0,
+	-- },
+	-- ["trucker"] = {
+		-- app = "trucker",
+		-- color = "#cccc33",
+		-- icon = "fas fa-truck-moving",
+		-- tooltipText = "Dumbo",
+		-- tooltipPos = "right",
+		-- job = false,
+		-- blockedjobs = {},
+		-- slot = 15,
+		-- Alerts = 0,
+	-- },
 }
 Config.MaxSlots = 20
 
@@ -179,7 +182,7 @@ Config.StoreApps = {
         style = "";
         job = false,
         blockedjobs = {},
-        slot = 15,
+        slot = 16,
         Alerts = 0,
         password = true,
         creator = "QBCore",
