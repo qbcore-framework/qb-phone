@@ -221,7 +221,9 @@ $(document).on('click', '.phone-application', function(e){
             }
         }
     } else {
-        QB.Phone.Notifications.Add("fas fa-exclamation-circle", "System", QB.Phone.Data.Applications[PressedApplication].tooltipText+" is not available!")
+        if (PressedApplication != null){
+            QB.Phone.Notifications.Add("fas fa-exclamation-circle", "System", QB.Phone.Data.Applications[PressedApplication].tooltipText+" is not available!")
+        }  
     }
 });
 
