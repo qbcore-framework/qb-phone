@@ -54,16 +54,16 @@ RegisterNetEvent('qb-phone:client:RaceNotify', function(message)
 end)
 
 RegisterNetEvent('qb-phone:client:AddRecentCall', function(data, time, type)
-    table.insert(PhoneData.RecentCalls, {
+    PhoneData.RecentCalls[#PhoneData.RecentCalls+1] = {
         name = IsNumberInContacts(data.number),
         time = time,
         type = type,
         number = data.number,
         anonymous = data.anonymous
-    })
+    }
     TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "phone")
     Config.PhoneApplications["phone"].Alerts = Config.PhoneApplications["phone"].Alerts + 1
-    SendNUIMessage({ 
+    SendNUIMessage({
         action = "RefreshAppAlerts",
         AppData = Config.PhoneApplications
     })
@@ -113,13 +113,13 @@ end
 function CalculateTimeToDisplay()
 	hour = GetClockHours()
     minute = GetClockMinutes()
-    
+
     local obj = {}
-    
+
 	if minute <= 9 then
 		minute = "0" .. minute
     end
-    
+
     obj.hour = hour
     obj.minute = minute
 
@@ -143,8 +143,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(60000)
 
         if isLoggedIn then
-            QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)   
-                if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then 
+            QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
+                if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then
                     PhoneData.Contacts = pData.PlayerContacts
                 end
 
@@ -190,16 +190,16 @@ function LoadPhone()
         end
 
         if pData.Applications ~= nil and next(pData.Applications) ~= nil then
-            for k, v in pairs(pData.Applications) do 
-                Config.PhoneApplications[k].Alerts = v 
+            for k, v in pairs(pData.Applications) do
+                Config.PhoneApplications[k].Alerts = v
             end
         end
 
-        if pData.MentionedTweets ~= nil and next(pData.MentionedTweets) ~= nil then 
-            PhoneData.MentionedTweets = pData.MentionedTweets 
+        if pData.MentionedTweets ~= nil and next(pData.MentionedTweets) ~= nil then
+            PhoneData.MentionedTweets = pData.MentionedTweets
         end
 
-        if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then 
+        if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then
             PhoneData.Contacts = pData.PlayerContacts
         end
 
@@ -243,12 +243,12 @@ function LoadPhone()
             PhoneData.CryptoTransactions = pData.CryptoTransactions
         end
 
-        SendNUIMessage({ 
-            action = "LoadPhoneData", 
-            PhoneData = PhoneData, 
+        SendNUIMessage({
+            action = "LoadPhoneData",
+            PhoneData = PhoneData,
             PlayerData = PhoneData.PlayerData,
             PlayerJob = PhoneData.PlayerData.job,
-            applications = Config.PhoneApplications 
+            applications = Config.PhoneApplications
         })
     end)
 end
@@ -324,7 +324,7 @@ function OpenPhone()
             SetTimeout(250, function()
                 newPhoneProp()
             end)
-    
+
             QBCore.Functions.TriggerCallback('qb-phone:server:GetGarageVehicles', function(vehicles)
                 PhoneData.GarageVehicles = vehicles
             end)
@@ -381,11 +381,11 @@ RegisterNUICallback('AcceptMailButton', function(data)
 end)
 
 RegisterNUICallback('AddNewContact', function(data, cb)
-    table.insert(PhoneData.Contacts, {
+    PhoneData.Contacts[#PhoneData.Contacts+1] = {
         name = data.ContactName,
         number = data.ContactNumber,
         iban = data.ContactIban
-    })
+    }
     Citizen.Wait(100)
     cb(PhoneData.Contacts)
     if PhoneData.Chats[data.ContactNumber] ~= nil and next(PhoneData.Chats[data.ContactNumber]) ~= nil then
@@ -458,7 +458,7 @@ function ReorganizeChats(key)
     ReorganizedChats[1] = PhoneData.Chats[key]
     for k, chat in pairs(PhoneData.Chats) do
         if k ~= key then
-            table.insert(ReorganizedChats, chat)
+            ReorganizedChats[#ReorganizedChats+1] = chat
         end
     end
     PhoneData.Chats = ReorganizedChats
@@ -481,15 +481,15 @@ RegisterNUICallback('SendMessage', function(data, cb)
         end
         if PhoneData.Chats[NumberKey].messages[ChatKey] ~= nil then
             if ChatType == "message" then
-                table.insert(PhoneData.Chats[NumberKey].messages[ChatKey].messages, {
+                PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                     message = ChatMessage,
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
                     type = ChatType,
                     data = {},
-                })
+                }
             elseif ChatType == "location" then
-                table.insert(PhoneData.Chats[NumberKey].messages[ChatKey].messages, {
+                PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                     message = "Shared Location",
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
@@ -498,27 +498,27 @@ RegisterNUICallback('SendMessage', function(data, cb)
                         x = Pos.x,
                         y = Pos.y,
                     },
-                })
+                }
             end
             TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[NumberKey].messages, ChatNumber, false)
             NumberKey = GetKeyByNumber(ChatNumber)
             ReorganizeChats(NumberKey)
         else
-            table.insert(PhoneData.Chats[NumberKey].messages, {
+            PhoneData.Chats[NumberKey].messages[#PhoneData.Chats[NumberKey].messages+1] = {
                 date = ChatDate,
                 messages = {},
-            })
+            }
             ChatKey = GetKeyByDate(NumberKey, ChatDate)
             if ChatType == "message" then
-                table.insert(PhoneData.Chats[NumberKey].messages[ChatKey].messages, {
+                PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                     message = ChatMessage,
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
                     type = ChatType,
                     data = {},
-                })
+                }
             elseif ChatType == "location" then
-                table.insert(PhoneData.Chats[NumberKey].messages[ChatDate].messages, {
+                PhoneData.Chats[NumberKey].messages[ChatDate].messages[#PhoneData.Chats[NumberKey].messages[ChatDate].messages+1] = {
                     message = "Shared Location",
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
@@ -527,34 +527,34 @@ RegisterNUICallback('SendMessage', function(data, cb)
                         x = Pos.x,
                         y = Pos.y,
                     },
-                })
+                }
             end
             TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[NumberKey].messages, ChatNumber, true)
             NumberKey = GetKeyByNumber(ChatNumber)
             ReorganizeChats(NumberKey)
         end
     else
-        table.insert(PhoneData.Chats, {
+        PhoneData.Chats[#PhoneData.Chats+1] = {
             name = IsNumberInContacts(ChatNumber),
             number = ChatNumber,
             messages = {},
-        })
+        }
         NumberKey = GetKeyByNumber(ChatNumber)
-        table.insert(PhoneData.Chats[NumberKey].messages, {
+        PhoneData.Chats[NumberKey].messages[#PhoneData.Chats[NumberKey].messages+1] = {
             date = ChatDate,
             messages = {},
-        })
+        }
         ChatKey = GetKeyByDate(NumberKey, ChatDate)
         if ChatType == "message" then
-            table.insert(PhoneData.Chats[NumberKey].messages[ChatKey].messages, {
+            PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                 message = ChatMessage,
                 time = ChatTime,
                 sender = PhoneData.PlayerData.citizenid,
                 type = ChatType,
                 data = {},
-            })
+            }
         elseif ChatType == "location" then
-            table.insert(PhoneData.Chats[NumberKey].messages[ChatKey].messages, {
+            PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                 message = "Shared Location",
                 time = ChatTime,
                 sender = PhoneData.PlayerData.citizenid,
@@ -563,7 +563,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
                     x = Pos.x,
                     y = Pos.y,
                 },
-            })
+            }
         end
         TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[NumberKey].messages, ChatNumber, true)
         NumberKey = GetKeyByNumber(ChatNumber)
@@ -602,14 +602,14 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
     local NumberKey = GetKeyByNumber(SenderNumber)
 
     if New then
-	table.insert(PhoneData.Chats, {
+	    PhoneData.Chats[#PhoneData.Chats+1] = {
             name = IsNumberInContacts(SenderNumber),
             number = SenderNumber,
             messages = {},
-        })
+        }
 
         NumberKey = GetKeyByNumber(SenderNumber)
-	
+
         PhoneData.Chats[NumberKey] = {
             name = IsNumberInContacts(SenderNumber),
             number = SenderNumber,
@@ -709,7 +709,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
 
             NumberKey = GetKeyByNumber(SenderNumber)
             ReorganizeChats(NumberKey)
-            
+
             Wait(100)
             QBCore.Functions.TriggerCallback('qb-phone:server:GetContactPictures', function(Chats)
                 SendNUIMessage({
@@ -744,10 +744,10 @@ RegisterNetEvent("qb-phone-new:client:BankNotify", function(text)
     SendNUIMessage({
         action = "PhoneNotification",
         NotifyData = {
-            title = "Bank", 
-            content = text, 
-            icon = "fas fa-university", 
-            timeout = 3500, 
+            title = "Bank",
+            content = text,
+            icon = "fas fa-university",
+            timeout = 3500,
             color = "#ff002f",
         },
     })
@@ -893,13 +893,13 @@ end
 
 RegisterNetEvent('qb-phone:client:UpdateHashtags', function(Handle, msgData)
     if PhoneData.Hashtags[Handle] ~= nil then
-        table.insert(PhoneData.Hashtags[Handle].messages, msgData)
+        PhoneData.Hashtags[Handle].messages[#PhoneData.Hashtags[Handle].messages+1] = msgData
     else
         PhoneData.Hashtags[Handle] = {
             hashtag = Handle,
             messages = {}
         }
-        table.insert(PhoneData.Hashtags[Handle].messages, msgData)
+        PhoneData.Hashtags[Handle].messages[#PhoneData.Hashtags[Handle].messages+1] = msgData
     end
 
     SendNUIMessage({
@@ -924,7 +924,7 @@ RegisterNUICallback('UpdateProfilePicture', function(data)
     local pf = data.profilepicture
 
     PhoneData.MetaData.profilepicture = pf
-    
+
     TriggerServerEvent('qb-phone:server:SaveMetaData', PhoneData.MetaData)
 end)
 
@@ -971,7 +971,7 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         end
     end
 
-    table.insert(PhoneData.Tweets, TweetMessage)
+    PhoneData.Tweets[#PhoneData.Tweets+1] = TweetMessage
     Citizen.Wait(100)
     cb(PhoneData.Tweets)
 
@@ -993,8 +993,8 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
             SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
-                    title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")", 
-                    text = NewTweetData.message, 
+                    title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")",
+                    text = NewTweetData.message,
                     icon = "fab fa-twitter",
                     color = "#1DA1F2",
                 },
@@ -1003,8 +1003,8 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Twitter", 
-                text = "The Tweet has been posted!", 
+                title = "Twitter",
+                text = "The Tweet has been posted!",
                 icon = "fab fa-twitter",
                 color = "#1DA1F2",
                 timeout = 1000,
@@ -1029,7 +1029,7 @@ RegisterNetEvent('qb-phone:client:GetMentioned', function(TweetMessage, AppAlert
     Config.PhoneApplications["twitter"].Alerts = AppAlerts
         SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "You have been mentioned in a Tweet!", text = TweetMessage.message, icon = "fab fa-twitter", color = "#1DA1F2", }, })
     local TweetMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
-    table.insert(PhoneData.MentionedTweets, TweetMessage)
+    PhoneData.MentionedTweets[#PhoneData.MentionedTweets+1] = TweetMessage
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
     SendNUIMessage({ action = "UpdateMentionedTweets", Tweets = PhoneData.MentionedTweets })
 end)
@@ -1076,7 +1076,7 @@ RegisterNUICallback('TransferMoney', function(data, cb)
         TriggerServerEvent('qb-phone:server:TransferMoney', data.iban, data.amount)
         local cbdata = {
             CanTransfer = true,
-            NewAmount = amaountata 
+            NewAmount = amaountata
         }
         cb(cbdata)
     else
@@ -1115,8 +1115,8 @@ end)
 RegisterNUICallback('CallContact', function(data, cb)
     local contactData = data.ContactData
     QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline, contactData)
-        local status = { 
-            CanCall = CanCall, 
+        local status = {
+            CanCall = CanCall,
             IsOnline = IsOnline,
             InCall = PhoneData.CallData.InCall,
         }
@@ -1142,7 +1142,7 @@ CallContact = function(CallData, AnonymousCall)
 
     TriggerServerEvent('qb-phone:server:CallContact', PhoneData.CallData.TargetData, PhoneData.CallData.CallId, AnonymousCall)
     TriggerServerEvent('qb-phone:server:SetCallState', true)
-    
+
     for i = 1, Config.CallRepeats + 1, 1 do
         if not PhoneData.CallData.AnsweredCall then
             if RepeatCount + 1 ~= Config.CallRepeats + 1 then
@@ -1187,24 +1187,24 @@ CancelCall = function()
     TriggerServerEvent('qb-phone:server:SetCallState', false)
 
     if not PhoneData.isOpen then
-        SendNUIMessage({ 
-            action = "PhoneNotification", 
-            PhoneNotify = { 
-                title = "Phone", 
-                text = "The call has been ended", 
-                icon = "fas fa-phone", 
-                color = "#e84118", 
-            }, 
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Phone",
+                text = "The call has been ended",
+                icon = "fas fa-phone",
+                color = "#e84118",
+            },
         })
     else
-        SendNUIMessage({ 
-            action = "PhoneNotification", 
-            PhoneNotify = { 
-                title = "Phone", 
-                text = "The call has been ended", 
-                icon = "fas fa-phone", 
-                color = "#e84118", 
-            }, 
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Phone",
+                text = "The call has been ended",
+                icon = "fas fa-phone",
+                color = "#e84118",
+            },
         })
 
         SendNUIMessage({
@@ -1243,25 +1243,25 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
     TriggerServerEvent('qb-phone:server:SetCallState', false)
 
     if not PhoneData.isOpen then
-        SendNUIMessage({ 
-            action = "PhoneNotification", 
-            NotifyData = { 
+        SendNUIMessage({
+            action = "PhoneNotification",
+            NotifyData = {
                 title = "Phone",
-                content = "The call has been ended", 
-                icon = "fas fa-phone", 
-                timeout = 3500, 
+                content = "The call has been ended",
+                icon = "fas fa-phone",
+                timeout = 3500,
                 color = "#e84118",
-            }, 
-        }) 
+            },
+        })
     else
-        SendNUIMessage({ 
-            action = "PhoneNotification", 
-            PhoneNotify = { 
-                title = "Phone", 
-                text = "The call has been ended", 
-                icon = "fas fa-phone", 
-                color = "#e84118", 
-            }, 
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Phone",
+                text = "The call has been ended",
+                icon = "fas fa-phone",
+                color = "#e84118",
+            },
         })
 
         SendNUIMessage({
@@ -1308,7 +1308,7 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
                         if HasPhone then
                             RepeatCount = RepeatCount + 1
                             TriggerServerEvent("InteractSound_SV:PlayOnSource", "ringing", 0.2)
-                            
+
                             if not PhoneData.isOpen then
                                 SendNUIMessage({
                                     action = "IncomingCallAlert",
@@ -1404,14 +1404,14 @@ function AnswerCall()
         PhoneData.CallData.CallType = nil
         PhoneData.CallData.AnsweredCall = false
 
-        SendNUIMessage({ 
-            action = "PhoneNotification", 
-            PhoneNotify = { 
-                title = "Phone", 
-                text = "You don't have a incoming call...", 
-                icon = "fas fa-phone", 
-                color = "#e84118", 
-            }, 
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Phone",
+                text = "You don't have a incoming call...",
+                icon = "fas fa-phone",
+                color = "#e84118",
+            },
         })
     end
 end
@@ -1455,14 +1455,14 @@ RegisterNetEvent('qb-phone:client:AnswerCall', function()
         PhoneData.CallData.CallType = nil
         PhoneData.CallData.AnsweredCall = false
 
-        SendNUIMessage({ 
-            action = "PhoneNotification", 
-            PhoneNotify = { 
-                title = "Phone", 
-                text = "You don't have a incoming call...", 
-                icon = "fas fa-phone", 
-                color = "#e84118", 
-            }, 
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Phone",
+                text = "You don't have a incoming call...",
+                icon = "fas fa-phone",
+                color = "#e84118",
+            },
         })
     end
 end)
@@ -1475,7 +1475,7 @@ end)
 
 RegisterNUICallback('FetchVehicleResults', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetVehicleSearchResults', function(result)
-        if result ~= nil then 
+        if result ~= nil then
             for k, v in pairs(result) do
                 QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(flagged)
                     result[k].isFlagged = flagged
@@ -1579,7 +1579,7 @@ RegisterNUICallback('DeleteContact', function(data, cb)
                     action = "PhoneNotification",
                     PhoneNotify = {
                         title = "Phone",
-                        text = "You deleted contact!", 
+                        text = "You deleted contact!",
                         icon = "fa fa-phone-alt",
                         color = "#04b543",
                         timeout = 1500,
@@ -1597,14 +1597,13 @@ RegisterNUICallback('DeleteContact', function(data, cb)
 end)
 
 RegisterNetEvent('qb-phone:client:AddNewSuggestion', function(SuggestionData)
-    table.insert(PhoneData.SuggestedContacts, SuggestionData)
-
+    PhoneData.SuggestedContacts[#PhoneData.SuggestedContacts+1] = SuggestionData
     --if PhoneData.isOpen then
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
                 title = "Phone",
-                text = "You have a new suggested contact!", 
+                text = "You have a new suggested contact!",
                 icon = "fa fa-phone-alt",
                 color = "#04b543",
                 timeout = 1500,
@@ -1641,13 +1640,13 @@ end)
 
 RegisterNetEvent('qb-phone:client:RemoveBankMoney', function(amount)
     --if PhoneData.isOpen then
-      if amount > 0 then 
+      if amount > 0 then
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
                 title = "Bank",
-                text = "$"..amount.." has been removed from your balance!", 
-                icon = "fas fa-university", 
+                text = "$"..amount.." has been removed from your balance!",
+                icon = "fas fa-university",
                 color = "#ff002f",
                 timeout = 3500,
             },
@@ -1660,13 +1659,12 @@ RegisterNetEvent('qb-phone:client:AddTransaction', function(SenderData, Transact
         TransactionTitle = Title,
         TransactionMessage = Message,
     }
-    
-    table.insert(PhoneData.CryptoTransactions, Data)
+    PhoneData.CryptoTransactions[#PhoneData.CryptoTransactions+1] = Data
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
                 title = "Crypto",
-                text = Message, 
+                text = Message,
                 icon = "fas fa-chart-pie",
                 color = "#04b543",
                 timeout = 1500,
@@ -1879,7 +1877,7 @@ RegisterNUICallback('InstallApplication', function(data, cb)
     if not CanDownloadApps then
         return
     end
-    
+
     if NewSlot <= Config.MaxSlots then
         TriggerServerEvent('qb-phone:server:InstallApplication', {
             app = data.app,
@@ -1936,19 +1934,19 @@ function DisableDisplayControlActions()
     DisableControlAction(0, 202, true) -- disable escape
     DisableControlAction(0, 322, true) -- disable escape
 
-    DisableControlAction(0, 245, true) -- disable chat  
+    DisableControlAction(0, 245, true) -- disable chat
 end
 
 function InPhone()
     return PhoneData.isOpen
 end
 
-RegisterNUICallback('track-vehicle', function(data, cb) 
+RegisterNUICallback('track-vehicle', function(data, cb)
     local veh = data.veh
 
     if findVehFromPlateAndLocate(veh.plate) then
         QBCore.Functions.Notify("Your vehicle has been marked", "success")
-    else 
+    else
         QBCore.Functions.Notify("This vehicle cannot be located", "error")
     end
 end)
@@ -1956,7 +1954,7 @@ end)
 function findVehFromPlateAndLocate(plate)
 
     local gameVehicles = QBCore.Functions.GetVehicles()
-  
+
     for i = 1, #gameVehicles do
         local vehicle = gameVehicles[i]
 

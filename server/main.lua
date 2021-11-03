@@ -142,10 +142,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             'SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if transactions[1] ~= nil then
             for _, v in pairs(transactions) do
-                table.insert(PhoneData.CryptoTransactions, {
+                PhoneData.CryptoTransactions[#PhoneData.CryptoTransactions+1] = {
                     TransactionTitle = v.title,
                     TransactionMessage = v.message
-                })
+                }
             end
         end
 
@@ -463,13 +463,13 @@ end)
 
 RegisterServerEvent('qb-phone:server:UpdateHashtags', function(Handle, messageData)
     if Hashtags[Handle] ~= nil and next(Hashtags[Handle]) ~= nil then
-        table.insert(Hashtags[Handle].messages, messageData)
+        Hashtags[Handle].messages[#Hashtags[Handle].messages+1] = messageData
     else
         Hashtags[Handle] = {
             hashtag = Handle,
             messages = {}
         }
-        table.insert(Hashtags[Handle].messages, messageData)
+        Hashtags[Handle].messages[#Hashtags[Handle].messages+1] = messageData
     end
     TriggerClientEvent('qb-phone:client:UpdateHashtags', -1, Handle, messageData)
 end)
@@ -478,7 +478,7 @@ QBPhone.AddMentionedTweet = function(citizenid, TweetData)
     if MentionedTweets[citizenid] == nil then
         MentionedTweets[citizenid] = {}
     end
-    table.insert(MentionedTweets[citizenid], TweetData)
+    MentionedTweets[citizenid][#MentionedTweets[citizenid]+1] = TweetData
 end
 
 QBPhone.SetPhoneAlerts = function(citizenid, app, alerts)
@@ -784,7 +784,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
             if ApaData[v.citizenid] ~= nil and next(ApaData[v.citizenid]) ~= nil then
                 appiepappie = ApaData[v.citizenid]
             end
-            table.insert(searchData, {
+            searchData[#searchData+1] = {
                 citizenid = v.citizenid,
                 firstname = charinfo.firstname,
                 lastname = charinfo.lastname,
@@ -795,7 +795,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
                 warrant = false,
                 driverlicense = metadata["licences"]["driver"],
                 appartmentdata = appiepappie
-            })
+            }
         end
         cb(searchData)
     else
@@ -806,7 +806,7 @@ end)
 function SplitStringToArray(string)
     local retval = {}
     for i in string.gmatch(string, "%S+") do
-        table.insert(retval, i)
+        retval[#retval+1] = i
     end
     return retval
 end
@@ -825,33 +825,33 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
                 local charinfo = json.decode(player[1].charinfo)
                 local vehicleInfo = QBCore.Shared.Vehicles[result[k].vehicle]
                 if vehicleInfo ~= nil then
-                    table.insert(searchData, {
+                    searchData[#searchData+1] = {
                         plate = result[k].plate,
                         status = true,
                         owner = charinfo.firstname .. " " .. charinfo.lastname,
                         citizenid = result[k].citizenid,
                         label = vehicleInfo["name"]
-                    })
+                    }
                 else
-                    table.insert(searchData, {
+                    searchData[#searchData+1] = {
                         plate = result[k].plate,
                         status = true,
                         owner = charinfo.firstname .. " " .. charinfo.lastname,
                         citizenid = result[k].citizenid,
                         label = "Name not found.."
-                    })
+                    }
                 end
             end
         end
     else
         if GeneratedPlates[search] ~= nil then
-            table.insert(searchData, {
+            searchData[#searchData+1] = {
                 plate = GeneratedPlates[search].plate,
                 status = GeneratedPlates[search].status,
                 owner = GeneratedPlates[search].owner,
                 citizenid = GeneratedPlates[search].citizenid,
                 label = "Brand unknown.."
-            })
+            }
         else
             local ownerInfo = GenerateOwnerName()
             GeneratedPlates[search] = {
@@ -860,13 +860,13 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
                 owner = ownerInfo.name,
                 citizenid = ownerInfo.citizenid
             }
-            table.insert(searchData, {
+            searchData[#searchData+1] = {
                 plate = search,
                 status = true,
                 owner = ownerInfo.name,
                 citizenid = ownerInfo.citizenid,
                 label = "Brand unknown.."
-            })
+            }
         end
     end
     cb(searchData)
@@ -1087,8 +1087,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     body = v.body
                 }
             end
-
-            table.insert(Vehicles, vehdata)
+            Vehicles[#Vehicles+1] = vehdata
         end
         cb(Vehicles)
     else
@@ -1173,11 +1172,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(so
                 Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "taxi" or
                 Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "ambulance") and
                 Player.PlayerData.job.onduty then
-                table.insert(Lawyers, {
+                Lawyers[#Lawyers+1] = {
                     name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
                     phone = Player.PlayerData.charinfo.phone,
                     typejob = Player.PlayerData.job.name
-                })
+                }
             end
         end
     end
