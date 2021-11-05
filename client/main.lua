@@ -1,8 +1,10 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
 local PlayerJob = {}
 
 RegisterCommand('phone', function()
     PlayerData = QBCore.Functions.GetPlayerData()
-    if not PhoneData.isOpen and LocalPlayer.state['isLoggedIn'] then
+    if not PhoneData.isOpen and LocalPlayer.state.isLoggedIn then
         if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() then
             OpenPhone()
         else
@@ -142,7 +144,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(60000)
 
-        if isLoggedIn then
+        if LocalPlayer.state.isLoggedIn then
             QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
                 if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then
                     PhoneData.Contacts = pData.PlayerContacts
@@ -159,7 +161,6 @@ end)
 
 function LoadPhone()
     Citizen.Wait(100)
-    isLoggedIn = true
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
         PlayerJob = QBCore.Functions.GetPlayerData().job
         PhoneData.PlayerData = QBCore.Functions.GetPlayerData()

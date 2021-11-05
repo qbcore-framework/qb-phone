@@ -1,3 +1,5 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
 local QBPhone = {}
 local Tweets = {}
 local AppAlerts = {}
@@ -710,7 +712,7 @@ RegisterServerEvent('qb-phone:server:AddRecentCall', function(type, data)
         TriggerClientEvent('qb-phone:client:AddRecentCall', Trgt.PlayerData.source, {
             name = Ply.PlayerData.charinfo.firstname .. " " .. Ply.PlayerData.charinfo.lastname,
             number = Ply.PlayerData.charinfo.phone,
-            anonymous = anonymous
+            anonymous = data.anonymous
         }, label, "outgoing")
     end
 end)

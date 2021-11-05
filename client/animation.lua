@@ -107,7 +107,7 @@ function DoPhoneAnimation(anim)
     PhoneData.AnimationData.lib = AnimationLib
     PhoneData.AnimationData.anim = AnimationStatus
 
-    CheckAnimLoop(AnimationLib, AnimationStatus)
+    CheckAnimLoop()
 end
 
 function CheckAnimLoop()
