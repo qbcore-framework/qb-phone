@@ -538,10 +538,10 @@ $(document).ready(function(){
             case "UpdateChat":
                 if (QB.Phone.Data.currentApplication == "whatsapp") {
                     if (OpenedChatData.number !== null && OpenedChatData.number == event.data.chatNumber) {
-                        console.log('Chat reloaded')
+                        //console.log('Chat reloaded')
                         QB.Phone.Functions.SetupChatMessages(event.data.chatData);
                     } else {
-                        console.log('Chats reloaded')
+                        //console.log('Chats reloaded')
                         QB.Phone.Functions.LoadWhatsappChats(event.data.Chats);
                     }
                 }
