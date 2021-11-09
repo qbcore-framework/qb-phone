@@ -1490,7 +1490,7 @@ end)
 
 RegisterNUICallback('FetchVehicleScan', function(data, cb)
     local vehicle = QBCore.Functions.GetClosestVehicle()
-    local plate = GetVehicleNumberPlateText(vehicle)
+    local plate = QBCore.Functions.GetPlate(vehicle)
     local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)):lower()
     QBCore.Functions.TriggerCallback('qb-phone:server:ScanPlate', function(result)
         QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(flagged)
@@ -1960,7 +1960,7 @@ function findVehFromPlateAndLocate(plate)
         local vehicle = gameVehicles[i]
 
         if DoesEntityExist(vehicle) then
-            if GetVehicleNumberPlateText(vehicle) == plate then
+            if QBCore.Functions.GetPlate(vehicle) == plate then
                 local vehCoords = GetEntityCoords(vehicle)
                 SetNewWaypoint(vehCoords.x, vehCoords.y)
                 return true
