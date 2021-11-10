@@ -30,3 +30,5 @@ files {
     'html/img/backgrounds/*.png',
     'html/img/apps/*.png',
 }
+
+lua54 'yes'
