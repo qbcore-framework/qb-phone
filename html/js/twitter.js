@@ -137,13 +137,14 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
 $(document).on('click', '.tweet-reply', function(e){
     e.preventDefault();
     var TwtName = $(this).parent().data('twthandler');
-
+    $('#tweet-new-url').val("");
     $("#tweet-new-message").val(TwtName + " ");
     QB.Phone.Animations.TopSlideDown(".twitter-new-tweet-tab", 450, 0);
 });
 
 QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
     Tweets = Tweets.reverse();
+    $('#tweet-new-url').val("");
     if (Tweets.length > 0) {
         $(".twitter-mentions-tab").html("");
         $.each(Tweets, function(i, Tweet){
@@ -248,11 +249,14 @@ $(document).on('click', '#send-tweet', function(e){
         QB.Phone.Animations.TopSlideUp(".twitter-new-tweet-tab", 450, -120);
     } else {
         QB.Phone.Notifications.Add("fab fa-twitter", "Twitter", "Fill a message!", "#1DA1F2");
-    }
+    };
+    $('#tweet-new-url').val("");
+    $("#tweet-new-message").val("");
 });
 
 $(document).on('click', '#cancel-tweet', function(e){
     e.preventDefault();
+    $('#tweet-new-url').html("");
     QB.Phone.Animations.TopSlideUp(".twitter-new-tweet-tab", 450, -120);
 });
 
