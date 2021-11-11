@@ -92,8 +92,6 @@ $(document).on('click', '.phone-recent-call', function(e){
         name: RecentData.name
     }
 
-    console.log(QB.Phone.Data.AnonymousCall)
-
     $.post('https://qb-phone/CallContact', JSON.stringify({
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
@@ -116,10 +114,10 @@ $(document).on('click', '.phone-recent-call', function(e){
                             QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, 0);
                             QB.Phone.Functions.ToggleApp("phone-call", "block");
                         }, 450);
-    
+
                         CallData.name = cData.name;
                         CallData.number = cData.number;
-                    
+
                         QB.Phone.Data.currentApplication = "phone-call";
                     } else {
                         QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
@@ -165,10 +163,10 @@ $(document).on('click', ".phone-keypad-key-call", function(e){
                             QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, 0);
                             QB.Phone.Functions.ToggleApp("phone-call", "block");
                         }, 450);
-    
+
                         CallData.name = cData.name;
                         CallData.number = cData.number;
-                    
+
                         QB.Phone.Data.currentApplication = "phone-call";
                     } else {
                         QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
@@ -206,7 +204,7 @@ QB.Phone.Functions.LoadContacts = function(myContacts) {
     if (myContacts !== null) {
         $.each(myContacts, function(i, contact){
             contact.name = DOMPurify.sanitize(contact.name , {
-                ALLOWED_TAGS: [], 
+                ALLOWED_TAGS: [],
                 ALLOWED_ATTR: []
             });
             if (contact.name == '') contact.name = 'Hmm, I shouldn\'t be able to do this...'
@@ -232,7 +230,7 @@ $(document).on('click', '#new-chat-phone', function(e){
         $.post('https://qb-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
             QB.Phone.Functions.LoadWhatsappChats(chats);
         });
-    
+
         $('.phone-application-container').animate({
             top: -160+"%"
         });
@@ -241,18 +239,18 @@ $(document).on('click', '#new-chat-phone', function(e){
             $('.phone-application-container').animate({
                 top: 0+"%"
             });
-    
+
             QB.Phone.Functions.ToggleApp("phone", "none");
             QB.Phone.Functions.ToggleApp("whatsapp", "block");
             QB.Phone.Data.currentApplication = "whatsapp";
-        
+
             $.post('https://qb-phone/GetWhatsappChat', JSON.stringify({phone: ContactData.number}), function(chat){
                 QB.Phone.Functions.SetupChatMessages(chat, {
                     name: ContactData.name,
                     number: ContactData.number
                 });
             });
-        
+
             $('.whatsapp-openedchat-messages').animate({scrollTop: 9999}, 150);
             $(".whatsapp-openedchat").css({"display":"block"});
             $(".whatsapp-openedchat").css({left: 0+"vh"});
@@ -273,7 +271,7 @@ $(document).on('click', '#edit-contact', function(e){
     var ContactData = $("[data-contactid='"+ContactId+"']").data('contactData');
 
     CurrentEditContactData.name = DOMPurify.sanitize(ContactData.name , {
-        ALLOWED_TAGS: [], 
+        ALLOWED_TAGS: [],
         ALLOWED_ATTR: []
     });
     if (CurrentEditContactData.name == '') CurrentEditContactData.name = 'Hmm, I shouldn\'t be able to do this...'
@@ -297,7 +295,7 @@ $(document).on('click', '#edit-contact-save', function(e){
     e.preventDefault();
 
     var ContactName = DOMPurify.sanitize($(".phone-edit-contact-name").val() , {
-        ALLOWED_TAGS: [], 
+        ALLOWED_TAGS: [],
         ALLOWED_ATTR: []
     });
     if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
@@ -428,7 +426,7 @@ $(document).on('click', '#add-contact-save', function(e){
     e.preventDefault();
 
     var ContactName = DOMPurify.sanitize($(".phone-add-contact-name").val() , {
-        ALLOWED_TAGS: [], 
+        ALLOWED_TAGS: [],
         ALLOWED_ATTR: []
     });
     if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
@@ -477,11 +475,11 @@ $(document).on('click', '#add-contact-cancel', function(e){
 });
 
 $(document).on('click', '#phone-start-call', function(e){
-    e.preventDefault();   
-    
+    e.preventDefault();
+
     var ContactId = $(this).parent().parent().data('contactid');
     var ContactData = $("[data-contactid='"+ContactId+"']").data('contactData');
-    
+
     SetupCall(ContactData);
 });
 
@@ -506,10 +504,10 @@ SetupCall = function(cData) {
                             QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, 0);
                             QB.Phone.Functions.ToggleApp("phone-call", "block");
                         }, 450);
-    
+
                         CallData.name = cData.name;
                         CallData.number = cData.number;
-                    
+
                         QB.Phone.Data.currentApplication = "phone-call";
                     } else {
                         QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
@@ -534,7 +532,7 @@ CancelOutgoingCall = function() {
             QB.Phone.Functions.ToggleApp(QB.Phone.Data.currentApplication, "none");
         }, 400)
         QB.Phone.Functions.HeaderTextColor("white", 300);
-    
+
         QB.Phone.Data.CallActive = false;
         QB.Phone.Data.currentApplication = null;
     }
@@ -554,7 +552,7 @@ $(document).on('click', '#incoming-deny', function(e){
 
 $(document).on('click', '#ongoing-cancel', function(e){
     e.preventDefault();
-    
+
     $.post('https://qb-phone/CancelOngoingCall');
 });
 
@@ -586,7 +584,7 @@ IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
                     QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, 0);
                 }, 400);
             }, 400);
-        
+
             QB.Phone.Data.currentApplication = "phone-call";
             QB.Phone.Data.CallActive = true;
         }
@@ -635,7 +633,7 @@ IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
 //             setTimeout(function(){
 //                 QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, 0);
 //             }, 450);
-        
+
 //             QB.Phone.Data.currentApplication = "phone-call";
 //             QB.Phone.Data.CallActive = true;
 //         }
@@ -659,7 +657,7 @@ IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
 //             $(".call-notifications").css({"display":"block"});
 //         }, 400)
 //         QB.Phone.Functions.HeaderTextColor("white", 300);
-    
+
 //         QB.Phone.Data.CallActive = false;
 //         QB.Phone.Data.currentApplication = null;
 //     }
@@ -706,7 +704,7 @@ $(document).on('click', '.phone-currentcall-container', function(e){
     QB.Phone.Animations.TopSlideDown('.phone-application-container', 500, 0);
     QB.Phone.Animations.TopSlideDown('.phone-call-app', 500, 0);
     QB.Phone.Functions.ToggleApp("phone-call", "block");
-                
+
     QB.Phone.Data.currentApplication = "phone-call";
 });
 
@@ -748,7 +746,7 @@ $(document).on('click', '.suggested-contact', function(e){
     SelectedSuggestion = this;
 
     QB.Phone.Animations.TopSlideDown(".phone-add-contact", 200, 0);
-    
+
     $(".phone-add-contact-name").val(SuggestionData.name[0] + " " + SuggestionData.name[1]);
     $(".phone-add-contact-number").val(SuggestionData.number);
     $(".phone-add-contact-iban").val(SuggestionData.bank);

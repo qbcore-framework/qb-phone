@@ -81,7 +81,7 @@ QB.Phone.Functions.SetupMails = function(Mails) {
                 var date = new Date(mail.date);
                 var DateString = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
                 var element = '<div class="mail" id="mail-'+mail.mailid+'"><span class="mail-sender" style="font-weight: bold;">'+mail.sender+'</span> <div class="mail-text"><p>'+mail.message+'</p></div> <div class="mail-time">'+DateString+'</div></div>';
-    
+
                 $(".mail-list").append(element);
                 $("#mail-"+mail.mailid).data('MailData', mail);
             });
@@ -104,7 +104,7 @@ QB.Phone.Functions.SetupMail = function(MailData) {
     var AcceptElem = '<div class="opened-mail-footer-item" id="accept-mail"><i class="fas fa-check-circle mail-icon"></i></div>';
     var RemoveElem = '<div class="opened-mail-footer-item" id="remove-mail"><i class="fas fa-trash-alt mail-icon"></i></div>';
 
-    $(".opened-mail-footer").html("");    
+    $(".opened-mail-footer").html("");
 
     if (MailData.button !== undefined && MailData.button !== null) {
         $(".opened-mail-footer").append(AcceptElem);
@@ -120,13 +120,27 @@ QB.Phone.Functions.SetupMail = function(MailData) {
 
 $(document).on('click', '.test-slet', function(e){
     e.preventDefault();
-
     $(".advert-home").animate({
         left: 30+"vh"
     });
     $(".new-advert").animate({
         left: 0+"vh"
     });
+});
+
+$(document).on('click','.advimage', function (){
+    let source = $(this).attr('src')
+    QB.Screen.popUp(source);
+});
+
+$(document).on('click','#new-advert-photo',function(e){
+    e.preventDefault();
+    $.post('https://qb-phone/TakePhoto',function(url){
+        if(url){
+            $('#advert-new-url').val(url)
+        }
+    })
+    QB.Phone.Functions.Close();
 });
 
 $(document).on('click', '#new-advert-back', function(e){
@@ -142,8 +156,8 @@ $(document).on('click', '#new-advert-back', function(e){
 
 $(document).on('click', '#new-advert-submit', function(e){
     e.preventDefault();
-
     var Advert = $(".new-advert-textarea").val();
+    let picture = $('#advert-new-url').val();
 
     if (Advert !== "") {
         $(".advert-home").animate({
@@ -152,9 +166,19 @@ $(document).on('click', '#new-advert-submit', function(e){
         $(".new-advert").animate({
             left: -30+"vh"
         });
-        $.post('https://qb-phone/PostAdvert', JSON.stringify({
-            message: Advert,
-        }));
+        if (!picture){
+            $.post('https://qb-phone/PostAdvert', JSON.stringify({
+                message: Advert,
+                url: null
+            }));
+        }else {
+            $.post('https://qb-phone/PostAdvert', JSON.stringify({
+                message: Advert,
+                url: picture
+            }));
+        }
+        $('#advert-new-url').val("")
+        $(".new-advert-textarea").val("");
     } else {
         QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "You can\'t post an empty ad!", "#ff8f1a", 2000);
     }
@@ -166,13 +190,17 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
         $(".advert-list").html("");
         $.each(Adverts, function(i, advert){
             var clean = DOMPurify.sanitize(advert.message , {
-                ALLOWED_TAGS: [], 
+                ALLOWED_TAGS: [],
                 ALLOWED_ATTR: []
             });
 
             if (clean == '') { clean = 'I\'m a silly goose :/' }
 
-            var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></div>`;
+            if (advert.url) {
+                var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> </span></div>`;
+            } else {
+                var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></div>`;
+            }
             $(".advert-list").append(element);
         });
     } else {

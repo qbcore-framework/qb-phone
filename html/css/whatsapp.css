@@ -428,3 +428,23 @@
 .clearfix {
     display: block;
 }
+
+#popup {
+    display: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
+}
+
+.popupclass {
+    margin:0px auto;
+    margin-top:120px;
+    position:relative;
+    padding:10px;
+    width:820px;
+    min-height:250px;
+    border-radius:4px;
+    box-shadow: 0 2px 5px #666666;
+}
