@@ -398,7 +398,9 @@
     top: 0;
 }
 .whatsapp-openedchat-date {
-    position: relative;
+    position: sticky;
+    top: .2vh;
+    z-index: 1;
     margin: 0 auto;
     margin-top: .2vh;
     text-align: center;
