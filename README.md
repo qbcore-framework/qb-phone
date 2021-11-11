@@ -24,9 +24,11 @@ Advanced Phone for QB-Core Framework :iphone:
 - [qb-policejob](https://github.com/qbcore-framework/qb-policejob) - MEOS, handcuff check etc. 
 - [qb-crypto](https://github.com/qbcore-framework/qb-crypto) - Crypto currency trading 
 - [qb-lapraces](https://github.com/qbcore-framework/qb-lapraces) - Creating routes and racing 
-- [qb-houses](https://github.com/qbcore-framework/qb-houses) - House and key management 
-- [qb-garages](https://github.com/qbcore-framework/qb-garages) - 
-- [qb-banking](https://github.com/qbcore-framework/qb-banking) - For banking
+- [qb-houses](https://github.com/qbcore-framework/qb-houses) - House and Key Management App
+- [qb-garages](https://github.com/qbcore-framework/qb-garages) - For Garage App
+- [qb-banking](https://github.com/qbcore-framework/qb-banking) - For Banking App
+- [screenshot-basic](https://github.com/citizenfx/screenshot-basic) - For Taking Photos
+- A Webhook for hosting photos (Discord or Imgur can provide this)
 
 
 ## Screenshots
@@ -61,6 +63,7 @@ Advanced Phone for QB-Core Framework :iphone:
 - Add the following code to your server.cfg/resouces.cfg
 ```
 ensure qb-core
+ensure screenshot-basic
 ensure qb-phone
 ensure qb-policejob
 ensure qb-crypto
@@ -91,4 +94,18 @@ Config.PhoneApplications = {
         Alerts = 0, -- Alert count
     },
 }
+```
+## Setup Webhook in `server/main.lua` for photos
+Set the following variable to your webhook (For example, a Discord channel or Imgur webhook)
+### To use Discord:
+- Right click on a channel dedicated for photos
+- Click Edit Channel
+- Click Integrations
+- Click View Webhooks
+- Click New Webhook
+- Confirm channel
+- Click Copy Webhook URL
+- Paste into `WebHook` in `server/main.lua`
+```
+local WebHook = ""
 ```
