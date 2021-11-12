@@ -1417,12 +1417,15 @@ RegisterNetEvent('qb-phone:client:TransferMoney', function(amount, newmoney)
     SendNUIMessage({ action = "UpdateBank", NewBalance = PhoneData.PlayerData.money.bank })
 end)
 
-RegisterNetEvent('qb-phone:client:UpdateTweetsDel', function(Tweets)
+RegisterNetEvent('qb-phone:client:UpdateTweetsDel', function(source,Tweets)
     PhoneData.Tweets = Tweets
+    local MyPlayerId = PhoneData.PlayerData.source
+    if source ~= MyPlayerId then
     SendNUIMessage({
         action = "UpdateTweets",
         Tweets = PhoneData.Tweets
     })
+end
 end)
 
 RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData)
