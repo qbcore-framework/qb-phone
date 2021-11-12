@@ -929,7 +929,7 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     Tweets = NewTweets
     local TwtData = TweetData
     local src = source
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, TwtData)
+    TriggerClientEvent('qb-phone:client:UpdateTweetsDel', -1, src, NewTweets)
 end)
 
 RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
