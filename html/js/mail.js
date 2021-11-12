@@ -201,12 +201,7 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
             } else {
                 var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></div>`;
             }
-
             $(".advert-list").append(element);
-
-            if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
-                $(".advert").append('<span><div class="adv-icon"><div id="adv-whataspp"><i class="fas fa-trash"style="font-size: 2.0rem;" id = "adv-delete"></i> </div></div>')
-            }
         });
     } else {
         $(".advert-list").html("");
@@ -214,12 +209,3 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
         $(".advert-list").append(element);
     }
 }
-
-$(document).on('click','#adv-delete',function(e){
-    e.preventDefault();
-    $.post('https://qb-phone/DeleteAdvert', function(){
-        setTimeout(function(){
-            QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "The ad was deleted", "#ff8f1a", 2000);
-        },400)
-    });
-})

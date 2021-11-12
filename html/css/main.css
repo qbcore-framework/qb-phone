@@ -128,7 +128,7 @@ body {
 }
 
 .phone-container {
-    height: 61.7vh;
+    height: 61.1vh;
     width: 29vh;
     bottom: 1vh;
     border-radius: 3vh;
@@ -173,12 +173,13 @@ body {
 
 #phone-signal {
     font-size: 1vh;
-    left: -0.3vh;
+    left: 3.5vh;
     position: relative;
 }
 
 #phone-battery {
     transform: rotate(-90deg);
+    left: 4.5vh;
     top: -0.1vh;
     position: relative;
 }
@@ -233,7 +234,8 @@ body {
 .phone-home-button {
     position: relative;
     height: 0.8vh;
-    width: 3.8vh;
+    width: 8.8vh;
+    left : -1.3vh;
     background-color: rgba(255, 255, 255, 0.75);
     border-radius: 0.8vh;
     top: 50%;

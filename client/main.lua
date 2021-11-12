@@ -612,10 +612,6 @@ RegisterNUICallback('PostAdvert', function(data)
     TriggerServerEvent('qb-phone:server:AddAdvert', data.message, data.url)
 end)
 
-RegisterNUICallback("DeleteAdvert", function()
-    TriggerServerEvent("qb-phone:server:DeleteAdvert")
-end)
-
 RegisterNUICallback('LoadAdverts', function()
     SendNUIMessage({
         action = "RefreshAdverts",
@@ -714,12 +710,11 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     local TweetMessage = {
         firstName = PhoneData.PlayerData.charinfo.firstname,
         lastName = PhoneData.PlayerData.charinfo.lastname,
-        citizenid = PhoneData.PlayerData.citizenid,
         message = escape_str(data.Message),
         time = data.Date,
         tweetId = GenerateTweetId(),
         picture = data.Picture,
-        url = data.url
+        url = data.url,
     }
 
     local TwitterMessage = data.Message
@@ -758,11 +753,6 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     cb(PhoneData.Tweets)
 
     TriggerServerEvent('qb-phone:server:UpdateTweets', PhoneData.Tweets, TweetMessage)
-end)
-
-RegisterNUICallback('DeleteTweet',function(data)
-    print(data.id)
-    TriggerServerEvent('qb-phone:server:DeleteTweet', data.id)
 end)
 
 RegisterNUICallback('GetMentionedTweets', function(data, cb)
@@ -1417,14 +1407,6 @@ RegisterNetEvent('qb-phone:client:TransferMoney', function(amount, newmoney)
     SendNUIMessage({ action = "UpdateBank", NewBalance = PhoneData.PlayerData.money.bank })
 end)
 
-RegisterNetEvent('qb-phone:client:UpdateTweetsDel', function(Tweets)
-    PhoneData.Tweets = Tweets
-    SendNUIMessage({
-        action = "UpdateTweets",
-        Tweets = PhoneData.Tweets
-    })
-end)
-
 RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
@@ -1518,26 +1500,18 @@ RegisterNetEvent('qb-phone:client:UpdateMails', function(NewMails)
     PhoneData.Mails = NewMails
 end)
 
-RegisterNetEvent('qb-phone:client:UpdateAdvertsDel', function(Adverts)
-    PhoneData.Adverts = Adverts
-    SendNUIMessage({
-        action = "RefreshAdverts",
-        Adverts = PhoneData.Adverts
-    })
-end)
-
 RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
     PhoneData.Adverts = Adverts
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Advertisement",
-            text = "A new ad has been posted by "..LastAd,
-            icon = "fas fa-ad",
-            color = "#ff8f1a",
-            timeout = 2500,
-        },
-    })
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Advertisement",
+                text = "A new ad has been posted by "..LastAd,
+                icon = "fas fa-ad",
+                color = "#ff8f1a",
+                timeout = 2500,
+            },
+        })
     SendNUIMessage({
         action = "RefreshAdverts",
         Adverts = PhoneData.Adverts
