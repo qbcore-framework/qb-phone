@@ -648,6 +648,11 @@ $(document).ready(function(){
                     QB.Phone.Functions.RefreshAdverts(event.data.Adverts);
                 }
                 break;
+            case "UpdateTweets":
+                if (QB.Phone.Data.currentApplication == "twitter") {
+                    QB.Phone.Notifications.LoadTweets(event.data.Tweets);
+                }
+                break;
             case "AddPoliceAlert":
                 AddPoliceAlert(event.data)
                 break;

@@ -130,9 +130,22 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
             }
+            // if (Tweet.citizenid === QB.Phone.Data.PlayerData.citizenid){
+            //     $(".tweet-message").append('<span><div class="twt-icon"><i class="fas fa-trash"style="position:absolute; right:2%; font-size: 1.5rem; z-index:4;" id ="twt-delete-click"></i></div>')
+            // }
         });
     }
 }
+
+$(document).on('click','#twt-delete-click',function(e){
+    e.preventDefault();
+    let source = $('.twitter-tweet').data('twtid')
+    let cid  = $('.twitter-tweet').data('twtcid')
+   $(this).parent().parent().parent().parent().remove()
+    if (cid == QB.Phone.Data.PlayerData.citizenid){
+        $.post('https://qb-phone/DeleteTweet', JSON.stringify({id: source}))
+    }
+})
 
 $(document).on('click', '.tweet-reply', function(e){
     e.preventDefault();
