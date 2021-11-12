@@ -7,7 +7,7 @@ local Hashtags = {}
 local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
-local WebHook = "https://discord.com/api/webhooks/866990620078112798/KCvLfky9V4o-OEKvI4y6i7c7sZdtUuRd3HFX3qEhRNQnjQli_IOo49dsdGCSvCO7x5-2"
+local WebHook = ""
 
 -- Functions
 
@@ -722,6 +722,13 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
     TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, "@" .. Player.PlayerData.charinfo.firstname .. "" .. Player.PlayerData.charinfo.lastname)
 end)
 
+RegisterNetEvent('qb-phone:server:DeleteAdvert', function()
+    local Player = QBCore.Functions.GetPlayer(source)
+    local citizenid = Player.PlayerData.citizenid
+    Adverts[citizenid] = nil
+    TriggerClientEvent('qb-phone:client:UpdateAdvertsDel', -1, Adverts)
+end)
+
 RegisterNetEvent('qb-phone:server:SetCallState', function(bool)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
@@ -907,6 +914,15 @@ RegisterNetEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
     local src = source
     local CitizenId = QBCore.Functions.GetPlayer(src).citizenid
     QBPhone.SetPhoneAlerts(CitizenId, app, alerts)
+end)
+
+RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
+    for k,v in pairs(Tweets) do
+        if Tweets[k].tweetId == tweetId then
+            Tweets[k] = nil
+        end
+    end
+    TriggerClientEvent('qb-phone:client:UpdateTweetsDel', -1, Tweets)
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)

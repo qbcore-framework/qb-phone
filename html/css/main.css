@@ -128,11 +128,11 @@ body {
 }
 
 .phone-container {
-    height: 61.1vh;
-    width: 29vh;
+    height: 61.2vh;
+    width: 26.2vh;
     bottom: 1vh;
     border-radius: 3vh;
-    right: 0.5vh;
+    right: 2.0vh;
     margin: 5vh;
     overflow: hidden;
     position: absolute;
@@ -159,8 +159,8 @@ body {
 
 #phone-time {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.3vh;
-    padding: 2.3vh 0 0 1.9vh;
+    font-size: 0.8vh;
+    padding: 1.8vh 0 0 1.0vh;
     float: left;
 }
 
@@ -173,14 +173,15 @@ body {
 
 #phone-signal {
     font-size: 1vh;
-    left: 3.5vh;
+    left: 7.0vh;
+    top: -0.8vh;
     position: relative;
 }
 
 #phone-battery {
     transform: rotate(-90deg);
-    left: 4.5vh;
-    top: -0.1vh;
+    left: 4.0vh;
+    top: -0.8vh;
     position: relative;
 }
 /* Phone Header END */
@@ -258,7 +259,7 @@ body {
     position: relative;
     height: 4.6vh;
     width: 4.6vh;
-    left: 1vh;
+    left: 0.0vh;
     float: left;
     margin-left: 1.75vh;
     margin-top: 1.5vh;
