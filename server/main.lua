@@ -591,6 +591,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             if v.garage ~= nil then
                 if Garages[v.garage] ~= nil then
                     VehicleGarage = Garages[v.garage]["label"]
+                elseif GangGarages[v.garage] ~= nil then
+                    VehicleGarage = GangGarages[v.garage]["label"]
+                elseif JobGarages[v.garage] ~= nil then
+                    VehicleGarage = JobGarages[v.garage]["label"]
                 end
             end
 
