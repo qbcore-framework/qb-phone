@@ -253,8 +253,8 @@ local function LoadPhone()
         end
 
         SendNUIMessage({ 
-            action = "LoadPhoneData", 
-            PhoneData = PhoneData, 
+            action = "LoadPhoneData",
+            PhoneData = PhoneData,
             PlayerData = PhoneData.PlayerData,
             PlayerJob = PhoneData.PlayerData.job,
             applications = Config.PhoneApplications,
