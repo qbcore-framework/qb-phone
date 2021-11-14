@@ -32,28 +32,28 @@ Advanced Phone for QB-Core Framework :iphone:
 
 
 ## Screenshots
-![Home](https://imgur.com/ceEIvEk.png)
-![Bank](https://imgur.com/tArcik2.png)
-![Whatsapp](https://imgur.com/C9aIinK.png)
-![Phone](https://imgur.com/ic2zySK.png)
-![Settings](https://imgur.com/jqC5Y8C.png)
-![MEOS](https://imgur.com/VP7gQBf.png)
-![Vehicles](https://imgur.com/NUTcfwr.png)
-![Email](https://imgur.com/zTD33N1.png)
-![Advertisements](https://imgur.com/QtQxJLz.png)
-![Houses](https://imgur.com/n6ocF7b.png)
-![App Store](https://imgur.com/mpBOgfN.png)
-![Lawyers](https://imgur.com/SzIRpsI.png)
-![Racing](https://imgur.com/cqj1JBP.png)
-![Crypto](https://imgur.com/Mvv6IZ4.png)
+![Home](https://i.imgur.com/mzD4sHN.png)
+![Bank](https://i.imgur.com/etxOFcX.png)
+![Whatsapp](https://i.imgur.com/sI3FmNU.png)
+![Phone](https://i.imgur.com/jQ6tEAS.png)
+![Settings](https://i.imgur.com/kZmNYLz.png)
+![MDT](https://i.imgur.com/eBRYDV8.png)
+![Vehicles](https://i.imgur.com/naoRsK0.png)
+![Email](https://i.imgur.com/hn2YJoY.png)
+![Advertisements](https://i.imgur.com/6yzw4Xg.png)
+![Houses](https://i.imgur.com/5kQdJrv.png)
+![Services](https://i.imgur.com/dJ4j63L.png)
+![Racing](https://i.imgur.com/FLZM1Nl.png)
+![Crypto](https://i.imgur.com/hNOFhlU.png)
+![Twitter](https://i.imgur.com/oZyZhrj.png)
 
 ## Features
 - Garages app to see your vehicle details
 - Mails to inform the player
 - Banking app to see balance and transfer money
 - Racing app to create races
-- App Store to download apps
-- MEOS app for polices to search
+- Twitter app to share your experience
+- MDT app for polices to search
 - Houses app for house details and management
 
 ## Installation
