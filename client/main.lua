@@ -252,7 +252,7 @@ local function LoadPhone()
             PhoneData.CryptoTransactions = pData.CryptoTransactions
         end
 
-        SendNUIMessage({ 
+        SendNUIMessage({
             action = "LoadPhoneData",
             PhoneData = PhoneData,
             PlayerData = PhoneData.PlayerData,
