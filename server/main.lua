@@ -695,6 +695,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
 	if WebHook ~= "" then
 		cb(WebHook)
 	else
+		print("Please enter a webhook.Server.lua")		
 		cb(nil)
 	end
 
