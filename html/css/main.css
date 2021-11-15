@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
+@media all and (max-height: 812px) {
+    :root { font-size: 13px; }
+}
+@media all and (max-height: 750px) {
+    :root { font-size: 12px; }
+}
+@media all and (max-height: 700px) {
+    :root { font-size: 11px; }
+}
+@media all and (max-height: 650px) {
+    :root { font-size: 10px; }
+}
+@media all and (max-height: 600px) {
+    :root { font-size: 9px; }
+}
+
 /* CSS Reset */
 body {
     margin: 0;
@@ -209,7 +225,7 @@ body {
     background-color: rgba(0, 0, 0, 0.45);
 }
 
-.phone-home-container:hover 
+.phone-home-container:hover
 .phone-home-button {
     background-color: rgba(255, 255, 255, 0.95);
 }
@@ -341,11 +357,11 @@ body {
 .call-notifications-shake {
     /* Start the shake animation and make the animation last for 0.5 seconds */
     animation: shake 0.5s;
-  
+
     /* When the animation is finished, start again */
     animation-iteration-count: infinite;
 }
-  
+
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
     10% { transform: translate(-1px, -2px) rotate(-1deg); }

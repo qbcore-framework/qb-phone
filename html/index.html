@@ -27,14 +27,18 @@
     <link rel="stylesheet" href="./css/trucker.css">
 
     <!-- CDN's -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- JQuery -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> <!-- Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script> <!-- Color CDN -->
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!-- JQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> <!-- Bootstrap -->
+    <script src="https://code.jquery.com/color/jquery.color-2.2.0.min.js" integrity="sha256-aSe2ZC5QeunlL/w/7PsVKmV+fa0eDbmybn/ptsKHR6I=" crossorigin="anonymous"></script> <!-- Color CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> <!-- Bootstrap -->
 </head>
     <body style="background-color: transparent !important";>
+        <div id="popup">
+            <div class="popupclass">
+                <div id="close"></div>
+            </div>
+        </div>
         <div class="container disableSelection">
             <img src="./img/samsung-s10.png" class="phone-frame">
             <div class="phone-container phone-background">
@@ -78,7 +82,7 @@
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="14"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="15"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="16"></div>
-                        
+
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="17"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="18"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="19"></div>
@@ -94,7 +98,7 @@
                 <div class="phone-application-container">
                     <div class="settings-app">
                         <div class="settings-app-header"><p>Settings</p></div>
-                        
+
                         <div class="settings-app-tab-appereance">
                             <div class="settings-app-tab-header"><p>Appearance</p></div>
                             <div class="settings-app-tab" data-settingstab="background">
@@ -187,6 +191,11 @@
                                     <div class="profilepicture-option-title">Personalized</div>
                                     <div class="profilepicture-option-description"> Your own personalized avatar from a URL.</div>
                                 </div>
+                                <div class="profilepicture-option" data-profilepicture="camera-profilepicture">
+                                    <div class="profilepicture-option-icon"><i class="fas fa fa-camera"></i></div>
+                                    <div class="profilepicture-option-title">Photo - Coming Soon</div>
+                                    <div class="profilepicture-option-description">Set your profile picture with a photo</div>
+                                </div>
                             </div>
 
                             <div class="profilepicture-buttons">
@@ -252,17 +261,6 @@
                             </div>
 
                             <div class="phone-contact-list">
-                                <!-- <div class="phone-contact" data-contactid="1">
-                                    <div class="phone-contact-firstletter">P</div>
-                                    <div class="phone-contact-name">Pieter Post</div>
-                                    <div class="phone-contact-actions"><i class="fas fa-sort-down"></i></div>
-
-                                    <div class="phone-contact-action-buttons">
-                                        <i class="fas fa-phone-volume"></i>
-                                        <i class="fas fa-comment"></i>
-                                        <i class="fas fa-user-edit"></i>
-                                    </div>
-                                </div>-->
                             </div>
                         </div>
 
@@ -271,7 +269,7 @@
 
                             <div class="phone-recent-calls">
                                 <!-- <div class="phone-recent-call"> <div class="phone-recent-call-image">P</div> <div class="phone-recent-call-name">Pieter Post</div> <div class="phone-recent-call-type"><i class="fas fa-phone-slash"></i></div> <div class="phone-recent-call-time">12:05</div> </div> -->
-                            </div>                            
+                            </div>
                         </div>
 
                         <div class="phone-suggestedcontacts">
@@ -281,11 +279,6 @@
                             </div>
 
                             <div class="suggested-contacts">
-                                <!-- <div class="suggested-contact"> <i class="fas fa-exclamation-circle"></i> <span class="suggested-name">Jay Nandes &middot; <span class="suggested-number">0612345678</span></span> </div> -->
-                                <!-- <div class="suggested-contact">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                    <span class="suggested-name">Jay Nandes &middot; <span class="suggested-number">0612345678</span></span>
-                                </div> -->
                             </div>
                         </div>
 
@@ -378,11 +371,6 @@
                         </div>
 
                         <div class="house-app-mykeys-container">
-                            <!-- <div class="mykeys-key"> <span class="mykeys-key-label">Test</span> <span class="mykeys-key-sub">Klik om GPS in te stellen</span> </div> -->
-                           <!-- <div class="mykeys-key">
-                                <span class="mykeys-key-label">Test</span>
-                                <span class="mykeys-key-sub">Klik om GPS in te stellen</span>
-                           </div> -->
                         </div>
 
                         <div class="myhouses-options-container">
@@ -409,11 +397,6 @@
 
                             <div class="myhouse-option-keys-container">
                                 <div class="keys-container">
-                                    <!-- <div class="house-key"> <span class="house-key-holder">Test Test</span> <div class="house-key-delete"><i class="fas fa-trash"></i></div> </div> -->
-                                    <!-- <div class="house-key">
-                                        <span class="house-key-holder">Test Test</span>
-                                        <div class="house-key-delete"><i class="fas fa-trash"></i></div>
-                                    </div> -->
                                 </div>
                                 <div class="myhouses-option" id="myhouse-option-keys-back">RETURN</div>
                             </div>
@@ -426,10 +409,6 @@
                         </div>
                         <div class="garage-homescreen">
                             <div class="garage-vehicles">
-                                <!-- <div class="garage-vehicle">
-                                    <span class="garage-vehicle-firstletter">B</span>
-                                    <span class="garage-vehicle-name">BMW M5</span>
-                                </div> -->
                             </div>
                         </div>
 
@@ -444,7 +423,7 @@
                                 <div class="vehicle-fuel"><span class="vehicle-detail">Fuel</span><span class="vehicle-answer">BMW M5</span></div>
                                 <div class="vehicle-engine"><span class="vehicle-detail">Engine</span><span class="vehicle-answer">BMW M5</span></div>
                                 <div class="vehicle-body"><span class="vehicle-detail">Bodywork</span><span class="vehicle-answer">BMW M5</span></div>
-    
+
                                 <div class="return-track">
                                     <div id="return-button">
                                         RETURN
@@ -452,11 +431,11 @@
                                     <div id="track-vehicle">
                                         TRACK
                                     </div>
-                                </div>                                  
+                                </div>
                             </div>
                         </div>
                     </div>
-					
+
                     <div class="trucker-app">
                         <div class="trucker-header">
                             <span class="trucker-header-name"><span style="font-size: 1vh; color: rgba(255, 255, 255, 0.6);">Welcome</span><br><span id="trucker-name">Jay Yay</span></span>
@@ -484,21 +463,6 @@
                         </div>
 
                         <div class="lawyers-list">
-                            <!-- <div class="lawyer-list">
-                                <div class="lawyer-list-firstletter">J</div>
-                                <div class="lawyer-list-fullname">Jay Nandes</div>
-                                <div class="lawyer-list-call"><i class="fas fa-phone"></i></div>
-                            </div>
-                            <div class="lawyer-list">
-                                <div class="lawyer-list-firstletter">J</div>
-                                <div class="lawyer-list-fullname">Jay Nandes</div>
-                                <div class="lawyer-list-call"><i class="fas fa-phone"></i></div>
-                            </div>
-                            <div class="lawyer-list">
-                                <div class="lawyer-list-firstletter">J</div>
-                                <div class="lawyer-list-fullname">Jay Nandes</div>
-                                <div class="lawyer-list-call"><i class="fas fa-phone"></i></div>
-                            </div> -->
                         </div>
                     </div>
 
@@ -622,24 +586,14 @@
                                 </div>
                                 <span class="crypto-walletid">Wallet ID: QB-12345678</span>
                             </div>
-                        
+
                             <div class="cryptotab-transactions">
                                 <div class="cryptotab-transactions-list">
-                                    <!-- <div class="cryptotab-transactions-block">
-                                        <i class="fas fa-exchange-alt"></i>
-                                        <span class="cryptotab-transactions-block-title" style="color: green !important;">Deposit</span>
-                                        <span class="cryptotab-transactions-block-happening">There is &#36;1000,- deposited</span>
-                                    </div> -->
                                 </div>
                             </div>
 
                             <div class="cryptotab-course">
                                 <div class="cryptotab-course-list">
-                                    <!-- <div class="cryptotab-course-block">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span class="cryptotab-course-block-title">Course change</span>
-                                        <span class="cryptotab-course-block-happening"><span style="font-size: 1.3vh;">$1000</span> naar <span style="font-size: 1.3vh;">$2000</span><span style="color: green;" class="crypto-percentage-change"><i style="color: green;" class="fas fa-arrow-right"></i> +(100%)</span></span>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -717,12 +671,6 @@
                             <div class="meos-alerts-page">
                                 <div class="meos-clear-alerts">CLEAR</div>
                                 <div class="meos-alerts">
-                                    <!-- <div class="meos-alert"> <span class="meos-alert-new" style="margin-bottom: 1vh;">NIEUW</span>
-                                        <p class="meos-alert-type">Melding: Test</p>
-                                        <p class="meos-alert-description">Melding: Test</p>
-                                        <hr>
-                                        <div class="meos-location-button">LOCATIE</div>
-                                    </div> -->
                                 </div>
                             </div>
 
@@ -738,14 +686,9 @@
                                 <span id="advert-header-text">Advertisements</span>
                                 <span id="advert-header-name"></span>
                             </div>
-    
                             <div class="advert-list">
-                                <!-- <div class="advert">
-                                    <span class="advert-sender">@JayNandes | 0612345678</span>
-                                    <p>Dit is een test advert Dit is een test advert Dit is een test advert Dit is een test advert Dit is een test advert</p>
-                                </div> -->
+
                             </div>
-    
                             <div class="test-slet">
                                 <i class="fas fa-plus test-icon"></i>
                             </div>
@@ -757,11 +700,14 @@
                             </div>
 
                             <textarea class="new-advert-textarea" spellcheck="false" required></textarea>
-
+                            <span><textarea id="advert-new-url" style="text-align:left; padding-left:15px;" placeholder="Picture URL" cols="30" rows="10" spellcheck="false"></textarea></span>
 
                             <div class="new-advert-footer">
                                 <div class="new-advert-footer-item" id="new-advert-submit">
                                     <i class="fas fa-check-circle new-advert-icon"></i>
+                                </div>
+                                <div class="new-advert-footer-item" id="new-advert-photo">
+                                    <i class="fas fa fa-camera new-advert-icon"></i>
                                 </div>
                                 <div class="new-advert-footer-item" id="new-advert-back">
                                     <i class="fas fa-arrow-circle-left new-advert-icon"></i>
@@ -777,13 +723,8 @@
                                 <span id="mail-header-mail">jay.nandes@qbcore.com</span>
                                 <span id="mail-header-lastsync">Last synchronization 18:31</span>
                             </div>
-    
+
                             <div class="mail-list">
-                                <!-- <div class="mail">
-                                    <span class="mail-sender">Instagram</span>
-                                    <div class="mail-text"><p>Dit is een test mail en wordt dus niet volledig weergeven want dat is het gene wat ik aan het testen ben</p></div>
-                                    <div class="mail-time">18:31</div>
-                                </div> -->
                             </div>
                         </div>
 
@@ -853,20 +794,6 @@
                             </div>
 
                             <div class="racing-races">
-                                <!-- <div class="racing-race">
-                                    <span class="race-name"><i class="fas fa-flag-checkered"></i> Prison</span>
-                                    <span class="race-track"><i class="fas fa-unlock"></i> Joinable</span>
-                                    <div class="race-infomation">
-                                        <div class="race-infomation-tab" id="race-information-laps">0 Laps</div>
-                                        <div class="race-infomation-tab" id="race-information-distance">0 m</div>
-                                        <div class="race-infomation-tab" id="race-information-player"><i class="fas fa-user"></i> 0</div>
-                                    </div>
-                                    <div class="race-buttons">
-                                        <div class="race-button" id="join-race" data-toggle="tooltip" data-placement="left" title="Join"><i class="fas fa-sign-in-alt"></i></div>
-                                        <div class="race-button" id="quit-race" data-toggle="tooltip" data-placement="right" title="Quit"><i class="fas fa-sign-out-alt"></i></div>
-                                    </div>
-                                </div> -->
-                                <!-- <div class="racing-race"> <span class="race-name"><i class="fas fa-flag-checkered"></i> Prison</span> <span class="race-track"><i class="fas fa-unlock"></i> Joinable</span> <div class="race-infomation"> <div class="race-infomation-tab" id="race-information-laps">0 Laps</div> <div class="race-infomation-tab" id="race-information-distance">0 m</div> <div class="race-infomation-tab" id="race-information-player"><i class="fas fa-user"></i> 0</div> </div> <div class="race-buttons"> <div class="race-button" id="join-race" data-toggle="tooltip" data-placement="left" title="Join"><i class="fas fa-sign-in-alt"></i></div> <div class="race-button" id="quit-race" data-toggle="tooltip" data-placement="right" title="Quit"><i class="fas fa-sign-out-alt"></i></div> </div> </div> -->
                             </div>
 
                             <div class="racing-buttons">
@@ -880,7 +807,7 @@
                                     <i class="fas fa-plus"></i> Create
                                 </div>
                             </div>
-                                
+
                         </div>
 
                         <div class="racing-setup">
@@ -939,11 +866,6 @@
 
                             <span id="racing-leaderboards-header">Last Tracks</span>
                             <div class="racing-leaderboards">
-                                <!-- <div class="racing-leaderboard-item">
-                                    <span class="racing-leaderboard-item-name"><i class="fas fa-flag-checkered"></i> Prison</span>
-                                    <span class="racing-leaderboard-item-info">Klik voor meer details</span>
-                                </div> -->
-                                <!-- <div class="racing-leaderboard-item"> <span class="racing-leaderboard-item-name"><i class="fas fa-flag-checkered"></i> Prison</span> <span class="racing-leaderboard-item-info">Klik voor meer details</span> </div> -->
                             </div>
 
                             <div class="racing-leaderboard-details">
@@ -966,38 +888,19 @@
                     <div class="twitter-app">
 
                         <div class="twitter-home-tab">
-                            <!-- <div class="twitter-tweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'">
-                                <div class="tweet-reply"><i class="fas fa-reply"></i></div>
-                                <div class="tweet-tweeter">'+Tweet.firstName+' '+Tweet.lastName+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>
-                                <div class="tweet-message">@JAY</div>
-                                <div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>
-                            </div> -->
                              <div class="twitter-no-tweets"><p>No Tweets have been posted yet.. :(</p></div>
                         </div>
 
                         <div class="twitter-mentions-tab">
-                            <!-- <div class="twitter-mentioned-tweet"> 
-                                <div class="tweet-tweeter">Test &nbsp;<span>@Test &middot; 2 m</span></div>
-                                <div class="tweet-message">Dit is test tweet yeey. :) ggggggggggggggggggggggggggg gggggggggggggggggg</div>
-                                <div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>
-                            </div> -->
                             <div class="twitter-no-tweets"><p>You haven't been mentioned yet.. :(</p></div>
                         </div>
 
                         <div class="twitter-hashtags-tab">
                             <div class="twitter-hashtag-tweets">
                                 <div class="twitter-tweet">
-                                    <!-- <div class="tweet-tweeter">Test &nbsp;<span>@Test &middot; 2 m</span></div>
-                                    <div class="tweet-message">Dit is test tweet yeey. :) ggggggggggggggggggggggggggg gggggggggggggggggg</div>
-                                    <div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div> -->
                                 </div>
                             </div>
                             <div class="twitter-hashtags">
-                                <!-- <div class="twitter-hashtag">
-                                    <div class="twitter-hashtag-status">Niet trending in Qbus</div>
-                                    <div class="twitter-hashtag-tag">#Test</div>
-                                    <div class="twitter-hashtag-messages">5 Tweets</div>
-                                </div> -->
                                 <div class="twitter-no-tweets"><p>There are no hashtags yet #SAD.. :(</p></div>
                             </div>
                         </div>
@@ -1010,13 +913,14 @@
                             <div class="twitter-new-tweet-header"><p>New Tweet</p></div>
 
                             <textarea id="tweet-new-message" placeholder="Twitter message" cols="30" rows="10" spellcheck="false" required></textarea>
-                        
+                            <span><textarea id="tweet-new-url" style="text-align:left; padding-left:15px;" placeholder="Picture URL" cols="30" rows="10" spellcheck="false"></textarea></span>
                             <div class="twitter-new-tweet-buttons">
                                 <div class="twitter-new-tweet-button" id="send-tweet"><p>Send</p></div>
+                                <div class="twitter-new-tweet-button" id="take-pic"><p>Take Pic</p></div>
                                 <div class="twitter-new-tweet-button" id="cancel-tweet"><p>Cancel</p></div>
                             </div>
                         </div>
-                        
+
                         <div class="twitter-header">
                             <div id="twitter-home" data-twittertab="twitter-home" class="twitter-header-tab selected-twitter-header-tab"><i class="fas fa-home"></i></div>
                             <div id="twitter-mentions" data-twittertab="twitter-mentions" class="twitter-header-tab"><i class="fas fa-at"></i></div>
@@ -1057,7 +961,7 @@
 
                                 <i class="bank-transfer-amount-icon fas fa-dollar-sign"></i>
                                 <input type="number" min="0" oninput="this.value = Math.abs(this.value)" id="bank-transfer-amount" class="bank-transfer-input" required spellcheck="false">
-                            
+
                                 <div class="bank-app-transfer-buttons">
                                     <div class="bank-app-transfer-button" id="accept-transfer">Transfer</div>
                                     <div class="bank-app-transfer-button" id="cancel-transfer">Cancel</div>
@@ -1093,12 +997,6 @@
                             </div>
                         </div>
                         <div class="whatsapp-chats">
-                            <!-- <div class="whatsapp-chat">
-                                <div class="whatsapp-chat-picture"></div>
-                                <div class="whatsapp-chat-name"><p>Testt</p></div>
-                                <div class="whatsapp-chat-lastmessage"><p>This is a hardcoded test message! 1111111111111111111111111111111111111</p></div>
-                                <div class="whatsapp-chat-lastmessagetime"><p>07:53</p></div>
-                            </div> -->
                         </div>
                         <div class="whatsapp-openedchat">
                             <div class="whatsapp-header-openedchat">
@@ -1115,13 +1013,13 @@
                             <div class="whatsapp-openedchat-input">
                                 <div class="whatsapp-extra-buttons">
                                     <div class="whatsapp-extra-button" id="send-location"><i class="fas fa-map-marker-alt"></i></div>
-                                    <!-- <div class="whatsapp-extra-button" id="send-image"><i class="fas fa-map-marker-alt"></i></div> -->
-                                    <!-- <div class="whatsapp-extra-button" id="send-location"><i class="fas fa-money-bill"></i></div> -->
+                                    <div class="whatsapp-extra-button" id="send-image"><i class="fas fa-camera"></i></div>
+                                    <!-- <div class="whatsapp-extra-button" id="send-money"><i class="fas fa-money-bill"></i></div> -->
                                 </div>
                                 <input type="text" id="whatsapp-openedchat-message" placeholder="Message" spellcheck="false">
-                                <i class="fas fa-paper-plane" id="whatsapp-openedchat-send"></i> 
+                                <i class="fas fa-paper-plane" id="whatsapp-openedchat-send"></i>
                                 <i class="fas fa-ellipsis-v" id="whatsapp-openedchat-message-extras"></i>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1152,16 +1050,7 @@
             <div class="call-notifications-title"><p>Incoming Call</p></div>
             <div class="call-notifications-content"><p>You have an incoming call from Test</p></div>
         </div>
- 
-        <!-- <div class="emergency-button">
-            <div class="emergency-button-header">
-                <img src="./img/politie-2.png" class="police-logo-2">
-            </div>
-            <div class="emergency-button-footer">
-                <img src="./img/politie-3.png" class="police-logo-3">
-            </div>
-        </div> -->
-        
+
         <!-- JavaScript File's -->
         <script src="./js/config.js"></script>
         <script src="./js/app.js"></script>
