@@ -1328,9 +1328,9 @@ RegisterNUICallback("TakePhoto", function(data,cb)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
     takePhoto = true
-    Citizen.Wait(0)
+    Wait(0)
       while takePhoto do
-      Citizen.Wait(0)
+      Wait(0)
       if IsControlJustPressed(1, 27) then -- Toogle Mode
         frontCam = not frontCam
         CellFrontCamActivate(frontCam)
@@ -1362,7 +1362,7 @@ RegisterNUICallback("TakePhoto", function(data,cb)
           HideHudComponentThisFrame(19)
           HideHudAndRadarThisFrame()
     end
-    Citizen.Wait(1000)
+    Wait(1000)
     OpenPhone()
 end)
 
