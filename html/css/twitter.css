@@ -326,14 +326,8 @@
 }
 
 .mentioned-tag {
-    border-bottom: .1vh solid rgba(27, 149, 224, 0);
+    color: black;
     padding-bottom: .3vh;
-    transition: .2s;
-}
-
-.mentioned-tag:hover {
-    color: rgb(19, 103, 155);
-    border-bottom: .1vh solid rgb(27, 149, 224);
     transition: .2s;
 }
 

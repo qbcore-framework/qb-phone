@@ -215,7 +215,7 @@ QB.Phone.Functions.FormatTwitterMessage = function(TwitterMessage) {
     for(i = 1; i < res.length; i++) {
         var MentionTag = res[i].split(" ")[0];
         if (MentionTag !== null && MentionTag !== undefined && MentionTag !== "") {
-            TwtMessage = TwtMessage.replace("@"+MentionTag, "<span class='mentioned-tag' data-mentiontag='@"+MentionTag+"' style='color: rgb(27, 149, 224);'>@"+MentionTag+"</span>");
+            TwtMessage = TwtMessage.replace("@"+MentionTag, "<span class='mentioned-tag' data-mentiontag='@"+MentionTag+"''>@"+MentionTag+"</span>");
         }
     }
 
