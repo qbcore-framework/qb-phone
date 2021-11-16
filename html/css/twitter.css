@@ -344,6 +344,7 @@
     top: 0px;
     border-radius: 7px;
     left: 15px;
+    margin-bottom: 10px;
     background-color: rgb(27, 149, 224);;
     transition: all 0.2s ease 0s;
 }
