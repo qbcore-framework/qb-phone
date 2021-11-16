@@ -761,7 +761,6 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
 end)
 
 RegisterNUICallback('DeleteTweet',function(data)
-    print(data.id)
     TriggerServerEvent('qb-phone:server:DeleteTweet', data.id)
 end)
 
@@ -1417,19 +1416,25 @@ RegisterNetEvent('qb-phone:client:TransferMoney', function(amount, newmoney)
     SendNUIMessage({ action = "UpdateBank", NewBalance = PhoneData.PlayerData.money.bank })
 end)
 
-RegisterNetEvent('qb-phone:client:UpdateTweetsDel', function(Tweets)
-    PhoneData.Tweets = Tweets
-    SendNUIMessage({
-        action = "UpdateTweets",
-        Tweets = PhoneData.Tweets
-    })
-end)
+-- RegisterNetEvent('qb-phone:client:UpdateTweetsDel', function(source, Tweets)
+--     PhoneData.Tweets = Tweets
+--     print(source)
+--     print(PhoneData.PlayerData.source)
+--     --local MyPlayerId = PhoneData.PlayerData.source
+--     --GetPlayerServerId(PlayerPedId())
+--     if source ~= MyPlayerId then
+--         SendNUIMessage({
+--             action = "UpdateTweets",
+--             Tweets = PhoneData.Tweets
+--         })
+--     end
+-- end)
 
-RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData)
+RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData, delete)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
-
-    if src ~= MyPlayerId then
+    if not delete then -- New Tweet
+        if src ~= MyPlayerId then
             SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
@@ -1439,16 +1444,38 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
                     color = "#1DA1F2",
                 },
             })
-    else
+            SendNUIMessage({
+                action = "UpdateTweets",
+                Tweets = PhoneData.Tweets
+            })
+        else
+            SendNUIMessage({
+                action = "PhoneNotification",
+                PhoneNotify = {
+                    title = "Twitter",
+                    text = "The Tweet has been posted!",
+                    icon = "fab fa-twitter",
+                    color = "#1DA1F2",
+                    timeout = 1000,
+                },
+            })
+        end
+    else -- Deleting a tweet
+        if src == MyPlayerId then
+            SendNUIMessage({
+                action = "PhoneNotification",
+                PhoneNotify = {
+                    title = "Twitter",
+                    text = "The Tweet has been deleted!",
+                    icon = "fab fa-twitter",
+                    color = "#1DA1F2",
+                    timeout = 1000,
+                },
+            })
+        end
         SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "Twitter",
-                text = "The Tweet has been posted!",
-                icon = "fab fa-twitter",
-                color = "#1DA1F2",
-                timeout = 1000,
-            },
+            action = "UpdateTweets",
+            Tweets = PhoneData.Tweets
         })
     end
 end)

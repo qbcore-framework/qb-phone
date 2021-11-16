@@ -205,7 +205,7 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
             $(".advert-list").append(element);
 
             if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
-                $(".advert").append('<span><div class="adv-icon"><div id="adv-whataspp"><i class="fas fa-trash"style="font-size: 2.0rem;" id = "adv-delete"></i> </div></div>')
+                $(".advert").append('<i class="fas fa-trash"style="font-size: 1rem; right:0;" id="adv-delete"></i>')
             }
         });
     } else {

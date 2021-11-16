@@ -4,17 +4,15 @@
     display: none;
     height: 100%;
     width: 100%;
-    background: rgb(243, 243, 243);
     overflow: hidden;
+    background: rgb(36, 36, 36);
 }
 
 .lawyers-header {
     position: absolute;
     width: 100%;
     height: 12vh;
-    background-color: #26d4ce;
     top: 0;
-    border-bottom: .3vh solid #26d4ce;
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
@@ -23,30 +21,27 @@
 .lawyers-header > p {
     line-height: 12vh;
     text-indent: 2vh;
+    margin: 0 0 0 9vh;
 }
 
 .lawyers-header > span {
     position: absolute;
-    top: 9vh;
-    left: 2vh;
+    top: 8vh;
+    left: 9vh;
     font-size: 1.2vh;
     height: 2vh;
-    color: rgba(255, 255, 255, 0.842);
+    color: white;
 }
 
 .lawyers-list {
     position: absolute;
-    background-color: #00000033;
     width: 90%;
     height: 73%;
-
     margin: 0 auto;
     left: 0;
     right: 0;
     bottom: 3%;
-
     border-radius: .5vh;
-
     overflow-y: scroll;
 }
 
@@ -58,10 +53,10 @@
     position: relative;
     width: 95%;
     height: 6vh;
-    background-color: rgba(31, 31, 31, 0.89);
     margin: 2.5%;
-
-    border-radius: .5vh;
+    background: rgba(23, 23, 23, 90%);
+    border-radius: 0.15rem;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
 }
 
 .lawyer-list-firstletter {
@@ -77,8 +72,7 @@
     border-radius: 50%;
     font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
-
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 .lawyer-list-fullname {
@@ -88,14 +82,11 @@
     left: 5.5vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
-
     max-width: 14vh;
-
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
-
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 .no-lawyers {
@@ -104,15 +95,12 @@
     transform: translateY(-50%);
     font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
-
     margin: 0 auto;
     left: 0;
     right: 0;
     text-align: center;
-
     max-width: 14vh;
-
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 .lawyer-list-call {
@@ -120,19 +108,15 @@
     position: absolute;
     top: 25%;
     transform: translateY(-50%);
-
     right: 2vh;
     font-size: 2vh;
     transform: rotate(90deg);
-
     transition: .08s ease-in-out;
 }
 
 .lawyer-list-call:hover {
     color: rgb(49, 214, 60);
     opacity: .8;
-
     transform: rotate(0deg);
-
     cursor: pointer;
 }

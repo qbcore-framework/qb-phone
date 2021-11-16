@@ -917,19 +917,20 @@ RegisterNetEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
-    for k,v in pairs(Tweets) do
-        if Tweets[k].tweetId == tweetId then
-            Tweets[k] = nil
+    local src = source
+    for i = 1, #Tweets do
+        if Tweets[i].tweetId == tweetId then
+            Tweets[i] = nil
         end
     end
-    TriggerClientEvent('qb-phone:client:UpdateTweetsDel', -1, Tweets)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, {}, true)
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
+    local src = source
     Tweets = NewTweets
     local TwtData = TweetData
-    local src = source
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, TwtData)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TwtData, false)
 end)
 
 RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)

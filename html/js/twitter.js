@@ -140,11 +140,8 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
 $(document).on('click','#twt-delete-click',function(e){
     e.preventDefault();
     let source = $('.twitter-tweet').data('twtid')
-    let cid  = $('.twitter-tweet').data('twtcid')
-   $(this).parent().parent().parent().parent().remove()
-    if (cid == QB.Phone.Data.PlayerData.citizenid){
-        $.post('https://qb-phone/DeleteTweet', JSON.stringify({id: source}))
-    }
+    $(this).parent().parent().parent().parent().remove()
+    $.post('https://qb-phone/DeleteTweet', JSON.stringify({id: source}))
 })
 
 $(document).on('click', '.tweet-reply', function(e){

@@ -28,9 +28,11 @@
 
     <!-- CDN's -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> <!-- Bootstrap -->
     <script src="https://code.jquery.com/color/jquery.color-2.2.0.min.js" integrity="sha256-aSe2ZC5QeunlL/w/7PsVKmV+fa0eDbmybn/ptsKHR6I=" crossorigin="anonymous"></script> <!-- Color CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> <!-- Bootstrap -->
 </head>
     <body style="background-color: transparent !important";>
@@ -44,6 +46,7 @@
             <div class="phone-container phone-background">
                 <!-- Phone Header -->
                 <div class="phone-header">
+                    <div id="phone-server">QBCore</div>
                     <div id="phone-time">08:05</div>
                     <div id="phone-icons">
                         <i class="fas fa-signal" id="phone-signal" data-toggle="tooltip" data-placement="left" title="QBCore 5G"></i>
@@ -97,10 +100,10 @@
                 <!-- Container for all application's -->
                 <div class="phone-application-container">
                     <div class="settings-app">
-                        <div class="settings-app-header"><p>Settings</p></div>
+                        <div class="settings-app-header"><i class="fas fa-cogs"></i></div>
 
                         <div class="settings-app-tab-appereance">
-                            <div class="settings-app-tab-header"><p>Appearance</p></div>
+                            <!-- <div class="settings-app-tab-header"><p>Appearance</p></div> -->
                             <div class="settings-app-tab" data-settingstab="background">
                                 <div class="settings-tab-icon"><i class="fas fa-palette" style="color: #9b59b6;"></i></div>
                                 <div class="settings-tab-title"><p>Background</p></div>
@@ -115,7 +118,7 @@
 
 
                         <div class="settings-app-tab-information">
-                            <div class="settings-app-tab-header"><p>Infomation</p></div>
+                            <!-- <div class="settings-app-tab-header"><p>Infomation</p></div> -->
                             <div class="settings-app-tab secondTab" data-settingstab="myPhone">
                                 <div class="settings-tab-icon"><i class="fas fa-phone-alt" style="color: #e67e22;"></i></div>
                                 <div class="settings-tab-title"><p>My phone number</p></div>
@@ -146,13 +149,13 @@
                                 <div class="background-option" data-background="default-qbcore">
                                     <div class="background-option-icon"> <i class="fas fa-paint-brush"></i> </div>
                                     <div class="background-option-title"> Default </div>
-                                    <div class="background-option-description"> This is the default background.</div>
+                                    <div class="background-option-description">Default background</div>
                                     <div class="background-option-current"><i class="fas fa-check-circle"></i></div>
                                 </div>
                                 <div class="background-option" data-background="custom-background">
                                     <div class="background-option-icon"><i class="fas fa-paint-brush"></i></div>
-                                    <div class="background-option-title">Personalized</div>
-                                    <div class="background-option-description"> Your own personalized background from a URL.</div>
+                                    <div class="background-option-title">Custom</div>
+                                    <div class="background-option-description">Personalize your background</div>
                                 </div>
                             </div>
 
@@ -183,13 +186,13 @@
                                 <div class="profilepicture-option" data-profilepicture="default">
                                     <div class="profilepicture-option-icon"> <i class="fas fa-paint-brush"></i> </div>
                                     <div class="profilepicture-option-title"> Default </div>
-                                    <div class="profilepicture-option-description"> Default avatar.</div>
+                                    <div class="profilepicture-option-description">Default avatar</div>
                                     <div class="profilepicture-option-current"><i class="fas fa-check-circle"></i></div>
                                 </div>
                                 <div class="profilepicture-option" data-profilepicture="custom-profilepicture">
                                     <div class="profilepicture-option-icon"><i class="fas fa-paint-brush"></i></div>
-                                    <div class="profilepicture-option-title">Personalized</div>
-                                    <div class="profilepicture-option-description"> Your own personalized avatar from a URL.</div>
+                                    <div class="profilepicture-option-title">Custom</div>
+                                    <div class="profilepicture-option-description">Personalize your avatar</div>
                                 </div>
                                 <div class="profilepicture-option" data-profilepicture="camera-profilepicture">
                                     <div class="profilepicture-option-icon"><i class="fas fa fa-camera"></i></div>
@@ -249,7 +252,7 @@
 
                     <div class="phone-app">
                         <div class="phone-app-header">
-                            <p>Phone</p>
+                            <p>Contacts</p>
                             <span id="total-contacts">0 contacts</span>
                         </div>
 
@@ -265,7 +268,7 @@
                         </div>
 
                         <div class="phone-recent">
-                            <div class="phone-recent-header"><p>Phone</p></div>
+                            <div class="phone-recent-header"><p>Recent Call History</p></div>
 
                             <div class="phone-recent-calls">
                                 <!-- <div class="phone-recent-call"> <div class="phone-recent-call-image">P</div> <div class="phone-recent-call-name">Pieter Post</div> <div class="phone-recent-call-type"><i class="fas fa-phone-slash"></i></div> <div class="phone-recent-call-time">12:05</div> </div> -->
@@ -283,7 +286,6 @@
                         </div>
 
                         <div class="phone-keypad noselect">
-                            <div class="phone-keypad-header"><p>Phone</p></div>
                             <div id="phone-keypad-input"></div>
 
                             <div class="phone-keypad-keys">
@@ -342,16 +344,16 @@
 
                         <div class="phone-app-footer">
                             <div class="phone-app-footer-button" data-phonefootertab="suggestedcontacts">
-                                <p>Suggested</p>
+                                <i class="fas fa-user-plus"></i>
                             </div>
                             <div class="phone-app-footer-button" data-phonefootertab="keypad">
-                                <p>Keypad</p>
+                                <i class="fas fa-list-ol"></i>
                             </div>
                             <div class="phone-app-footer-button" data-phonefootertab="recent">
-                                <p>Recent</p>
+                                <i class="fas fa-clock"></i>
                             </div>
                             <div class="phone-app-footer-button phone-selected-footer-tab" data-phonefootertab="contacts">
-                                <p>Contacts</p>
+                                <i class="fas fa-address-book"></i>
                             </div>
                         </div>
                     </div>
@@ -477,7 +479,7 @@
                                     <p>0.2555</p>
                                 </div>
                                 <div class="crypto-header-value crypto-course">
-                                    <span>Course</span>
+                                    <span>Value</span>
                                     <p>$9000</p>
                                 </div>
                                 <div class="crypto-header-value crypto-volume">
@@ -494,7 +496,7 @@
                                     Transactions
                                 </div>
                                 <div class="crypto-header-footer-item" data-cryptotab="course">
-                                    Course
+                                    Value
                                 </div>
                             </div>
                         </div>
@@ -569,17 +571,17 @@
                             <div class="cryptotab-general">
                                 <div class="cryptotab-general-actions">
                                     <div class="cryptotab-general-action" data-action="buy-crypto">
-                                        <i class="fas fa-money-bill-wave"></i>
+                                        <i class="fas fa-shopping-basket" style="color:green"></i>
                                         <span class="cryptotab-general-action-title">BUY</span>
                                         <span class="cryptotab-general-action-description">You can buy crypto here.</span>
                                     </div>
                                     <div class="cryptotab-general-action" data-action="sell-crypto">
-                                        <i class="fas fa-money-bill-wave"></i>
+                                        <i class="fas fa-hand-holding-usd" style="color:red"></i>
                                         <span class="cryptotab-general-action-title">SELL</span>
                                         <span class="cryptotab-general-action-description">You can sell crypto here.</span>
                                     </div>
                                     <div class="cryptotab-general-action" data-action="transfer-crypto">
-                                        <i class="fas fa-money-bill-wave"></i>
+                                        <i class="fas fa-share" style="color:orange"></i>
                                         <span class="cryptotab-general-action-title">TRANSFER</span>
                                         <span class="cryptotab-general-action-description">You can transfer crypto here.</span>
                                     </div>
@@ -888,11 +890,11 @@
                     <div class="twitter-app">
 
                         <div class="twitter-home-tab">
-                             <div class="twitter-no-tweets"><p>No Tweets have been posted yet.. :(</p></div>
+                             <div class="twitter-no-tweets"><p>No tweets</p></div>
                         </div>
 
                         <div class="twitter-mentions-tab">
-                            <div class="twitter-no-tweets"><p>You haven't been mentioned yet.. :(</p></div>
+                            <div class="twitter-no-tweets"><p>No mentions</p></div>
                         </div>
 
                         <div class="twitter-hashtags-tab">
@@ -901,7 +903,7 @@
                                 </div>
                             </div>
                             <div class="twitter-hashtags">
-                                <div class="twitter-no-tweets"><p>There are no hashtags yet #SAD.. :(</p></div>
+                                <div class="twitter-no-tweets"><p>No hashtags</p></div>
                             </div>
                         </div>
 
@@ -1008,7 +1010,6 @@
                                 </div>
                             </div>
                             <div class="whatsapp-openedchat-messages">
-
                             </div>
                             <div class="whatsapp-openedchat-input">
                                 <div class="whatsapp-extra-buttons">
@@ -1068,5 +1069,7 @@
         <script src="./js/lawyers.js"></script>
         <script src="./js/qstore.js"></script>
         <script src="./js/trucker.js"></script>
+        <script type="text/javascript">$('#whatsapp-openedchat-message').emojioneArea({inline: true, searchPosition: "bottom", shortnames: true})</script>
+        <!-- <script type="text/javascript">$('#tweet-new-message').emojioneArea({pickerPostion: 'bottom' ,inline: true, shortnames: true})</script> -->
     </body>
 </html>

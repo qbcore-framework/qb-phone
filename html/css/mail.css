@@ -4,7 +4,7 @@
     display: none;
     height: 100%;
     width: 100%;
-    background: #ffffff;
+    background: rgb(36, 36, 36);
     overflow: hidden;
 }
 
@@ -17,25 +17,25 @@
     display: block;
     height: 14vh;
     width: 100%;
-    background: #f2f2f2;
+    background: rgb(36, 36, 36);
 }
 
 #mail-header-text {
     position: absolute;
     top: 5vh;
-    left: 4.5vh;
+    left: 12vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
-    color: black;
+    color: white;
 }
 
 #mail-header-mail {
     position: absolute;
     top: 7vh;
-    left: 4.5vh;
+    left: 6vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
-    color: gray;
+    color: white;
 }
 
 #mail-header-lastsync {
@@ -44,18 +44,15 @@
     right: 1.5vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1vh;
-    color: gray;
+    color: white;
 }
 
 .mail-list {
     position: absolute;
     width: 99%;
-    background-color: rgb(255, 255, 255);
     height: 44.7vh;
     top: 12vh;
     left: .1vh;
-    border-radius: 2.5vh 2.5vh 0 0;
-    box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0.233);
     overflow-x: hidden !important;
     overflow-y: scroll;
 }
@@ -66,14 +63,19 @@
 
 .mail {
     position: relative;
-    background-color: rgb(243, 243, 243);
     height: 7.5vh;
-    width: 100%;
+    width: 90%;
+    left: 15px;
+    margin-top: 2px;
+    margin-bottom: 10px;
     transition: .05s ease-in-out;
+    background: rgba(23, 23, 23, 90%);
+    border-radius: 0.15rem;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
 }
 
 .mail:hover {
-    background-color: rgb(233, 233, 233);
+    background-color: #dc143c;
     transition: .05s ease-in-out;
 }
 
@@ -81,18 +83,18 @@
     position: absolute;
     font-family: 'Poppins', sans-serif;
     font-size: 1.6vh;
-    color: rgb(80, 80, 80);
-    left: 4.5vh;
+    color: white;
+    left: 0.5vh;
     top: 1vh;
 }
 
 .mail-text {
     position: absolute;
     top: 3.3vh;
-    left: 4.5vh;
+    left: 0.5vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.15vh;
-    color: rgb(83, 83, 83);
+    color: white;
     max-width: 18vh;
     width: 16vh;
 }
@@ -111,8 +113,8 @@
     position: absolute;
     font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
-    color: rgb(80, 80, 80);
-    right: 2vh;
+    color: white;
+    right: 0.5vh;
     top: 1vh;
 }
 
@@ -120,7 +122,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background: #f2f2f2;
+    background: rgb(36, 36, 36);
     overflow: hidden;
     top: 0;
     left: -30vh;
@@ -139,18 +141,19 @@
 }
 
 .mail-back > i {
-    color: rgb(17, 17, 17);
+    color: white;
     font-size: 2vh;
     transition: .05s ease-in-out;
 }
 
 .mail-back:hover #mail-back {
-    color: rgb(255, 91, 91);
+    color: #dc143c;
     transition: .05s ease-in-out;
 }
 
 .mail-subject {
     position: absolute;
+    color: white;
     top: 8vh;
     left: 2vh;
     font-family: 'Poppins', sans-serif;
@@ -170,13 +173,13 @@
     left: 2vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
-    color: rgb(51, 51, 51);
+    color: white;
 }
 
 .mail-spacing {
     position: absolute;
     width: 93%;
-    background-color: rgba(54, 54, 54, 0.3);
+    background-color: white;
     height: .2vh;
     top: 15.5vh;
     margin: 0 auto;
@@ -192,7 +195,7 @@
     left: 2vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
-    color: rgb(24, 24, 24);
+    color: white;
     max-width: 23vh;
     overflow-y: scroll;
 }
@@ -214,8 +217,7 @@
     position: absolute;
     width: 100%;
     height: 4vh;
-    background-color: #f2f2f2;
-    bottom: 0;
+    bottom: 40px;
 }
 
 .opened-mail-footer-item {
@@ -224,14 +226,14 @@
     height: 4vh;
     text-align: center;
     line-height: 4.3vh;
-    color: black;
+    color: white;
     font-size: 1.8vh;
     transition: .1s ease-in-out;
     float: left;
 }
 
 .opened-mail-footer-item:hover {
-    background-color: rgb(214, 214, 214);
+    color: #dc143c;
 }
 
 .opened-mail-footer-item:hover .mail-icon {
@@ -264,7 +266,7 @@
     display: none;
     height: 100%;
     width: 100%;
-    background: #f2f2f2;
+    background: rgb(36, 36, 36);
     overflow: hidden;
 }
 
@@ -277,31 +279,28 @@
 
 #advert-header-text {
     position: absolute;
-    top: 5vh;
-    left: 2vh;
+    top: 6vh;
+    left: 8vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
-    color: black;
+    color: white;
 }
 
 #advert-header-name {
     position: absolute;
-    top: 8vh;
-    left: 2vh;
+    top: 9vh;
+    left: 6vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
-    color: rgba(26, 26, 26, 0.842);
+    color: white;
 }
 
 .advert-list {
     position: absolute;
     width: 99%;
-    background-color: rgb(255, 255, 255);
     height: 39.5vh;
     top: 12vh;
     left: .1vh;
-    border-radius: 1.5vh 1.5vh 1.5vh 1.5vh;
-    box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0.233);
     overflow-x: hidden !important;
     overflow-y: scroll;
 }
@@ -319,16 +318,16 @@
     margin: 0 auto;
     margin-top: 2vh;
     margin-bottom: 2vh;
-    border-radius: 1vh;
+    border-radius: 0.15rem;
     text-align: center;
 }
 
 .advert > p {
     margin-top: 1.5vh;
-    padding-bottom: 1vh;
     font-family: 'Poppins', sans-serif;
-    color: rgb(255, 255, 255);
     max-width: 25vh;
+    color: black;
+    font-weight: bolder;
 }
 
 .advert:hover {
@@ -339,7 +338,8 @@
 .advert-sender {
     position: relative;
     top: .8vh;
-    color: rgb(255, 255, 255);
+    color: black;
+    font-weight: bolder;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
 }
@@ -353,15 +353,16 @@
     text-align: center;
     line-height: 4.2vh;
     font-size: 2.3vh;
-    background-color: rgb(234, 234, 234);
+    color: white;
+    background-color: rgb(36, 36, 36);
 }
 
 .test-slet:hover {
-    background-color: rgb(214, 214, 214);
     transition: .1s ease-in-out;
 }
 
 .test-slet:hover .test-icon {
+    color: #ff8f1a;
     transition: .1s ease-in-out;
     animation: Shake 1s infinite;
 }
@@ -372,17 +373,16 @@
     height: 100%;
     width: 100%;
     top: 0;
-    background: #f2f2f2;
+    background: rgb(36, 36, 36);
     overflow: hidden;
     left: -30vh;
 }
 
 .new-advert-footer {
     position: absolute;
-    bottom: 0;
+    bottom: 50px;
     width: 100%;
     height: 5vh;
-    background-color: rgb(234, 234, 234);
 }
 
 .new-advert-footer-item {
@@ -390,21 +390,19 @@
     float: left;
     width: 33%;
     height: 100%;
-    background-color: rgb(234, 234, 234);
     text-align: center;
     line-height: 5vh;
     font-size: 2.2vh;
     transition: .1s linear;
-    color: rgb(48, 48, 48);
+    color: white;
 }
 
 .new-advert-footer-item:hover {
-    background-color: rgb(214, 214, 214);
     transition: .1s linear;
 }
 
 .new-advert-footer-item:hover .new-advert-icon {
-    color: rgb(32, 32, 32);
+    color: #ff8f1a;
     animation: Shake 1s infinite;
 }
 
@@ -417,59 +415,53 @@
 
 #new-advert-header-text {
     position: absolute;
-    top: 5vh;
-    left: 2vh;
+    top: 6vh;
+    left: 6vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.8vh;
-    color: black;
+    color: white;
 }
 
 #advert-new-url{
     position: absolute;
-    border: none;
     height: 4vh;
     margin: 0 auto;
     left: 0;
     right: 0;
-    background-color: rgb(233, 233, 233);
+    background-color: rgba(23, 23, 23, 90%);
     outline: none;
-    border-bottom: 2px solid #1da0f200;
     resize: none;
-    transition: border-bottom 0.1s ease-in-out;
-    font-family: 'Heebo', sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.87vh;
     font-size: 1.4vh;
-    top: 46vh;
+    top: 45vh;
     width: 22vh;
-    border-radius: 1vh 1vh 1vh 1vh;
-    box-shadow: inset 0 0 2vh 0 rgba(0, 0, 0, 0.089);
+    border-radius: 7px;
+    color: white;
+    border: 2px solid rgb(255, 154, 46);
+}
+
+#advert-new-url::-webkit-scrollbar {
+    display: none;
 }
 
 .new-advert-textarea {
     position: absolute;
     margin: 0 auto;
     left: 0;
+    color: white;
     right: 0;
-    top: 15vh;
+    top: 12vh;
     height: 30vh;
     width: 80%;
     outline: none;
-    border: none;
     resize: none;
-    /* border-radius: 1.5vh 1.5vh 1.5vh 1.5vh; */
-    box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0.233);
+    border-radius: 7px;
+    border: 2px solid rgb(255, 154, 46);
+    background-color: rgba(23, 23, 23, 90%);
     padding: 1.5vh;
     font-family: 'Poppins', sans-serif;
-    border-bottom: 0.5vh solid #000;
     transition: .1s linear;
-}
-
-.new-advert-textarea:focus {
-    border-bottom: 0.5vh solid #ff8f1a;
-}
-
-.new-advert-textarea:valid {
-    border-bottom: 0.5vh solid #29b417;
 }
 
 .advert-home {
@@ -479,7 +471,7 @@
 
 .nomails {
     text-align: center;
-    color: black;
+    color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
     line-height: 20vh;

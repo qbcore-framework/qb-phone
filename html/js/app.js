@@ -197,8 +197,7 @@ $(document).on('click', '.phone-application', function(e){
                         $(".house-app-mykeys-container").html("");
                         if (Keys.length > 0) {
                             $.each(Keys, function(i, key){
-                                var elem = '<div class="mykeys-key" id="keyid-'+i+'"> <span class="mykeys-key-label">' + key.HouseData.adress + '</span> <span class="mykeys-key-sub">Click to set GPS</span> </div>';
-
+                                var elem = '<div class="mykeys-key" id="keyid-'+i+'"><span class="mykeys-key-label">' + key.HouseData.adress + '</span> <span class="mykeys-key-sub">Click to set GPS</span> </div>';
                                 $(".house-app-mykeys-container").append(elem);
                                 $("#keyid-"+i).data('KeyData', key);
                             });
@@ -464,7 +463,7 @@ QB.Phone.Functions.UpdateTime = function(data) {
     }
     var MessageTime = Hourssssss + ":" + Minutessss
 
-    $("#phone-time").html(MessageTime + " <span style='font-size: 1.1vh;'>" + data.InGameTime.hour + ":" + data.InGameTime.minute + "</span>");
+    $("#phone-time").html("<span>" + data.InGameTime.hour + ":" + data.InGameTime.minute + "</span>");
 }
 
 var NotificationTimeout = null;
@@ -603,7 +602,6 @@ $(document).ready(function(){
                 var date = new Date(null);
                 date.setSeconds(CallTime);
                 var timeString = date.toISOString().substr(11, 8);
-
                 if (!QB.Phone.Data.IsOpen) {
                     if ($(".call-notifications").css("right") !== "52.1px") {
                         $(".call-notifications").css({"display":"block"});
@@ -619,7 +617,6 @@ $(document).ready(function(){
                         $(".call-notifications").css({"display":"none"});
                     });
                 }
-
                 $(".phone-call-ongoing-time").html(timeString);
                 $(".phone-currentcall-title").html("In conversation ("+timeString+")");
                 break;
