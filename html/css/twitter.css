@@ -338,27 +338,20 @@
 }
 
 .hashtag-tag-text {
-    border-bottom: .1vh solid rgba(27, 149, 224, 0);
+    color: black;
     padding-bottom: .3vh;
-    transition: .2s;
-}
-
-.hashtag-tag-text:hover {
-    color: rgb(19, 103, 155);
-    border-bottom: .1vh solid rgb(27, 149, 224);
     transition: .2s;
 }
 
 .twitter-hashtag {
     position: relative;
     height: 7vh;
-    width: 100%;
-    top: 0;
-    background-color: rgb(238, 238, 238);
-    transition: .2s;
-}
-.twitter-hashtag:hover {
-    background-color: rgb(224, 224, 224);
+    width: 90%;
+    top: 0px;
+    border-radius: 7px;
+    left: 15px;
+    background-color: rgb(27, 149, 224);;
+    transition: all 0.2s ease 0s;
 }
 
 .twitter-hashtag-status{
@@ -367,7 +360,7 @@
     left: 1vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
-    color: rgb(99, 111, 121);
+    color: white;
 }
 
 .twitter-hashtag-tag {
@@ -376,7 +369,7 @@
     left: 1vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
-    color: rgb(66, 66, 66);
+    color: white;
 }
 .twitter-hashtag-messages {
     position: absolute;
@@ -384,7 +377,7 @@
     left: 1vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
-    color: rgb(99, 111, 121);
+    color: white;
 }
 .twitter-hashtags {
     position: absolute;

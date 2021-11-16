@@ -232,7 +232,7 @@ QB.Phone.Functions.FormatTwitterMessage = function(TwitterMessage) {
         }
 
         if (Hashtag !== null && Hashtag !== undefined && Hashtag !== "") {
-            TwtMessage = TwtMessage.replace("#"+Hashtag, "<span class='hashtag-tag-text' data-hashtag='"+Hashtag+"' style='color: rgb(27, 149, 224);'>#"+Hashtag+"</span>");
+            TwtMessage = TwtMessage.replace("#"+Hashtag, "<span class='hashtag-tag-text' data-hashtag='"+Hashtag+"''>#"+Hashtag+"</span>");
         }
     }
 
