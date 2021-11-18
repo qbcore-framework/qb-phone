@@ -143,6 +143,17 @@ Config.PhoneApplications = {
         slot = 12,
         Alerts = 0,
     },
+    ["gallery"] = {
+        app = "gallery",
+        color = "#AC1D2C",
+        icon = "fas fa-images",
+        tooltipText = "Gallery",
+        tooltipPos = "bottom",
+        job = false,
+        blockedjobs = {},
+        slot = 16,
+        Alerts = 0,
+    },
 }
 Config.MaxSlots = 20
 

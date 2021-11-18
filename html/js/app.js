@@ -218,6 +218,11 @@ $(document).on('click', '.phone-application', function(e){
                         SetupTruckerInfo(data);
                     });
                 }
+                else if (PressedApplication == "gallery") {
+                    $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
+                        setUpGalleryData(data);
+                    });
+                }
             }
         }
     } else {
