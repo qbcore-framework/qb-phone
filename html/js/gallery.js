@@ -33,15 +33,13 @@ $(document).on('click', '.image', function(e){
 $(document).on('click', '#delete-button', function(e){
     e.preventDefault();
     let source = $('.image').attr('src')
-    console.log(source)
+
     setTimeout(() => {
         $.post('https://qb-phone/DeleteImage', JSON.stringify({image:source}), function(Hashtags){
             setTimeout(()=>{
                 $('#return-button').click()
                 $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
-                    console.log(data)
                     setTimeout(()=>{
-                            console.log('hello inja')
                             setUpGalleryData(data);
                         
                     },200)
