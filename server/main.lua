@@ -1132,6 +1132,13 @@ RegisterNetEvent('qb-phone:server:getImageFromGallery', function()
     TriggerClientEvent('qb-phone:refreshImages', src, images)
 end)
 
+RegisterNetEvent('qb-phone:server:RemoveImageFromGallery', function(data)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local image = data.image
+    exports.oxmysql:execute('DELETE FROM phone_gallery WHERE citizenid = ? AND image = ?',{Player.PlayerData.citizenid,image})
+end)
+
 -- Command
 
 QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, function(source, args)

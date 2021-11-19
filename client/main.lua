@@ -822,6 +822,14 @@ RegisterNUICallback('GetGalleryData', function(data, cb)
     cb(data)
 end)
 
+RegisterNUICallback('DeleteImage', function(image,cb)
+    TriggerServerEvent('qb-phone:server:RemoveImageFromGallery',image)
+    Wait(400)
+    TriggerServerEvent('qb-phone:server:getImageFromGallery')
+    cb(true)
+end)
+
+
 RegisterNUICallback('track-vehicle', function(data, cb)
     local veh = data.veh
     if findVehFromPlateAndLocate(veh.plate) then
@@ -2041,6 +2049,7 @@ end)
 RegisterNetEvent('qb-phone:refreshImages', function(images)
     PhoneData.Images = images
 end)
+
 
 -- Threads
 

@@ -112,7 +112,7 @@
 
 .make-post-button > div {
     margin: 2px;
-    width: 100%;
+    width: 80%;
     height: 5vh;
     background-color: #1da1f2;
     border-radius: .3vh;
@@ -125,6 +125,23 @@
 
 .make-post-button > div:hover {
     background-color: #1da1f2;
+}
+
+#delete-button {
+    margin: 2px;
+    width: 20%;
+    height: 5vh;
+    background-color: #921010;
+    color: #fff;
+    border-radius: .3vh;
+    transition: .05s linear;
+    text-align: center;
+    line-height: 5vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4vh;
+}
+#delete-button:hover {
+    background-color: #742323;
 }
 
 .posts-button {

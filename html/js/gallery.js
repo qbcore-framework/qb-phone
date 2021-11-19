@@ -30,6 +30,29 @@ $(document).on('click', '.image', function(e){
 });
 
 
+$(document).on('click', '#delete-button', function(e){
+    e.preventDefault();
+    let source = $('.image').attr('src')
+    console.log(source)
+    setTimeout(() => {
+        $.post('https://qb-phone/DeleteImage', JSON.stringify({image:source}), function(Hashtags){
+            setTimeout(()=>{
+                $('#return-button').click()
+                $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
+                    console.log(data)
+                    setTimeout(()=>{
+                            console.log('hello inja')
+                            setUpGalleryData(data);
+                        
+                    },200)
+                });
+            },200)
+        })
+        
+    }, 200);
+});
+
+
 function SetupImageDetails(Image){
     $('#imagedata').attr("src", Image);
 }
@@ -95,6 +118,7 @@ $(document).on('click', '#tweet-button', function(e){
         }), function(Tweets){
             QB.Phone.Notifications.LoadTweets(Tweets);
         });
+        var TweetMessage = $("#new-textarea").val(' ');
         $.post('https://qb-phone/GetHashtags', JSON.stringify({}), function(Hashtags){
             QB.Phone.Notifications.LoadHashtags(Hashtags)
         })
@@ -133,8 +157,7 @@ $(document).on('click', '#advert-button', function(e){
             }));
             returnDetail()
         }
-        $('#advert-new-url').val("")
-        $(".new-advert-textarea").val("");
+        $("#new-textarea").val(' ');
     } else {
         QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "You can\'t post an empty ad!", "#ff8f1a", 2000);
     }
