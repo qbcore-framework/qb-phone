@@ -223,6 +223,14 @@ $(document).on('click', '.phone-application', function(e){
                         setUpGalleryData(data);
                     });
                 }
+                else if (PressedApplication == "camera") {
+                    $.post('https://qb-phone/TakePhoto', JSON.stringify({}),function(url){
+                        setUpCameraApp(url)
+                    })
+                    QB.Phone.Functions.Close();
+                }
+
+                
             }
         }
     } else {

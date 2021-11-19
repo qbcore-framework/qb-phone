@@ -154,6 +154,17 @@ Config.PhoneApplications = {
         slot = 16,
         Alerts = 0,
     },
+    ["camera"] = {
+        app = "camera",
+        color = "#AC1D2C",
+        icon = "fas fa-camera",
+        tooltipText = "Camera",
+        tooltipPos = "bottom",
+        job = false,
+        blockedjobs = {},
+        slot = 15,
+        Alerts = 0,
+    },
 }
 Config.MaxSlots = 20
 
