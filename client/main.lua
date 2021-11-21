@@ -1168,6 +1168,7 @@ RegisterNUICallback('CanTransferMoney', function(data, cb)
             if Transferd then
                 cb({TransferedMoney = true, NewBalance = (PlayerData.money.bank - amount)})
             else
+		SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { timeout=3000, title = "Bank", text = "Account does not exist!", icon = "fas fa-university", color = "#ff0000", }, })
                 cb({TransferedMoney = false})
             end
         end, amount, iban)
@@ -1345,9 +1346,9 @@ RegisterNUICallback("TakePhoto", function(data,cb)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
     takePhoto = true
-    Citizen.Wait(0)
+    Wait(0)
       while takePhoto do
-      Citizen.Wait(0)
+      Wait(0)
       if IsControlJustPressed(1, 27) then -- Toogle Mode
         frontCam = not frontCam
         CellFrontCamActivate(frontCam)
@@ -1382,7 +1383,7 @@ RegisterNUICallback("TakePhoto", function(data,cb)
           HideHudComponentThisFrame(19)
           HideHudAndRadarThisFrame()
     end
-    Citizen.Wait(1000)
+    Wait(1000)
     OpenPhone()
 end)
 
