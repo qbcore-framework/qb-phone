@@ -1329,9 +1329,7 @@ RegisterNUICallback("TakePhoto", function(data,cb)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
     takePhoto = true
-    Wait(0)
-      while takePhoto do
-      Wait(0)
+    while takePhoto do
       if IsControlJustPressed(1, 27) then -- Toogle Mode
         frontCam = not frontCam
         CellFrontCamActivate(frontCam)
@@ -1362,6 +1360,8 @@ RegisterNUICallback("TakePhoto", function(data,cb)
           HideHudComponentThisFrame(6)
           HideHudComponentThisFrame(19)
           HideHudAndRadarThisFrame()
+          EnableAllControlActions(0)
+          Wait(0)
     end
     Wait(1000)
     OpenPhone()
