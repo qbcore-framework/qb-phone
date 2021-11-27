@@ -139,12 +139,21 @@ body {
 }
 
 .phone-background {
-    background-image: url('../img/backgrounds/background-1.png');
+    height: 61.7vh;
+    width: 29vh;
+    bottom: 1vh;
+    border-radius: 3vh;
+    right: 0.5vh;
+    margin: 5vh;
+    overflow: hidden;
+    position: absolute;
     background-size: cover;
-    background-position-y: 1.05vh;
-    background-position-x: -0.3vh;
+    background-position-x: center;
     background-repeat: no-repeat;
+    overflow: hidden;
+    background-image: url('../img/backgrounds/background-1.png');
 }
+
 /* Phone Container END */
 /* -------------------------- */
 
@@ -157,18 +166,28 @@ body {
     color: white;
 }
 
+#phone-server {
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    font-size: 1vh;
+    padding: 2vh 0 0 1vh;
+    float: left;
+    color: white !important;
+}
+
 #phone-time {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.3vh;
-    padding: 2.3vh 0 0 1.9vh;
+    font-size: 1.5vh;
+    padding: 1.5vh 0 0 8vh;
     float: left;
+    color: white !important;
 }
 
 #phone-icons {
-    font-family: 'Poppins', sans-serif;
     font-size: 0.95vh;
-    padding: 2.5vh 7.5vh 0 0vh;
+    padding: 2vh 1.5vh 0 0vh;
     float: right;
+    color: white !important;
 }
 
 #phone-signal {
@@ -182,17 +201,16 @@ body {
     top: -0.1vh;
     position: relative;
 }
+
 /* Phone Header END */
 /* -------------------------- */
 
 /* Phone Application Contanier */
 .phone-application-container {
     display: none;
-    /* display: block; */
-    top: -160%;
-    /* top: 0; */
     position: absolute;
-    height: 92%;
+    top: 8%;
+    height: 100%;
     width: 100%;
     background-color: rgb(65, 65, 65);
     z-index: 100;
@@ -211,8 +229,7 @@ body {
 .phone-home-container {
     position: relative;
     height: 2.3vh;
-    width: 5.2vh;
-    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
     margin: 0 auto;
     top: 2vh;
     transform: translateY(-50%);
@@ -221,25 +238,16 @@ body {
     z-index: 500;
 }
 
-.phone-home-container:hover {
-    background-color: rgba(0, 0, 0, 0.45);
-}
-
-.phone-home-container:hover
-.phone-home-button {
-    background-color: rgba(255, 255, 255, 0.95);
-}
-
 .phone-home-button {
     position: relative;
-    height: 0.8vh;
-    width: 3.8vh;
-    background-color: rgba(255, 255, 255, 0.75);
+    height: 0.5vh;
+    width: 10vh;
+    background-color: white;
     border-radius: 0.8vh;
-    top: 50%;
+    top: 80%;
     transform: translateY(-50%);
-    margin: 0 auto;
-    transition: .1s;
+    margin: 0px auto;
+    transition: all 0.1s ease 0s;
 }
 
 /* Phone Footer END */
@@ -254,15 +262,15 @@ body {
 
 .phone-application {
     position: relative;
-    height: 4.6vh;
-    width: 4.6vh;
+    height: 4.8vh;
+    width: 4.8vh;
     left: 1vh;
     float: left;
     margin-left: 1.75vh;
     margin-top: 1.5vh;
-    border-radius: 2vh;
+    border-radius: 1.25vh;
     text-align: center;
-    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.13);
+    /* box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.13); */
     opacity: 0.9;
     transition: .05s;
 }

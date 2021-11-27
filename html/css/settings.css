@@ -4,15 +4,17 @@
     display: none;
     height: 100%;
     width: 100%;
-    background: rgb(230, 230, 230);
+    background: rgba(36, 36, 36, 90%);
     overflow: hidden;
 }
 
 .settings-app-header {
     position: relative;
-    padding: 5vh 0 0 1.85vh;
     font-family: 'Poppins', sans-serif;
-    font-size: 2vh;
+    font-size: 3vh;
+    text-align: center;
+    top: 70px;
+    color: white;
 }
 
 .settings-app-tab-appereance {
@@ -31,15 +33,19 @@
 
 .settings-app-tab {
     position: relative;
-    width: 100%;
+    width: 90%;
+    border-radius: 0.15rem;
     height: 6vh;
-    margin: 0 auto;
-    transition: all .1s;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.0);
+    margin-bottom: 10px;
+    color: white;
+    background: rgba(23, 23, 23, 90%);
+    left: 15px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
 }
 
 .settings-app-tab:hover {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+    background-color: #dc143c;
+    transition: .5s ease;
 }
 
 .settings-app-tab-header {
@@ -86,7 +92,7 @@
     top: 3.2vh;
     font-size: 1.2vh;
     font-family: 'Poppins', sans-serif;
-    color: rgba(0, 0, 0, 0.65);
+    color: white;
 }
 
 .settings-background-tab {
@@ -97,7 +103,7 @@
     width: 100%;
     left: 0;
     right: 0;
-    background: rgb(230, 230, 230);
+    background: rgb(36, 36, 36);
 }
 
 .settings-profilepicture-tab {
@@ -108,7 +114,7 @@
     width: 100%;
     left: 0;
     right: 0;
-    background: rgb(230, 230, 230);
+    background: rgb(36, 36, 36);
 }
 
 .background-options {
@@ -120,9 +126,19 @@
 
 .background-option {
     position: relative;
-    width: 100%;
-    height: 25%;
-    background-color: rgb(223, 223, 223);
+    width: 90%;
+    border-radius: 0.15rem;
+    height: 6vh;
+    margin-bottom: 10px;
+    color: white;
+    background: rgba(23, 23, 23, 90%);
+    left: 15px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+}
+
+.background-option:hover {
+    background-color: #dc143c;
+    transition: .5s ease;
 }
 
 .background-option-icon {
@@ -141,7 +157,7 @@
     top: 1.5vh;
     text-align: center;
     font-size: 1vh;
-    color: #030303;
+    color: white;
     font-size: 1.3vh;
     font-family: 'Poppins', sans-serif;
 }
@@ -152,7 +168,7 @@
     top: 3.6vh;
     text-align: center;
     font-size: 1vh;
-    color: #030303b9;
+    color: white;
     font-size: 1.1vh;
     font-family: 'Poppins', sans-serif;
 }
@@ -163,13 +179,13 @@
     top: 2.5vh;
     text-align: center;
     font-size: 1.6vh;
-    color: #030303b9;
+    color: green;
     font-family: 'Poppins', sans-serif;
 }
 
 .background-buttons {
     position: absolute;
-    bottom: 0;
+    bottom: 40px;
     height: 5vh;
     width: 100%;
 }
@@ -181,16 +197,14 @@
     width: 50%;
     text-align: center;
     line-height: 4.7vh;
-    color: black;
+    color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
     transition: .05s;
-    border-top: 2px solid #e8421800;
 }
 
 .background-button:hover {
-    background-color: #dadbdb;
-    border-top: 2px solid #e84118;
+    border-top: .3vh solid #dc143c;
 }
 
 .background-custom {
@@ -255,8 +269,8 @@
 }
 
 .custom-background-button:hover {
-    background-color: #dadbdb65;
-    border-bottom: 2px solid #e84118;
+    font-weight: bolder;
+    color: #DC143C;
 }
 
 
@@ -269,9 +283,14 @@
 
 .profilepicture-option {
     position: relative;
-    width: 100%;
-    height: 25%;
-    background-color: rgb(223, 223, 223);
+    width: 90%;
+    border-radius: 0.15rem;
+    height: 6vh;
+    margin-bottom: 10px;
+    color: white;
+    background: rgba(23, 23, 23, 90%);
+    left: 15px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
 }
 
 .profilepicture-option-icon {
@@ -290,7 +309,7 @@
     top: 1.5vh;
     text-align: center;
     font-size: 1vh;
-    color: #030303;
+    color: white;
     font-size: 1.3vh;
     font-family: 'Poppins', sans-serif;
 }
@@ -301,7 +320,7 @@
     top: 3.6vh;
     text-align: center;
     font-size: 1vh;
-    color: #030303b9;
+    color: white;
     font-size: 1.1vh;
     font-family: 'Poppins', sans-serif;
 }
@@ -312,13 +331,13 @@
     top: 2.5vh;
     text-align: center;
     font-size: 1.6vh;
-    color: #030303b9;
+    color: green;
     font-family: 'Poppins', sans-serif;
 }
 
 .profilepicture-buttons {
     position: absolute;
-    bottom: 0;
+    bottom: 40px;
     height: 5vh;
     width: 100%;
 }
@@ -330,16 +349,13 @@
     width: 50%;
     text-align: center;
     line-height: 4.7vh;
-    color: black;
+    color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 1.5vh;
-    transition: .05s;
-    border-top: 2px solid #e8421800;
 }
 
 .profilepicture-button:hover {
-    background-color: #dadbdb;
-    border-top: 2px solid #e84118;
+    border-top: .3vh solid #dc143c;
 }
 
 .profilepicture-custom {
@@ -367,13 +383,11 @@
 .custom-profilepicture-input {
     position: absolute;
     left: 1vh;
-    /* profilepicture: none; */
     border: none;
     outline: none;
     height: 3.5vh;
     width: 21vh;
     font-family: 'Poppins', sans-serif;
-    /* profilepicture: rgb(235, 235, 235); */
     border-radius: 2vh;
     text-align: center;
 }
@@ -404,8 +418,8 @@
 }
 
 .custom-profilepicture-button:hover {
-    background-color: #dadbdb65;
-    border-bottom: 2px solid #e84118;
+    font-weight: bolder;
+    color: #DC143C;
 }
 
 /* The switch - the box around the slider */
@@ -418,14 +432,14 @@
     right: 2vh;
     transform: translateY(-50%);
 }
-  
+
 /* Hide default HTML checkbox */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-  
+
 /* The slider */
 .slider {
     position: absolute;
@@ -438,7 +452,7 @@
     -webkit-transition: .4s;
     transition: .4s;
 }
-  
+
 .slider:before {
     position: absolute;
     content: "";
@@ -450,26 +464,26 @@
     -webkit-transition: .4s;
     transition: .4s;
 }
-  
+
 input:checked + .slider {
     background-color: #2196F3;
 }
-  
+
 input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
 }
-  
+
 input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
 }
-  
+
 /* Rounded sliders */
 .slider.round {
     border-radius: 24px;
 }
-  
+
 .slider.round:before {
     border-radius: 50%;
 }

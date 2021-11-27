@@ -676,7 +676,7 @@ QB.Phone.Functions.SetupCurrentCall = function(cData) {
             $(".phone-currentcall-title").html("In call ("+cData.CallTime+")");
         }
 
-        $(".phone-currentcall-contact").html("met "+cData.TargetData.name);
+        $(".phone-currentcall-contact").html(cData.TargetData.name);
     } else {
         $(".phone-currentcall-container").css({"display":"none"});
     }

@@ -8,6 +8,7 @@ local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
 local WebHook = ""
+local bannedCharacters = {'%','$',';'}
 
 -- Functions
 
@@ -591,6 +592,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             if v.garage ~= nil then
                 if Garages[v.garage] ~= nil then
                     VehicleGarage = Garages[v.garage]["label"]
+                elseif GangGarages[v.garage] ~= nil then
+                    VehicleGarage = GangGarages[v.garage]["label"]
+                elseif JobGarages[v.garage] ~= nil then
+                    VehicleGarage = JobGarages[v.garage]["label"]
                 end
             end
 
@@ -649,9 +654,19 @@ QBCore.Functions.CreateCallback('qb-phone:server:HasPhone', function(source, cb)
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(source, cb, amount, iban)
+    -- strip bad characters from bank transfers
+    local newAmount = tostring(amount)
+    local newiban = tostring(iban)
+    for k, v in pairs(bannedCharacters) do
+        newAmount = string.gsub(newAmount, '%' .. v, '')
+        newiban = string.gsub(newiban, '%' .. v, '')
+    end
+    iban = newiban
+    amount = tonumber(newAmount)
+    
     local Player = QBCore.Functions.GetPlayer(source)
     if (Player.PlayerData.money.bank - amount) >= 0 then
-        local query = '%' .. iban .. '%'
+        local query = '%"account":"' .. iban .. '"%'
         local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
         if result[1] ~= nil then
             local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
@@ -665,7 +680,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
             end
             cb(true)
         else
-            TriggerClientEvent('QBCore:Notify', source, "This account number does not exist!", "error")
             cb(false)
         end
     end
@@ -917,19 +931,20 @@ RegisterNetEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
-    for k,v in pairs(Tweets) do
-        if Tweets[k].tweetId == tweetId then
-            Tweets[k] = nil
+    local src = source
+    for i = 1, #Tweets do
+        if Tweets[i].tweetId == tweetId then
+            Tweets[i] = nil
         end
     end
-    TriggerClientEvent('qb-phone:client:UpdateTweetsDel', -1, Tweets)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, {}, true)
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
+    local src = source
     Tweets = NewTweets
     local TwtData = TweetData
-    local src = source
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, TwtData)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TwtData, false)
 end)
 
 RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)

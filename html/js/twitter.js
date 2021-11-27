@@ -140,11 +140,8 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
 $(document).on('click','#twt-delete-click',function(e){
     e.preventDefault();
     let source = $('.twitter-tweet').data('twtid')
-    let cid  = $('.twitter-tweet').data('twtcid')
-   $(this).parent().parent().parent().parent().remove()
-    if (cid == QB.Phone.Data.PlayerData.citizenid){
-        $.post('https://qb-phone/DeleteTweet', JSON.stringify({id: source}))
-    }
+    $(this).parent().parent().parent().parent().remove()
+    $.post('https://qb-phone/DeleteTweet', JSON.stringify({id: source}))
 })
 
 $(document).on('click', '.tweet-reply', function(e){
@@ -218,7 +215,7 @@ QB.Phone.Functions.FormatTwitterMessage = function(TwitterMessage) {
     for(i = 1; i < res.length; i++) {
         var MentionTag = res[i].split(" ")[0];
         if (MentionTag !== null && MentionTag !== undefined && MentionTag !== "") {
-            TwtMessage = TwtMessage.replace("@"+MentionTag, "<span class='mentioned-tag' data-mentiontag='@"+MentionTag+"' style='color: rgb(27, 149, 224);'>@"+MentionTag+"</span>");
+            TwtMessage = TwtMessage.replace("@"+MentionTag, "<span class='mentioned-tag' data-mentiontag='@"+MentionTag+"''>@"+MentionTag+"</span>");
         }
     }
 
@@ -235,7 +232,7 @@ QB.Phone.Functions.FormatTwitterMessage = function(TwitterMessage) {
         }
 
         if (Hashtag !== null && Hashtag !== undefined && Hashtag !== "") {
-            TwtMessage = TwtMessage.replace("#"+Hashtag, "<span class='hashtag-tag-text' data-hashtag='"+Hashtag+"' style='color: rgb(27, 149, 224);'>#"+Hashtag+"</span>");
+            TwtMessage = TwtMessage.replace("#"+Hashtag, "<span class='hashtag-tag-text' data-hashtag='"+Hashtag+"''>#"+Hashtag+"</span>");
         }
     }
 
