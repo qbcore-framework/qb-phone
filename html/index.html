@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="./css/lawyers.css">
     <link rel="stylesheet" href="./css/qstore.css">
     <link rel="stylesheet" href="./css/trucker.css">
+    <link rel="stylesheet" href="./css/gallery.css">
+    <link rel="stylesheet" href="./css/camera.css">
 
     <!-- CDN's -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!-- JQuery -->
@@ -434,6 +436,61 @@
                                         TRACK
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-app">
+                        <div class="gallery-app-header">
+                            My Gallery
+                        </div>
+                        <div class="gallery-homescreen">
+                            <div class="gallery-images">
+                            </div>
+                        </div>
+
+                        <div class="gallery-detailscreen">
+                            <div class="gallery-details">
+                                <div class="imagedata"><img class="image" id="imagedata" style="width: 100%;" src="" alt=""></div>
+                                <div class="make-post-button">
+                                    <div id="make-post-button">
+                                        POST
+                                    </div>
+                                    <div id="delete-button">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="return-button">
+                                    <div id="return-button">
+                                        RETURN
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-postscreen">
+                            <div class="gallery-details">
+                                <div class="imageTweetData"><textarea id="new-textarea" spellcheck="false" required></textarea></div>
+                                <div class="posts-button">
+                                    <div id="tweet-button">
+                                        <i class="fab fa-twitter fa-lg"></i>
+                                    </div>
+                                    <div id="advert-button">
+                                        <i class="fas fa-ad fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="return-button">
+                                    <div id="returndetail-button">
+                                        RETURN
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="camera-app">
+                        <div class="camera-homescreen">
+                            <div class="camera-image">
+                                <div class="loader"></div>
                             </div>
                         </div>
                     </div>
@@ -1069,6 +1126,8 @@
         <script src="./js/lawyers.js"></script>
         <script src="./js/qstore.js"></script>
         <script src="./js/trucker.js"></script>
+        <script src="./js/gallery.js"></script>
+        <script src="./js/camera.js"></script>
         <script type="text/javascript">$('#whatsapp-openedchat-message').emojioneArea({inline: true, searchPosition: "bottom", shortnames: true})</script>
         <!-- <script type="text/javascript">$('#tweet-new-message').emojioneArea({pickerPostion: 'bottom' ,inline: true, shortnames: true})</script> -->
     </body>
