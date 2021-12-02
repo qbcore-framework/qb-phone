@@ -90,7 +90,6 @@
 
 .garage-cardetails {
     position: absolute;
-    /* background-color: rgba(255, 255, 255, 0.1); */
     height: 76%;
     width: 84%;
     margin: 0 auto;
@@ -195,12 +194,10 @@
     font-size: 1.2vh;
 }
 
-
 .vehicle-answer {
     float: right;
     font-size: 1.1vh;
 }
-
 
 .return-track {
     display: flex;
