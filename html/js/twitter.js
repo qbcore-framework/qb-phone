@@ -91,22 +91,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
             });
             if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
-            var today = new Date();
-            var TweetTime = new Date(Tweet.time);
-            var diffMs = (today - TweetTime);
-            var diffDays = Math.floor(diffMs / 86400000);
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-            var diffSeconds = Math.round(diffMs / 1000);
-            var TimeAgo = diffSeconds + ' s';
-
-            if (diffMins > 0) {
-                TimeAgo = diffMins + ' m';
-            } else if (diffHrs > 0) {
-                TimeAgo = diffHrs + ' h';
-            } else if (diffDays > 0) {
-                TimeAgo = diffDays + ' d';
-            }
+            var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png"
@@ -164,22 +149,7 @@ QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
             });
             if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
-            var today = new Date();
-            var TweetTime = new Date(Tweet.time);
-            var diffMs = (today - TweetTime);
-            var diffDays = Math.floor(diffMs / 86400000);
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-            var diffSeconds = Math.round(diffMs / 1000);
-            var TimeAgo = diffSeconds + ' s';
-
-            if (diffSeconds > 60) {
-                TimeAgo = diffMins + ' m';
-            } else if (diffMins > 60) {
-                TimeAgo = diffHrs + ' h';
-            } else if (diffHrs > 24) {
-                TimeAgo = diffDays + ' d';
-            }
+            var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png";
@@ -349,22 +319,7 @@ QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
             });
             if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
-            var today = new Date();
-            var TweetTime = new Date(Tweet.time);
-            var diffMs = (today - TweetTime);
-            var diffDays = Math.floor(diffMs / 86400000);
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-            var diffSeconds = Math.round(diffMs / 1000);
-            var TimeAgo = diffSeconds + ' s';
-
-            if (diffSeconds > 60) {
-                TimeAgo = diffMins + ' m';
-            } else if (diffMins > 60) {
-                TimeAgo = diffHrs + ' h';
-            } else if (diffHrs > 24) {
-                TimeAgo = diffDays + ' d';
-            }
+            var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png"
