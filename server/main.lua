@@ -689,24 +689,32 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(source, cb)
-    local Lawyers = {}
-    for k, v in pairs(QBCore.Functions.GetPlayers()) do
-        local Player = QBCore.Functions.GetPlayer(v)
-        if Player ~= nil then
-            if (Player.PlayerData.job.name == "lawyer" or Player.PlayerData.job.name == "realestate" or
-                Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "taxi" or
-                Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "ambulance") and
-                Player.PlayerData.job.onduty then
-                Lawyers[#Lawyers+1] = {
-                    name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
-                    phone = Player.PlayerData.charinfo.phone,
-                    typejob = Player.PlayerData.job.name
-                }
-            end
-        end
-    end
-    cb(Lawyers)
+QBCore.Functions.CreateCallback("qb-phone:server:GetCurrentLawyers", function(source, cb)
+	local Lawyers = {}
+	for k, v in pairs(QBCore.Functions.GetPlayers()) do
+		local Player = QBCore.Functions.GetPlayer(v)
+		if Player ~= nil then
+			if (Player.PlayerData.job.name == "lawyer" or
+				Player.PlayerData.job.name == "realestate" or
+				Player.PlayerData.job.name == "mechanic" or
+				Player.PlayerData.job.name == "taxi" or
+				Player.PlayerData.job.name == "police" or
+				Player.PlayerData.job.name == "cardealer" or
+				Player.PlayerData.job.name == "reporter" or
+				Player.PlayerData.job.name == "tow" or
+				Player.PlayerData.job.name == "judge" or
+				Player.PlayerData.job.name == "ambulance") and
+				Player.PlayerData.job.onduty
+			then
+				Lawyers[#Lawyers + 1] = {
+					name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
+					phone = Player.PlayerData.charinfo.phone,
+					typejob = Player.PlayerData.job.name
+				}
+			end
+		end
+	end
+	cb(Lawyers)
 end)
 
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
