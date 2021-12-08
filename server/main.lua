@@ -311,7 +311,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Hashtags = Hashtags
         end
 
-        local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets WHERE citizenid = ?', {Player.PlayerData.citizenid})
+        local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets', {})
         
         if Tweets ~= nil and next(Tweets) ~= nil then
             PhoneData.Tweets = Tweets
