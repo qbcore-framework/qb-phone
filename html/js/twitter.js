@@ -91,22 +91,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
             });
             if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
-            var today = new Date();
-            var TweetTime = new Date(Tweet.time);
-            var diffMs = (today - TweetTime);
-            var diffDays = Math.floor(diffMs / 86400000);
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-            var diffSeconds = Math.round(diffMs / 1000);
-            var TimeAgo = diffSeconds + ' s';
-
-            if (diffMins > 0) {
-                TimeAgo = diffMins + ' m';
-            } else if (diffHrs > 0) {
-                TimeAgo = diffHrs + ' h';
-            } else if (diffDays > 0) {
-                TimeAgo = diffDays + ' d';
-            }
+            var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png"
@@ -125,7 +110,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                 let TweetElement = '<div class="twitter-tweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'"><div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
                     '<div class="tweet-tweeter">'+Tweet.firstName+' '+Tweet.lastName+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>'+
                     '<div class="tweet-message">'+TwtMessage+'</div>'+
-                    '<img class="image" src= ' + Tweet.url + ' style = " border-radius:4px; width: 70%; position:relative; z-index: 1; left:52px; margin:.6rem .5rem .6rem 1rem;height: auto;">' +
+                    '<img class="image" src= ' + Tweet.url + ' style = " border-radius:4px; width: 70%; position:relative; z-index: 1; left:52px; margin:.6rem .5rem .6rem 1rem;height: auto; padding-bottom: 15px;">' +
                     '<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>' +
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
@@ -164,22 +149,7 @@ QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
             });
             if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
-            var today = new Date();
-            var TweetTime = new Date(Tweet.time);
-            var diffMs = (today - TweetTime);
-            var diffDays = Math.floor(diffMs / 86400000);
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-            var diffSeconds = Math.round(diffMs / 1000);
-            var TimeAgo = diffSeconds + ' s';
-
-            if (diffSeconds > 60) {
-                TimeAgo = diffMins + ' m';
-            } else if (diffMins > 60) {
-                TimeAgo = diffHrs + ' h';
-            } else if (diffHrs > 24) {
-                TimeAgo = diffDays + ' d';
-            }
+            var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png";
@@ -349,22 +319,7 @@ QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
             });
             if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
-            var today = new Date();
-            var TweetTime = new Date(Tweet.time);
-            var diffMs = (today - TweetTime);
-            var diffDays = Math.floor(diffMs / 86400000);
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-            var diffSeconds = Math.round(diffMs / 1000);
-            var TimeAgo = diffSeconds + ' s';
-
-            if (diffSeconds > 60) {
-                TimeAgo = diffMins + ' m';
-            } else if (diffMins > 60) {
-                TimeAgo = diffHrs + ' h';
-            } else if (diffHrs > 24) {
-                TimeAgo = diffDays + ' d';
-            }
+            var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png"

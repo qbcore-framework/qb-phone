@@ -156,6 +156,7 @@
 .tweet-reply {
     position: absolute;
     right: 10px;
+    bottom: 0;
     color: rgba(0, 0, 0, 0.8);
     transition: .05 linear;
     z-index: 100;
@@ -199,7 +200,7 @@
     height: 5.5vh;
     background-color: #1DA1F2;
     margin: 2.2vh;
-    z-index: 1;
+    z-index: 101;
     border-radius: 50%;
     text-align: center;
     transition: .1s;

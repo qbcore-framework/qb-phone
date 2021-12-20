@@ -311,8 +311,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Hashtags = Hashtags
         end
 
+        local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets', {})
+        
         if Tweets ~= nil and next(Tweets) ~= nil then
             PhoneData.Tweets = Tweets
+            TWData = Tweets
         end
 
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
@@ -936,20 +939,39 @@ RegisterNetEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
-    local src = source
-    for i = 1, #Tweets do
-        if Tweets[i].tweetId == tweetId then
-            Tweets[i] = nil
-        end
+    local Player = QBCore.Functions.GetPlayer(source)
+    local delete = false
+    local TID = tweetId
+    local Data = exports.oxmysql:scalarSync('SELECT citizenid FROM phone_tweets WHERE tweetId = ?', {id})
+    if Data == Player.PlayerData.citizenid then
+        local Data2 = exports.oxmysql:executeSync('DELETE FROM phone_tweets WHERE tweetId = ?', {TID})
+        delete = true
     end
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, {}, true)
+    
+    if delete then
+        delete = not delete
+        for k, v in pairs(TWData) do
+            if TWData[k].tweetId == TID then
+                TWData = nil
+            end
+        end
+        TriggerClientEvent('qb-phone:client:UpdateTweets', -1, TWData)
+    end
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     local src = source
-    Tweets = NewTweets
-    local TwtData = TweetData
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TwtData, false)
+    local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+        TweetData.citizenid,
+        TweetData.firstName,
+        TweetData.lastName,
+        TweetData.message,
+        TweetData.time,
+        TweetData.url,
+        TweetData.picture,
+        TweetData.tweetId
+    })
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
 end)
 
 RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
