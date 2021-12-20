@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `player_vehicles` (
   KEY `license` (`license`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
-CREATE TABLE `phone_gallery` (
+CREATE TABLE IF NOT EXISTS `phone_gallery` (
    `citizenid` VARCHAR(255) NOT NULL , 
    `image` VARCHAR(255) NOT NULL ,
    `date` timestamp NULL DEFAULT current_timestamp()
