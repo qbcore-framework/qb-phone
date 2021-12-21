@@ -256,7 +256,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             for k, v in pairs(result) do
                 v.status = GetOnlineStatus(v.number)
             end
-
             PhoneData.PlayerContacts = result
         end
 
@@ -288,7 +287,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                     v.vehicle = QBCore.Shared.Vehicles[vehicleModel].name
                     v.brand = QBCore.Shared.Vehicles[vehicleModel].brand
                 end
-
             end
             PhoneData.Garage = garageresult
         end
@@ -391,7 +389,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(s
         local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
         if result[1] then
             local MetaData = json.decode(result[1].metadata)
-
             if MetaData.phone.profilepicture then
                 v.picture = MetaData.phone.profilepicture
             else
@@ -487,8 +484,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
     local search = escape_sqli(search)
     local searchData = {}
     local query = '%' .. search .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
-        {query, search})
+    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?', {query, search})
     if result[1] then
         for k, v in pairs(result) do
             local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
@@ -584,13 +580,11 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
-
     local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
         {Player.PlayerData.citizenid})
     if result[1] then
         for k, v in pairs(result) do
             local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
-
             local VehicleGarage = "None"
             if v.garage then
                 if Garages[v.garage] then
@@ -610,7 +604,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             end
 
             local vehdata = {}
-
             if VehicleData["brand"] then
                 vehdata = {
                     fullname = VehicleData["brand"] .. " " .. VehicleData["name"],
@@ -819,7 +812,6 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
                     end
                 end
             end
-
             TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
         end)
     else
@@ -1155,7 +1147,7 @@ RegisterNetEvent('qb-phone:server:RemoveImageFromGallery', function(data)
     exports.oxmysql:execute('DELETE FROM phone_gallery WHERE citizenid = ? AND image = ?', {Player.PlayerData.citizenid,image})
 end)
 
--- Command
+-- Commands
 
 QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
