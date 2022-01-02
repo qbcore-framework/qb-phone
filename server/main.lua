@@ -961,17 +961,31 @@ end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     local src = source
-    local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
-        TweetData.citizenid,
-        TweetData.firstName,
-        TweetData.lastName,
-        TweetData.message,
-        TweetData.time,
-        TweetData.url,
-        TweetData.picture,
-        TweetData.tweetId
-    })
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
+    if Config.Linux then
+	local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+	TweetData.citizenid,
+	TweetData.firstName,
+	TweetData.lastName,
+	TweetData.message,
+	TweetData.date,
+	TweetData.url,
+	TweetData.picture,
+	TweetData.tweetId
+	})
+	TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
+    else
+	local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+	TweetData.citizenid,
+	TweetData.firstName,
+	TweetData.lastName,
+	TweetData.message,
+	TweetData.time,
+	TweetData.url,
+	TweetData.picture,
+	TweetData.tweetId
+	})
+	TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)		
+    end
 end)
 
 RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
