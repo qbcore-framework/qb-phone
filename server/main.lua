@@ -947,12 +947,13 @@ end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     local src = source
+    local date = Config.Linux and TweetData.date or TweetData.time
     exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,
         TweetData.firstName,
         TweetData.lastName,
         TweetData.message,
-        TweetData.time,
+        date,
         TweetData.url,
         TweetData.picture,
         TweetData.tweetId
