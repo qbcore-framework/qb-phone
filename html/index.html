@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.2.9/purify.min.js" integrity="sha512-VOTFfd4vxPpuE98m9UQTN7j2N2/Blw44lZMhRTnZQqA2gOHq7Yvn5bdIDjjAZuFqqkDtppcjMW+dN3GYbhM94g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <title>QBCore Phone</title>
 
     <!-- CSS File's -->
@@ -25,6 +26,8 @@
     <link rel="stylesheet" href="./css/lawyers.css">
     <link rel="stylesheet" href="./css/qstore.css">
     <link rel="stylesheet" href="./css/trucker.css">
+    <link rel="stylesheet" href="./css/gallery.css">
+    <link rel="stylesheet" href="./css/camera.css">
 
     <!-- CDN's -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!-- JQuery -->
@@ -438,6 +441,61 @@
                         </div>
                     </div>
 
+                    <div class="gallery-app">
+                        <div class="gallery-app-header">
+                            My Gallery
+                        </div>
+                        <div class="gallery-homescreen">
+                            <div class="gallery-images">
+                            </div>
+                        </div>
+
+                        <div class="gallery-detailscreen">
+                            <div class="gallery-details">
+                                <div class="imagedata"><img class="image" id="imagedata" style="width: 100%;" src="" alt=""></div>
+                                <div class="make-post-button">
+                                    <div id="make-post-button">
+                                        POST
+                                    </div>
+                                    <div id="delete-button">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="return-button">
+                                    <div id="return-button">
+                                        RETURN
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-postscreen">
+                            <div class="gallery-details">
+                                <div class="imageTweetData"><textarea id="new-textarea" spellcheck="false" required></textarea></div>
+                                <div class="posts-button">
+                                    <div id="tweet-button">
+                                        <i class="fab fa-twitter fa-lg"></i>
+                                    </div>
+                                    <div id="advert-button">
+                                        <i class="fas fa-ad fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="return-button">
+                                    <div id="returndetail-button">
+                                        RETURN
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="camera-app">
+                        <div class="camera-homescreen">
+                            <div class="camera-image">
+                                <div class="loader"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="trucker-app">
                         <div class="trucker-header">
                             <span class="trucker-header-name"><span style="font-size: 1vh; color: rgba(255, 255, 255, 0.6);">Welcome</span><br><span id="trucker-name">Jay Yay</span></span>
@@ -512,7 +570,8 @@
                                 <input type="number" oninput="this.value = Math.abs(this.value)" class="crypto-action-page-buy-crypto-input-coins" required spellcheck="false" placeholder="1.000000" step="0.000001" min="0">
 
                                 <i class="crypto-action-page-buy-crypto-input-money-icon fas fa-dollar-sign"></i>
-                                <input type="number" oninput="this.value = Math.abs(this.value)" class="crypto-action-page-buy-crypto-input-money" required spellcheck="false" placeholder="1000" step="1.0" min="0">
+                                <!-- <input type="number" oninput="this.value = Math.abs(this.value)" class="crypto-action-page-buy-crypto-input-money" required spellcheck="false" placeholder="1000" step="1.0" min="0"> -->
+                                <div class="crypto-action-page-buy-crypto-input-money">0 Dollars</div>
 
                                 <div class="crypto-action-page-buy-crypto-footer">
                                     <div class="crypto-action-page-buy-crypto-footer-button" id="buy-crypto">
@@ -533,7 +592,8 @@
                                 <input type="number" oninput="this.value = Math.abs(this.value)" class="crypto-action-page-sell-crypto-input-coins" required spellcheck="false" placeholder="1.000000" step="0.000001" min="0">
 
                                 <i class="crypto-action-page-sell-crypto-input-money-icon fas fa-dollar-sign"></i>
-                                <input type="number" oninput="this.value = Math.abs(this.value)" class="crypto-action-page-sell-crypto-input-money" required spellcheck="false" placeholder="1000" step="1.0" min="0">
+                                <!-- <input type="number" oninput="this.value = Math.abs(this.value)" class="crypto-action-page-sell-crypto-input-money" required spellcheck="false" placeholder="1000" step="1.0" min="0"> -->
+                                <div class="crypto-action-page-sell-crypto-input-money">0 Dollars</div>
 
                                 <div class="crypto-action-page-buy-crypto-footer">
                                     <div class="crypto-action-page-buy-crypto-footer-button" id="sell-crypto">
@@ -1069,6 +1129,8 @@
         <script src="./js/lawyers.js"></script>
         <script src="./js/qstore.js"></script>
         <script src="./js/trucker.js"></script>
+        <script src="./js/gallery.js"></script>
+        <script src="./js/camera.js"></script>
         <script type="text/javascript">$('#whatsapp-openedchat-message').emojioneArea({inline: true, searchPosition: "bottom", shortnames: true})</script>
         <!-- <script type="text/javascript">$('#tweet-new-message').emojioneArea({pickerPostion: 'bottom' ,inline: true, shortnames: true})</script> -->
     </body>

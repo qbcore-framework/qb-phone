@@ -8,6 +8,7 @@ local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
 local WebHook = ""
+local bannedCharacters = {'%','$',';'}
 
 -- Functions
 
@@ -245,6 +246,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             Adverts = {},
             CryptoTransactions = {},
             Tweets = {},
+            Images = {},
             InstalledApps = Player.PlayerData.metadata["phonedata"].InstalledApps
         }
         PhoneData.Adverts = Adverts
@@ -309,8 +311,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Hashtags = Hashtags
         end
 
+        local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets', {})
+        
         if Tweets ~= nil and next(Tweets) ~= nil then
             PhoneData.Tweets = Tweets
+            TWData = Tweets
         end
 
         local mails = MySQL.Sync.fetchAll('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
@@ -332,7 +337,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
                 }
             end
         end
-
+        local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
+        if images ~= nil and next(images) ~= nil then
+            PhoneData.Images = images
+        end
         cb(PhoneData)
     end
 end)
@@ -653,6 +661,16 @@ QBCore.Functions.CreateCallback('qb-phone:server:HasPhone', function(source, cb)
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(source, cb, amount, iban)
+    -- strip bad characters from bank transfers
+    local newAmount = tostring(amount)
+    local newiban = tostring(iban)
+    for k, v in pairs(bannedCharacters) do
+        newAmount = string.gsub(newAmount, '%' .. v, '')
+        newiban = string.gsub(newiban, '%' .. v, '')
+    end
+    iban = newiban
+    amount = tonumber(newAmount)
+    
     local Player = QBCore.Functions.GetPlayer(source)
     if (Player.PlayerData.money.bank - amount) >= 0 then
         local query = '%' .. iban .. '%'
@@ -669,7 +687,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
             end
             cb(true)
         else
-            TriggerClientEvent('QBCore:Notify', source, "This account number does not exist!", "error")
             cb(false)
         end
     end
@@ -699,6 +716,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
 	if WebHook ~= "" then
 		cb(WebHook)
 	else
+		print('Set your webhook to ensure that your camera will work!!!!!! Set this on line 10 of the server sided script!!!!!')
 		cb(nil)
 	end
 
@@ -921,20 +939,53 @@ RegisterNetEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
-    local src = source
-    for i = 1, #Tweets do
-        if Tweets[i].tweetId == tweetId then
-            Tweets[i] = nil
-        end
+    local Player = QBCore.Functions.GetPlayer(source)
+    local delete = false
+    local TID = tweetId
+    local Data = exports.oxmysql:scalarSync('SELECT citizenid FROM phone_tweets WHERE tweetId = ?', {id})
+    if Data == Player.PlayerData.citizenid then
+        local Data2 = exports.oxmysql:executeSync('DELETE FROM phone_tweets WHERE tweetId = ?', {TID})
+        delete = true
     end
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, {}, true)
+    
+    if delete then
+        delete = not delete
+        for k, v in pairs(TWData) do
+            if TWData[k].tweetId == TID then
+                TWData = nil
+            end
+        end
+        TriggerClientEvent('qb-phone:client:UpdateTweets', -1, TWData)
+    end
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     local src = source
-    Tweets = NewTweets
-    local TwtData = TweetData
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TwtData, false)
+    if Config.Linux then
+	local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+	TweetData.citizenid,
+	TweetData.firstName,
+	TweetData.lastName,
+	TweetData.message,
+	TweetData.date,
+	TweetData.url,
+	TweetData.picture,
+	TweetData.tweetId
+	})
+	TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
+    else
+	local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+	TweetData.citizenid,
+	TweetData.firstName,
+	TweetData.lastName,
+	TweetData.message,
+	TweetData.time,
+	TweetData.url,
+	TweetData.picture,
+	TweetData.tweetId
+	})
+	TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)		
+    end
 end)
 
 RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
@@ -1114,6 +1165,25 @@ RegisterNetEvent('qb-phone:server:RemoveInstallation', function(App)
     Player.Functions.SetMetaData("phonedata", Player.PlayerData.metadata["phonedata"])
 
     -- TriggerClientEvent('qb-phone:RefreshPhone', src)
+end)
+
+RegisterNetEvent('qb-phone:server:addImageToGallery', function(image)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    exports.oxmysql:insert('INSERT INTO phone_gallery (`citizenid`, `image`) VALUES (?, ?)',{Player.PlayerData.citizenid,image})
+end)
+RegisterNetEvent('qb-phone:server:getImageFromGallery', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local images = exports.oxmysql:fetchSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
+    TriggerClientEvent('qb-phone:refreshImages', src, images)
+end)
+
+RegisterNetEvent('qb-phone:server:RemoveImageFromGallery', function(data)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local image = data.image
+    exports.oxmysql:execute('DELETE FROM phone_gallery WHERE citizenid = ? AND image = ?',{Player.PlayerData.citizenid,image})
 end)
 
 -- Command
