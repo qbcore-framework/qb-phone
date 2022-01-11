@@ -249,7 +249,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         }
         PhoneData.Adverts = Adverts
 
-        local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
+        local result = MySQL.Sync.fetchAll('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
         local Contacts = {}
         if result[1] ~= nil then
             for k, v in pairs(result) do
@@ -259,14 +259,14 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.PlayerContacts = result
         end
 
-        local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Player.PlayerData.citizenid})
+        local invoices = MySQL.Sync.fetchAll('SELECT * FROM phone_invoices WHERE citizenid = ?', {Player.PlayerData.citizenid})
         if invoices[1] ~= nil then
             for k, v in pairs(invoices) do
                 local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
                 if Ply ~= nil then
                     v.number = Ply.PlayerData.charinfo.phone
                 else
-                    local res = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {v.sender})
+                    local res = MySQL.Sync.fetchAll('SELECT * FROM players WHERE citizenid = ?', {v.sender})
                     if res[1] ~= nil then
                         res[1].charinfo = json.decode(res[1].charinfo)
                         v.number = res[1].charinfo.phone
@@ -278,7 +278,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Invoices = invoices
         end
 
-        local garageresult = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid})
+        local garageresult = MySQL.Sync.fetchAll('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid})
         if garageresult[1] ~= nil then
             for k, v in pairs(garageresult) do
                 local vehicleModel = v.vehicle
@@ -292,7 +292,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Garage = garageresult
         end
 
-        local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
+        local messages = MySQL.Sync.fetchAll('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
         if messages ~= nil and next(messages) ~= nil then
             PhoneData.Chats = messages
         end
@@ -313,7 +313,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Tweets = Tweets
         end
 
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+        local mails = MySQL.Sync.fetchAll('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -323,7 +323,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Mails = mails
         end
 
-        local transactions = exports.oxmysql:executeSync('SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+        local transactions = MySQL.Sync.fetchAll('SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if transactions[1] ~= nil then
             for _, v in pairs(transactions) do
                 PhoneData.CryptoTransactions[#PhoneData.CryptoTransactions+1] = {
@@ -360,8 +360,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
     TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, invoiceMailData)
     TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
-    exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
+    MySQL.Async.execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
+    local invoices = MySQL.Sync.fetchAll('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
         Invoices = invoices
     end
@@ -371,8 +371,8 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, sender, amount, invoiceId)
     local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
-    exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
+    MySQL.Async.execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
+    local invoices = MySQL.Sync.fetchAll('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
         Invoices = invoices
     end
@@ -384,7 +384,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(s
         local Player = QBCore.Functions.GetPlayerByPhone(v.number)
 
         local query = '%' .. v.number .. '%'
-        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+        local result = MySQL.Sync.fetchAll('SELECT * FROM players WHERE charinfo LIKE ?', {query})
         if result[1] ~= nil then
             local MetaData = json.decode(result[1].metadata)
 
@@ -402,7 +402,7 @@ end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetContactPicture', function(source, cb, Chat)
     local query = '%' .. Chat.number .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local result = MySQL.Sync.fetchAll('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     local MetaData = json.decode(result[1].metadata)
     if MetaData.phone.profilepicture ~= nil then
         Chat.picture = MetaData.phone.profilepicture
@@ -417,7 +417,7 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetPicture', function(source, cb, number)
     local Picture = nil
     local query = '%' .. number .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local result = MySQL.Sync.fetchAll('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     if result[1] ~= nil then
         local MetaData = json.decode(result[1].metadata)
         if MetaData.phone.profilepicture ~= nil then
@@ -447,11 +447,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     else
         query = query .. ' OR `charinfo` LIKE "%' .. search .. '%"'
     end
-    local ApartmentData = exports.oxmysql:executeSync('SELECT * FROM apartments', {})
+    local ApartmentData = MySQL.Sync.fetchAll('SELECT * FROM apartments', {})
     for k, v in pairs(ApartmentData) do
         ApaData[v.citizenid] = ApartmentData[k]
     end
-    local result = exports.oxmysql:executeSync(query)
+    local result = MySQL.Sync.fetchAll(query)
     if result[1] ~= nil then
         for k, v in pairs(result) do
             local charinfo = json.decode(v.charinfo)
@@ -483,11 +483,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
     local search = escape_sqli(search)
     local searchData = {}
     local query = '%' .. search .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
+    local result = MySQL.Sync.fetchAll('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
         {query, search})
     if result[1] ~= nil then
         for k, v in pairs(result) do
-            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
+            local player = MySQL.Sync.fetchAll('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
             if player[1] ~= nil then
                 local charinfo = json.decode(player[1].charinfo)
                 local vehicleInfo = QBCore.Shared.Vehicles[result[k].vehicle]
@@ -543,9 +543,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
     local src = source
     local vehicleData = {}
     if plate ~= nil then
-        local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
+        local result = MySQL.Sync.fetchAll('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
         if result[1] ~= nil then
-            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[1].citizenid})
+            local player = MySQL.Sync.fetchAll('SELECT * FROM players WHERE citizenid = ?', {result[1].citizenid})
             local charinfo = json.decode(player[1].charinfo)
             vehicleData = {
                 plate = plate,
@@ -581,7 +581,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
 
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
+    local result = MySQL.Sync.fetchAll('SELECT * FROM player_vehicles WHERE citizenid = ?',
         {Player.PlayerData.citizenid})
     if result[1] ~= nil then
         for k, v in pairs(result) do
@@ -656,7 +656,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
     local Player = QBCore.Functions.GetPlayer(source)
     if (Player.PlayerData.money.bank - amount) >= 0 then
         local query = '%' .. iban .. '%'
-        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+        local result = MySQL.Sync.fetchAll('SELECT * FROM players WHERE charinfo LIKE ?', {query})
         if result[1] ~= nil then
             local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
             Player.Functions.RemoveMoney('bank', amount)
@@ -665,7 +665,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
             else
                 local RecieverMoney = json.decode(result[1].money)
                 RecieverMoney.bank = (RecieverMoney.bank + amount)
-                exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?', {json.encode(RecieverMoney), result[1].citizenid})
+                MySQL.Async.execute('UPDATE players SET money = ? WHERE citizenid = ?', {json.encode(RecieverMoney), result[1].citizenid})
             end
             cb(true)
         else
@@ -747,9 +747,9 @@ end)
 RegisterNetEvent('qb-phone:server:RemoveMail', function(MailId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:execute('DELETE FROM player_mails WHERE mailid = ? AND citizenid = ?', {MailId, Player.PlayerData.citizenid})
+    MySQL.Async.execute('DELETE FROM player_mails WHERE mailid = ? AND citizenid = ?', {MailId, Player.PlayerData.citizenid})
     SetTimeout(100, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+        local mails = MySQL.Sync.fetchAll('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -765,13 +765,13 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if mailData.button == nil then
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+        MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
     else
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+        MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
     end
     TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
     SetTimeout(200, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',
+        local mails = MySQL.Sync.fetchAll('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',
             {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
@@ -790,14 +790,14 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
     if Player then
         local src = Player.PlayerData.source
         if mailData.button == nil then
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+           MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
         else
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+           MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
         end
         SetTimeout(200, function()
-            local mails = exports.oxmysql:executeSync(
+            local mails = MySQL.Sync.fetchAll(
                 'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
             if mails[1] ~= nil then
                 for k, v in pairs(mails) do
@@ -811,9 +811,9 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
         end)
     else
         if mailData.button == nil then
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+           MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
         else
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+           MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
         end
     end
 end)
@@ -821,12 +821,12 @@ end)
 RegisterNetEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if mailData.button == nil then
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+       MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
     else
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+       MySQL.Async.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
     end
     SetTimeout(200, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {citizenid})
+        local mails = MySQL.Sync.fetchAll('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -841,9 +841,9 @@ end)
 RegisterNetEvent('qb-phone:server:ClearButtonData', function(mailId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:execute('UPDATE player_mails SET button = ? WHERE mailid = ? AND citizenid = ?', {'', mailId, Player.PlayerData.citizenid})
+    MySQL.Async.execute('UPDATE player_mails SET button = ? WHERE mailid = ? AND citizenid = ?', {'', mailId, Player.PlayerData.citizenid})
     SetTimeout(200, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+        local mails = MySQL.Sync.fetchAll('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if mails[1] ~= nil then
             for k, v in pairs(mails) do
                 if mails[k].button ~= nil then
@@ -866,7 +866,7 @@ RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName
             else
                 local query1 = '%' .. firstName .. '%'
                 local query2 = '%' .. lastName .. '%'
-                local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ? AND charinfo LIKE ?', {query1, query2})
+                local result = MySQL.Sync.fetchAll('SELECT * FROM players WHERE charinfo LIKE ? AND charinfo LIKE ?', {query1, query2})
                 if result[1] ~= nil then
                     local MentionedTarget = result[1].citizenid
                     QBPhone.SetPhoneAlerts(MentionedTarget, "twitter")
@@ -942,7 +942,7 @@ RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
     local sender = QBCore.Functions.GetPlayer(src)
 
     local query = '%' .. iban .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local result = MySQL.Sync.fetchAll('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     if result[1] ~= nil then
         local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
@@ -958,7 +958,7 @@ RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
         else
             local moneyInfo = json.decode(result[1].money)
             moneyInfo.bank = round((moneyInfo.bank + amount))
-            exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?',
+            MySQL.Async.execute('UPDATE players SET money = ? WHERE citizenid = ?',
                 {json.encode(moneyInfo), result[1].citizenid})
             sender.Functions.RemoveMoney('bank', amount, "phone-transfered")
         end
@@ -970,7 +970,7 @@ end)
 RegisterNetEvent('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber, oldIban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:execute(
+    MySQL.Async.execute(
         'UPDATE player_contacts SET name = ?, number = ?, iban = ? WHERE citizenid = ? AND name = ? AND number = ?',
         {newName, newNumber, newIban, Player.PlayerData.citizenid, oldName, oldNumber})
 end)
@@ -978,54 +978,54 @@ end)
 RegisterNetEvent('qb-phone:server:RemoveContact', function(Name, Number)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:execute('DELETE FROM player_contacts WHERE name = ? AND number = ? AND citizenid = ?',
+    MySQL.Async.execute('DELETE FROM player_contacts WHERE name = ? AND number = ? AND citizenid = ?',
         {Name, Number, Player.PlayerData.citizenid})
 end)
 
 RegisterNetEvent('qb-phone:server:AddNewContact', function(name, number, iban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (?, ?, ?, ?)', {Player.PlayerData.citizenid, tostring(name), tostring(number), tostring(iban)})
+   MySQL.Async.insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (?, ?, ?, ?)', {Player.PlayerData.citizenid, tostring(name), tostring(number), tostring(iban)})
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNumber, New)
     local src = source
     local SenderData = QBCore.Functions.GetPlayer(src)
     local query = '%' .. ChatNumber .. '%'
-    local Player = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    local Player = MySQL.Sync.fetchAll('SELECT * FROM players WHERE charinfo LIKE ?', {query})
     if Player[1] ~= nil then
         local TargetData = QBCore.Functions.GetPlayerByCitizenId(Player[1].citizenid)
         if TargetData ~= nil then
-            local Chat = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?', {SenderData.PlayerData.citizenid, ChatNumber})
+            local Chat = MySQL.Sync.fetchAll('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?', {SenderData.PlayerData.citizenid, ChatNumber})
             if Chat[1] ~= nil then
                 -- Update for target
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), TargetData.PlayerData.citizenid, SenderData.PlayerData.charinfo.phone})
+                MySQL.Async.execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), TargetData.PlayerData.citizenid, SenderData.PlayerData.charinfo.phone})
                 -- Update for sender
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), SenderData.PlayerData.citizenid, TargetData.PlayerData.charinfo.phone})
+                MySQL.Async.execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), SenderData.PlayerData.citizenid, TargetData.PlayerData.charinfo.phone})
                 -- Send notification & Update messages for target
                 TriggerClientEvent('qb-phone:client:UpdateMessages', TargetData.PlayerData.source, ChatMessages, SenderData.PlayerData.charinfo.phone, false)
             else
                 -- Insert for target
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {TargetData.PlayerData.citizenid, SenderData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
+               MySQL.Async.insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {TargetData.PlayerData.citizenid, SenderData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
                 -- Insert for sender
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {SenderData.PlayerData.citizenid, TargetData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
+               MySQL.Async.insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {SenderData.PlayerData.citizenid, TargetData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
                 -- Send notification & Update messages for target
                 TriggerClientEvent('qb-phone:client:UpdateMessages', TargetData.PlayerData.source, ChatMessages, SenderData.PlayerData.charinfo.phone, true)
             end
         else
-            local Chat = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?', {SenderData.PlayerData.citizenid, ChatNumber})
+            local Chat = MySQL.Sync.fetchAll('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?', {SenderData.PlayerData.citizenid, ChatNumber})
             if Chat[1] ~= nil then
                 -- Update for target
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), Player[1].citizenid, SenderData.PlayerData.charinfo.phone})
+                MySQL.Async.execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), Player[1].citizenid, SenderData.PlayerData.charinfo.phone})
                 -- Update for sender
                 Player[1].charinfo = json.decode(Player[1].charinfo)
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), SenderData.PlayerData.citizenid, Player[1].charinfo.phone})
+                MySQL.Async.execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), SenderData.PlayerData.citizenid, Player[1].charinfo.phone})
             else
                 -- Insert for target
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {Player[1].citizenid, SenderData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
+               MySQL.Async.insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {Player[1].citizenid, SenderData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
                 -- Insert for sender
                 Player[1].charinfo = json.decode(Player[1].charinfo)
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {SenderData.PlayerData.citizenid, Player[1].charinfo.phone, json.encode(ChatMessages)})
+               MySQL.Async.insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {SenderData.PlayerData.citizenid, Player[1].charinfo.phone, json.encode(ChatMessages)})
             end
         end
     end
@@ -1065,10 +1065,10 @@ end)
 RegisterNetEvent('qb-phone:server:SaveMetaData', function(MData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    local result = MySQL.Sync.fetchAll('SELECT * FROM players WHERE citizenid = ?', {Player.PlayerData.citizenid})
     local MetaData = json.decode(result[1].metadata)
     MetaData.phone = MData
-    exports.oxmysql:execute('UPDATE players SET metadata = ? WHERE citizenid = ?',
+    MySQL.Async.execute('UPDATE players SET metadata = ? WHERE citizenid = ?',
         {json.encode(MetaData), Player.PlayerData.citizenid})
     Player.Functions.SetMetaData("phone", MData)
 end)
@@ -1091,7 +1091,7 @@ end)
 RegisterNetEvent('qb-phone:server:AddTransaction', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:insert('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (?, ?, ?)', {
+   MySQL.Async.insert('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (?, ?, ?)', {
         Player.PlayerData.citizenid,
         data.TransactionTitle,
         data.TransactionMessage
@@ -1139,7 +1139,7 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name = 'id', help = 'Player ID'},
         if billed ~= nil then
             if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
                 if amount and amount > 0 then
-                    exports.oxmysql:insert(
+                   MySQL.Async.insert(
                         'INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid) VALUES (?, ?, ?, ?, ?)',
                         {billed.PlayerData.citizenid, amount, biller.PlayerData.job.name,
                          biller.PlayerData.charinfo.firstname, biller.PlayerData.citizenid})
