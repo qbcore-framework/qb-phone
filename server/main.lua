@@ -443,19 +443,19 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     local search = escape_sqli(search)
     local searchData = {}
     local ApaData = {}
-    local query = 'SELECT * FROM `players` WHERE `citizenid` = "' .. search .. '"'
+    local query = "SELECT * FROM `players` WHERE `citizenid` = '" .. search .. "'"
     -- Split on " " and check each var individual
     local searchParameters = SplitStringToArray(search)
     -- Construct query dynamicly for individual parm check
     if #searchParameters > 1 then
-        query = query .. ' OR `charinfo` LIKE "%' .. searchParameters[1] .. '%"'
+        query = query .. " OR `charinfo` LIKE '%" .. searchParameters[1] .. "%'"
         for i = 2, #searchParameters do
-            query = query .. ' AND `charinfo` LIKE  "%' .. searchParameters[i] .. '%"'
+            query = query .. " AND `charinfo` LIKE  '%" .. searchParameters[i] .. "%'"
         end
     else
-        query = query .. ' OR `charinfo` LIKE "%' .. search .. '%"'
+        query = query .. " OR `charinfo` LIKE '%" .. search .. "%'"
     end
-    local ApartmentData = exports.oxmysql:executeSync('SELECT * FROM apartments', {})
+    local ApartmentData = exports.oxmysql:executeSync("SELECT * FROM apartments", {})
     for k, v in pairs(ApartmentData) do
         ApaData[v.citizenid] = ApartmentData[k]
     end
