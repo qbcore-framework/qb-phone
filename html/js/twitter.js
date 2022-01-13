@@ -215,6 +215,7 @@ $(document).on('click', '#send-tweet', function(e){
     var imageURL = $('#tweet-new-url').val()
     if (TweetMessage != "") {
         var CurrentDate = new Date();
+        CurrentDate = CurrentDate.getUTCFullYear() + '-' + ('00' + (CurrentDate.getUTCMonth()+1)).slice(-2) + '-' + ('00' + CurrentDate.getUTCDate()).slice(-2) + ' ' + ('00' + CurrentDate.getUTCHours()).slice(-2) + ':' + ('00' + CurrentDate.getUTCMinutes()).slice(-2) + ':' + ('00' + CurrentDate.getUTCSeconds()).slice(-2);
         $.post('https://qb-phone/PostNewTweet', JSON.stringify({
             Message: TweetMessage,
             Date: CurrentDate,
