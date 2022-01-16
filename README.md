@@ -97,7 +97,7 @@ Config.PhoneApplications = {
     },
 }
 ```
-## Setup Webhook in `server/main.lua` for photos
+## Setup Webhook in `config.lua` for photos
 Set the following variable to your webhook (For example, a Discord channel or Imgur webhook)
 ### To use Discord:
 - Right click on a channel dedicated for photos
@@ -107,7 +107,7 @@ Set the following variable to your webhook (For example, a Discord channel or Im
 - Click New Webhook
 - Confirm channel
 - Click Copy Webhook URL
-- Paste into `WebHook` in `server/main.lua`
+- Paste into `CameraWebhook` in `config.lua`
 ```
-local WebHook = ""
+Config.CameraWebhook = ""
 ```
