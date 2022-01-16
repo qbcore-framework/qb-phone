@@ -6,6 +6,7 @@ Config.Linux = false -- True if linux
 Config.RepeatTimeout = 2000
 Config.CallRepeats = 10
 Config.OpenPhone = 244
+Config.CameraWebhook = ""
 Config.PhoneApplications = {
     ["phone"] = {
         app = "phone",
