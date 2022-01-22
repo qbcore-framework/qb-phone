@@ -719,7 +719,6 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
 		print('Set your webhook to ensure that your camera will work!!!!!! Set this on line 10 of the server sided script!!!!!')
 		cb(nil)
 	end
-
 end)
 
 -- Events
@@ -1172,6 +1171,7 @@ RegisterNetEvent('qb-phone:server:addImageToGallery', function(image)
     local Player = QBCore.Functions.GetPlayer(src)
     MySQL.Async.insert('INSERT INTO phone_gallery (`citizenid`, `image`) VALUES (?, ?)',{Player.PlayerData.citizenid,image})
 end)
+
 RegisterNetEvent('qb-phone:server:getImageFromGallery', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -1184,6 +1184,17 @@ RegisterNetEvent('qb-phone:server:RemoveImageFromGallery', function(data)
     local Player = QBCore.Functions.GetPlayer(src)
     local image = data.image
     MySQL.Async.execute('DELETE FROM phone_gallery WHERE citizenid = ? AND image = ?',{Player.PlayerData.citizenid,image})
+end)
+
+RegisterNetEvent('qb-phone:server:sendPing', function(data)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    print(src, data)
+    if src ~= data then
+
+    else
+        TriggerClientEvent("QBCore:Notify", src, "You cannot ping yourself", "error")
+    end
 end)
 
 -- Command
