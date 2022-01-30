@@ -298,7 +298,7 @@ local function OpenPhone()
                 newPhoneProp()
             end)
 
-            QBCore.Functions.TriggerCallback('qb-phone:server:GetGarageVehicles', function(vehicles)
+            QBCore.Functions.TriggerCallback('qb-garage:server:GetPlayerVehicles', function(vehicles)
                 PhoneData.GarageVehicles = vehicles
             end)
         else
