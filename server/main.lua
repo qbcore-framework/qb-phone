@@ -224,7 +224,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             PhoneData.Hashtags = Hashtags
         end
 
-        local Tweets = MySQL.Sync.fetchAll('SELECT * FROM phone_tweets', {})
+        local Tweets = MySQL.Sync.fetchAll('SELECT * FROM phone_tweets WHERE `date` > NOW() - INTERVAL ? hour', {Config.TweetDuration})
         
         if Tweets ~= nil and next(Tweets) ~= nil then
             PhoneData.Tweets = Tweets
