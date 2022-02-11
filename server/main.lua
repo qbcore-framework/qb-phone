@@ -498,69 +498,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(source)
-    local Vehicles = {}
-
-    local result = MySQL.Sync.fetchAll('SELECT * FROM player_vehicles WHERE citizenid = ?',
-        {Player.PlayerData.citizenid})
-    if result[1] ~= nil then
-        for k, v in pairs(result) do
-            local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
-
-            local VehicleGarage = "None"
-            if v.garage ~= nil then
-                if Garages[v.garage] ~= nil then
-                    VehicleGarage = Garages[v.garage]["label"]
-                elseif GangGarages[v.garage] ~= nil then
-                    VehicleGarage = GangGarages[v.garage]["label"]
-                elseif JobGarages[v.garage] ~= nil then
-                    VehicleGarage = JobGarages[v.garage]["label"]
-                end
-            end
-
-            local VehicleState = "In"
-            if v.state == 0 then
-                VehicleState = "Out"
-            elseif v.state == 2 then
-                VehicleState = "Impounded"
-            end
-
-            local vehdata = {}
-
-            if VehicleData["brand"] ~= nil then
-                vehdata = {
-                    fullname = VehicleData["brand"] .. " " .. VehicleData["name"],
-                    brand = VehicleData["brand"],
-                    model = VehicleData["name"],
-                    plate = v.plate,
-                    garage = VehicleGarage,
-                    state = VehicleState,
-                    fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body
-                }
-            else
-                vehdata = {
-                    fullname = VehicleData["name"],
-                    brand = VehicleData["name"],
-                    model = VehicleData["name"],
-                    plate = v.plate,
-                    garage = VehicleGarage,
-                    state = VehicleState,
-                    fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body
-                }
-            end
-            Vehicles[#Vehicles+1] = vehdata
-        end
-        cb(Vehicles)
-    else
-        cb(nil)
-    end
-end)
-
 QBCore.Functions.CreateCallback('qb-phone:server:HasPhone', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player ~= nil then
