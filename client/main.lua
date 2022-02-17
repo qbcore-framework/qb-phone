@@ -45,11 +45,6 @@ local function escape_str(s)
 	return s
 end
 
-local function GenerateTweetId()
-    local tweetId = "TWEET-"..math.random(11111111, 99999999)
-    return tweetId
-end
-
 local function IsNumberInContacts(num)
     local retval = num
     for _, v in pairs(PhoneData.Contacts) do
@@ -722,7 +717,7 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         citizenid = PhoneData.PlayerData.citizenid,
         message = escape_str(data.Message),
         time = data.Date,
-        tweetId = GenerateTweetId(),
+        tweetId = "TWEET-"..math.random(11111111, 99999999),
         picture = data.Picture,
         url = data.url
     }
