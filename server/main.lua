@@ -581,13 +581,13 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
         Adverts[CitizenId].message = msg
         Adverts[CitizenId].name = "@" .. Player.PlayerData.charinfo.firstname .. "" .. Player.PlayerData.charinfo.lastname
         Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
-        Adverts[CitizenId].url = url
+        Adverts[CitizenId].url = url:gsub("[%<>\"()\' $]","")
     else
         Adverts[CitizenId] = {
             message = msg,
             name = "@" .. Player.PlayerData.charinfo.firstname .. "" .. Player.PlayerData.charinfo.lastname,
             number = Player.PlayerData.charinfo.phone,
-            url = url
+            url = url:gsub("[%<>\"()\' $]","")
         }
     end
     TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, "@" .. Player.PlayerData.charinfo.firstname .. "" .. Player.PlayerData.charinfo.lastname)
