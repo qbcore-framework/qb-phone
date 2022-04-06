@@ -1370,6 +1370,10 @@ RegisterNUICallback("TakePhoto", function(data,cb)
                         cb(json.encode(image.attachments[1].proxy_url))
                     end)
                 else
+		    DestroyMobilePhone()
+                    CellCamActivate(false, false)
+                    cb(json.encode({ url = nil }))
+                    takePhoto = false
                     return
                 end
             end)
