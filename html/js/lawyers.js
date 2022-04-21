@@ -154,7 +154,7 @@ $(document).on('click', '.lawyer-list-call', function(e){
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
     }), function(status){
-        if (cData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
+        if (status.targetNumber !== QB.Phone.Data.PlayerData.charinfo.phone) {
             if (status.IsOnline) {
                 if (status.CanCall) {
                     if (!status.InCall) {
@@ -181,10 +181,18 @@ $(document).on('click', '.lawyer-list-call', function(e){
                         QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You are already connected to a call!");
                     }
                 } else {
-                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is already in a call");
+                    if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                    } else {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
+                    }
                 }
             } else {
-                QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                } else {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                }
             }
         } else {
             QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call your own number!");

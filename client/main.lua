@@ -1222,11 +1222,15 @@ RegisterNUICallback('GetWhatsappChats', function(_, cb)
 end)
 
 RegisterNUICallback('CallContact', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline, _)
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline, NumberPair)
+        data.ContactData.emergencyNumber = NumberPair.emergencyNumber
+        data.ContactData.number = NumberPair.number
+
         local status = {
             CanCall = CanCall,
             IsOnline = IsOnline,
             InCall = PhoneData.CallData.InCall,
+            targetNumber = NumberPair.number,
         }
         cb(status)
         if CanCall and not status.InCall and (data.ContactData.number ~= PhoneData.PlayerData.charinfo.phone) then
@@ -1440,6 +1444,8 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    TriggerServerEvent('qb-phone:server:controlCenterLogout')
+
     PhoneData = {
         MetaData = {},
         isOpen = false,
@@ -1561,11 +1567,12 @@ RegisterNetEvent('qb-phone:client:RaceNotify', function(message)
 end)
 
 RegisterNetEvent('qb-phone:client:AddRecentCall', function(data, time, type)
+    local displayNumber = data.emergencyNumber ~= nil and data.emergencyNumber or data.number
     PhoneData.RecentCalls[#PhoneData.RecentCalls+1] = {
-        name = IsNumberInContacts(data.number),
+        name = IsNumberInContacts(displayNumber),
         time = time,
         type = type,
-        number = data.number,
+        number = displayNumber,
         anonymous = data.anonymous
     }
     TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "phone")
@@ -1711,12 +1718,13 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
     end
 end)
 
-RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, AnonymousCall)
+RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, AnonymousCall, emergencyNumber)
     local RepeatCount = 0
     local CallData = {
         number = CallerNumber,
         name = IsNumberInContacts(CallerNumber),
-        anonymous = AnonymousCall
+        anonymous = AnonymousCall,
+        emergencyNumber = emergencyNumber
     }
 
     if AnonymousCall then

@@ -96,7 +96,7 @@ $(document).on('click', '.phone-recent-call', function(e){
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
     }), function(status){
-        if (cData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
+        if (status.targetNumber !== QB.Phone.Data.PlayerData.charinfo.phone) {
             if (status.IsOnline) {
                 if (status.CanCall) {
                     if (!status.InCall) {
@@ -123,10 +123,18 @@ $(document).on('click', '.phone-recent-call', function(e){
                         QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
                     }
                 } else {
-                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
+                    if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                    } else {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
+                    }
                 }
             } else {
-                QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                } else {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                }
             }
         } else {
             QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call yourself!");
@@ -148,7 +156,7 @@ $(document).on('click', ".phone-keypad-key-call", function(e){
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
     }), function(status){
-        if (cData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
+        if (status.targetNumber !== QB.Phone.Data.PlayerData.charinfo.phone) {
             if (status.IsOnline) {
                 if (status.CanCall) {
                     if (!status.InCall) {
@@ -172,10 +180,18 @@ $(document).on('click', ".phone-keypad-key-call", function(e){
                         QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
                     }
                 } else {
-                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
+                    if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                    } else {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
+                    }
                 }
             } else {
-                QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                } else {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                }
             }
         } else {
             QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call yourself!");
@@ -489,7 +505,7 @@ SetupCall = function(cData) {
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
     }), function(status){
-        if (cData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
+        if (status.targetNumber !== QB.Phone.Data.PlayerData.charinfo.phone) {
             if (status.IsOnline) {
                 if (status.CanCall) {
                     if (!status.InCall) {
@@ -513,10 +529,18 @@ SetupCall = function(cData) {
                         QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
                     }
                 } else {
-                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is in a call!");
+                    if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                    } else {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
+                    }
                 }
             } else {
-                QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                if (QB.Phone.Functions.IsEmergencyNumber(cData.number)) {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "ES currently not available. Try later!");
+                } else {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                }
             }
         } else {
             QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call your own number!");
