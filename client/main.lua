@@ -473,20 +473,24 @@ RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
 
 -- NUI Callbacks
 
-RegisterNUICallback('CancelOutgoingCall', function()
+RegisterNUICallback('CancelOutgoingCall', function(_, cb)
     CancelCall()
+    cb('ok')
 end)
 
-RegisterNUICallback('DenyIncomingCall', function()
+RegisterNUICallback('DenyIncomingCall', function(_, cb)
     CancelCall()
+    cb('ok')
 end)
 
-RegisterNUICallback('CancelOngoingCall', function()
+RegisterNUICallback('CancelOngoingCall', function(_, cb)
     CancelCall()
+    cb('ok')
 end)
 
-RegisterNUICallback('AnswerCall', function()
+RegisterNUICallback('AnswerCall', function(_, cb)
     AnswerCall()
+    cb('ok')
 end)
 
 RegisterNUICallback('ClearRecentAlerts', function(_, cb)
@@ -496,10 +500,11 @@ RegisterNUICallback('ClearRecentAlerts', function(_, cb)
     cb("ok")
 end)
 
-RegisterNUICallback('SetBackground', function(data)
+RegisterNUICallback('SetBackground', function(data, cb)
     local background = data.background
     PhoneData.MetaData.background = background
     TriggerServerEvent('qb-phone:server:SaveMetaData', PhoneData.MetaData)
+    cb('ok')
 end)
 
 RegisterNUICallback('GetMissedCalls', function(_, cb)
@@ -526,7 +531,7 @@ RegisterNUICallback('RemoveMail', function(data, cb)
     cb('ok')
 end)
 
-RegisterNUICallback('Close', function()
+RegisterNUICallback('Close', function(_, cb)
     if not PhoneData.CallData.InCall then
         DoPhoneAnimation('cellphone_text_out')
         SetTimeout(400, function()
@@ -544,13 +549,15 @@ RegisterNUICallback('Close', function()
     SetTimeout(500, function()
         PhoneData.isOpen = false
     end)
+    cb('ok')
 end)
 
-RegisterNUICallback('AcceptMailButton', function(data)
+RegisterNUICallback('AcceptMailButton', function(data, cb)
     if data.buttonEvent ~= nil or  data.buttonData ~= nil then
         TriggerEvent(data.buttonEvent, data.buttonData)
     end
     TriggerServerEvent('qb-phone:server:ClearButtonData', data.mailId)
+    cb('ok')
 end)
 
 RegisterNUICallback('AddNewContact', function(data, cb)
@@ -598,10 +605,9 @@ RegisterNUICallback('GetInvoices', function(_, cb)
     end
 end)
 
-RegisterNUICallback('SharedLocation', function(data)
+RegisterNUICallback('SharedLocation', function(data, cb)
     local x = data.coords.x
     local y = data.coords.y
-
     SetNewWaypoint(x, y)
     SendNUIMessage({
         action = "PhoneNotification",
@@ -613,21 +619,25 @@ RegisterNUICallback('SharedLocation', function(data)
             timeout = 1500,
         },
     })
+    cb('ok')
 end)
 
-RegisterNUICallback('PostAdvert', function(data)
+RegisterNUICallback('PostAdvert', function(data, cb)
     TriggerServerEvent('qb-phone:server:AddAdvert', data.message, data.url)
+    cb('ok')
 end)
 
-RegisterNUICallback("DeleteAdvert", function()
+RegisterNUICallback("DeleteAdvert", function(_, cb)
     TriggerServerEvent("qb-phone:server:DeleteAdvert")
+    cb('ok')
 end)
 
-RegisterNUICallback('LoadAdverts', function()
+RegisterNUICallback('LoadAdverts', function(_, cb)
     SendNUIMessage({
         action = "RefreshAdverts",
         Adverts = PhoneData.Adverts
     })
+    cb('ok')
 end)
 
 RegisterNUICallback('ClearAlerts', function(data, cb)
@@ -655,7 +665,6 @@ RegisterNUICallback('PayInvoice', function(data, cb)
     local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId
-
     QBCore.Functions.TriggerCallback('qb-phone:server:PayInvoice', function(CanPay, Invoices)
         if CanPay then PhoneData.Invoices = Invoices end
         cb(CanPay)
@@ -667,7 +676,6 @@ RegisterNUICallback('DeclineInvoice', function(data, cb)
     local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId
-
     QBCore.Functions.TriggerCallback('qb-phone:server:DeclineInvoice', function(_, Invoices)
         PhoneData.Invoices = Invoices
         cb('ok')
@@ -682,7 +690,6 @@ RegisterNUICallback('EditContact', function(data, cb)
     local OldName = data.OldContactName
     local OldNumber = data.OldContactNumber
     local OldIban = data.OldContactIban
-
     for _, v in pairs(PhoneData.Contacts) do
         if v.name == OldName and v.number == OldNumber then
             v.name = NewName
@@ -767,8 +774,9 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     TriggerServerEvent('qb-phone:server:UpdateTweets', PhoneData.Tweets, TweetMessage)
 end)
 
-RegisterNUICallback('DeleteTweet',function(data)
+RegisterNUICallback('DeleteTweet',function(data, cb)
     TriggerServerEvent('qb-phone:server:DeleteTweet', data.id)
+    cb('ok')
 end)
 
 RegisterNUICallback('GetMentionedTweets', function(_, cb)
@@ -831,7 +839,7 @@ RegisterNUICallback('GetGalleryData', function(_, cb)
     cb(data)
 end)
 
-RegisterNUICallback('DeleteImage', function(image,cb)
+RegisterNUICallback('DeleteImage', function(image, cb)
     TriggerServerEvent('qb-phone:server:RemoveImageFromGallery',image)
     Wait(400)
     TriggerServerEvent('qb-phone:server:getImageFromGallery')
@@ -915,22 +923,26 @@ RegisterNUICallback('GetAvailableRaces', function(_, cb)
     end)
 end)
 
-RegisterNUICallback('JoinRace', function(data)
+RegisterNUICallback('JoinRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:JoinRace', data.RaceData)
+    cb('ok')
 end)
 
-RegisterNUICallback('LeaveRace', function(data)
+RegisterNUICallback('LeaveRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:LeaveRace', data.RaceData)
+    cb('ok')
 end)
 
-RegisterNUICallback('StartRace', function(data)
+RegisterNUICallback('StartRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:StartRace', data.RaceData.RaceId)
+    cb('ok')
 end)
 
-RegisterNUICallback('SetAlertWaypoint', function(data)
+RegisterNUICallback('SetAlertWaypoint', function(data, cb)
     local coords = data.alert.coords
     QBCore.Functions.Notify('GPS Location set: '..data.alert.title)
     SetNewWaypoint(coords.x, coords.y)
+    cb('ok')
 end)
 
 RegisterNUICallback('RemoveSuggestion', function(data, cb)
@@ -1089,7 +1101,6 @@ end)
 
 RegisterNUICallback('TransferCid', function(data, cb)
     local TransferedCid = data.newBsn
-
     QBCore.Functions.TriggerCallback('qb-phone:server:TransferCid', function(CanTransfer)
         cb(CanTransfer)
     end, TransferedCid, data.HouseData)
@@ -1110,7 +1121,6 @@ end)
 RegisterNUICallback('SetApartmentLocation', function(data, cb)
     local ApartmentData = data.data.appartmentdata
     local TypeData = Apartments.Locations[ApartmentData.type]
-
     SetNewWaypoint(TypeData.coords.enter.x, TypeData.coords.enter.y)
     QBCore.Functions.Notify('GPS has been set!', 'success')
     cb("ok")
@@ -1131,7 +1141,7 @@ RegisterNUICallback('SetupStoreApps', function(_, cb)
     cb(data)
 end)
 
-RegisterNUICallback('ClearMentions', function()
+RegisterNUICallback('ClearMentions', function(_ ,cb)
     Config.PhoneApplications["twitter"].Alerts = 0
     SendNUIMessage({
         action = "RefreshAppAlerts",
@@ -1139,9 +1149,10 @@ RegisterNUICallback('ClearMentions', function()
     })
     TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "twitter", 0)
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+    cb('ok')
 end)
 
-RegisterNUICallback('ClearGeneralAlerts', function(data)
+RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
     SetTimeout(400, function()
         Config.PhoneApplications[data.app].Alerts = 0
         SendNUIMessage({
@@ -1150,6 +1161,7 @@ RegisterNUICallback('ClearGeneralAlerts', function(data)
         })
         TriggerServerEvent('qb-phone:server:SetPhoneAlerts', data.app, 0)
         SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+        cb('ok')
     end)
 end)
 
