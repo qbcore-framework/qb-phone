@@ -39,7 +39,7 @@ end
 
 function deletePhone()
 	if phoneProp ~= 0 then
-		DeleteObject(phoneProp)
+		DeleteEntity(phoneProp)
 		phoneProp = 0
 	end
 end
