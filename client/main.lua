@@ -1368,6 +1368,16 @@ RegisterNUICallback('SendMessage', function(data, cb)
     cb("ok")
 end)
 
+-- Movement toggle
+RegisterNUICallback('DissalowMoving', function()
+    SetNuiFocusKeepInput(false)
+end)
+
+RegisterNUICallback('AllowMoving', function()
+    SetNuiFocusKeepInput(true)
+end)
+
+
 RegisterNUICallback("TakePhoto", function(_,cb)
     SetNuiFocus(false, false)
     CreateMobilePhone(1)
