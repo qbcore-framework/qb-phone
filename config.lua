@@ -94,16 +94,6 @@ Config.PhoneApplications = {
         slot = 8,
         Alerts = 0,
     },
-    ["crypto"] = {
-        app = "crypto",
-        color = "#004682",
-        icon = "fas fa-coins",
-        tooltipText = "Crypto",
-        job = false,
-        blockedjobs = {},
-        slot = 9,
-        Alerts = 0,
-    },
     ["racing"] = {
         app = "racing",
         color = "#353b48",
@@ -111,7 +101,7 @@ Config.PhoneApplications = {
         tooltipText = "Racing",
         job = false,
         blockedjobs = {},
-        slot = 10,
+        slot = 9,
         Alerts = 0,
     },
     ["houses"] = {
@@ -121,17 +111,7 @@ Config.PhoneApplications = {
         tooltipText = "Houses",
         job = false,
         blockedjobs = {},
-        slot = 11,
-        Alerts = 0,
-    },
-    ["meos"] = {
-        app = "meos",
-        color = "#004682",
-        icon = "fas fa-ad",
-        tooltipText = "MDT",
-        job = "police",
-        blockedjobs = {},
-        slot = 13,
+        slot = 10,
         Alerts = 0,
     },
     ["lawyers"] = {
@@ -142,7 +122,7 @@ Config.PhoneApplications = {
         tooltipPos = "bottom",
         job = false,
         blockedjobs = {},
-        slot = 12,
+        slot = 13,
         Alerts = 0,
     },
     ["gallery"] = {
@@ -153,7 +133,7 @@ Config.PhoneApplications = {
         tooltipPos = "bottom",
         job = false,
         blockedjobs = {},
-        slot = 16,
+        slot = 11,
         Alerts = 0,
     },
     ["camera"] = {
@@ -164,7 +144,7 @@ Config.PhoneApplications = {
         tooltipPos = "bottom",
         job = false,
         blockedjobs = {},
-        slot = 15,
+        slot = 12,
         Alerts = 0,
     },
 }
