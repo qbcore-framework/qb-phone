@@ -9,6 +9,7 @@ local GeneratedPlates = {}
 local WebHook = ""
 local bannedCharacters = {'%','$',';'}
 local TWData = {}
+local controlCenter = {}
 
 -- Functions
 
@@ -124,22 +125,38 @@ local function GenerateOwnerName()
     return names[math.random(1, #names)]
 end
 
+local function GetCallNumberPair(callNumber)
+    local numberPair = { number = callNumber }
+
+    if callNumber == '911' and controlCenter['police'] then
+        numberPair.number = controlCenter['police'].phoneNumber
+        numberPair.emergencyNumber = callNumber
+    elseif callNumber == '912' and controlCenter['ambulance'] then
+        numberPair.number = controlCenter['ambulance'].phoneNumber
+        numberPair.emergencyNumber = callNumber
+    end
+
+    return numberPair
+end
+
 -- Callbacks
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(_, cb, ContactData)
-    local Target = QBCore.Functions.GetPlayerByPhone(ContactData.number)
+    local numberPair = GetCallNumberPair(ContactData.number)
+
+    local Target = QBCore.Functions.GetPlayerByPhone(numberPair.number)
     if Target ~= nil then
         if Calls[Target.PlayerData.citizenid] ~= nil then
             if Calls[Target.PlayerData.citizenid].inCall then
-                cb(false, true)
+                cb(false, true, numberPair)
             else
-                cb(true, true)
+                cb(true, true, numberPair)
             end
         else
-            cb(true, true)
+            cb(true, true, numberPair)
         end
     else
-        cb(false, false)
+        cb(false, false, numberPair)
     end
 end)
 
@@ -744,7 +761,7 @@ RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, Ano
     local Ply = QBCore.Functions.GetPlayer(src)
     local Target = QBCore.Functions.GetPlayerByPhone(TargetData.number)
     if Target ~= nil then
-        TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
+        TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall, TargetData.emergencyNumber)
     end
 end)
 
@@ -931,15 +948,17 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
     local Hour = os.date("%H")
     local Minute = os.date("%M")
     local label = Hour .. ":" .. Minute
-    TriggerClientEvent('qb-phone:client:AddRecentCall', src, data, label, type)
     local Trgt = QBCore.Functions.GetPlayerByPhone(data.number)
     if Trgt ~= nil then
         TriggerClientEvent('qb-phone:client:AddRecentCall', Trgt.PlayerData.source, {
             name = Ply.PlayerData.charinfo.firstname .. " " .. Ply.PlayerData.charinfo.lastname,
             number = Ply.PlayerData.charinfo.phone,
-            anonymous = data.anonymous
+            anonymous = data.anonymous,
+            emergencyNumber = data.emergencyNumber,
         }, label, "outgoing")
     end
+    data.emergencyNumber = nil
+    TriggerClientEvent('qb-phone:client:AddRecentCall', src, data, label, type)
 end)
 
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
@@ -1037,6 +1056,17 @@ RegisterNetEvent('qb-phone:server:sendPing', function(data)
     end
 end)
 
+RegisterNetEvent('qb-phone:server:controlCenterLogout', function()
+    local src = source
+    local PlayerData = QBCore.Functions.GetPlayer(src).PlayerData
+
+    for k,v in pairs(controlCenter) do
+        if v.phoneNumber == PlayerData.charinfo.phone then
+            controlCenter[k] = nil
+        end
+    end
+end)
+
 -- Command
 
 QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, function(source, args)
@@ -1078,5 +1108,39 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name = 'id', help = 'Player ID'},
         end
     else
         TriggerClientEvent('QBCore:Notify', source, 'No Access', 'error')
+    end
+end)
+
+QBCore.Commands.Add('controlcenter', "Enter/Exit the control center role (ES only)", {}, false, function(source)
+    local PlayerData = QBCore.Functions.GetPlayer(source).PlayerData
+    if (PlayerData.job.name == 'police' or PlayerData.job.name == 'ambulance') and PlayerData.job.onduty then
+        local ccData = controlCenter[PlayerData.job.name]
+
+        if ccData then
+            -- control center already taken
+            if ccData.phoneNumber == PlayerData.charinfo.phone then
+                -- logout of control center
+                controlCenter[PlayerData.job.name] = nil
+                TriggerClientEvent('QBCore:Notify', source, 'You logged out of Control Center', 'error')
+            else
+                TriggerClientEvent('QBCore:Notify', source, 'Control Center taken by '..ccData.name, 'error')
+            end
+        else
+            -- control center free
+            controlCenter[PlayerData.job.name] = {
+                name = PlayerData.charinfo.firstname .. ' ' .. PlayerData.charinfo.lastname,
+                phoneNumber = PlayerData.charinfo.phone,
+            }
+
+            TriggerClientEvent('QBCore:Notify', source, 'You sucessfully signed into Control Center', 'success')
+        end
+    end
+end)
+
+QBCore.Commands.Add('clearcontrolcenter', 'Log everyone out of Control Center (Admin/Boss only)', {{name = 'job', help = 'Job to clear Control Center'}}, true, function(source, args)
+    local PlayerData = QBCore.Functions.GetPlayer(source).PlayerData
+    local hasJobBoss = PlayerData.job.name == args[1] and PlayerData.job.isboss
+    if QBCore.Functions.HasPermission(source, 'command.clearControlCenter') or hasJobBoss then
+        controlCenter[args[1]] = nil
     end
 end)

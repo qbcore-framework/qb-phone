@@ -481,6 +481,10 @@ QB.Phone.Functions.UpdateTime = function(data) {
     $("#phone-time").html("<span>" + data.InGameTime.hour + ":" + data.InGameTime.minute + "</span>");
 }
 
+QB.Phone.Functions.IsEmergencyNumber = function(phoneNumber) {
+    return phoneNumber === "911" || phoneNumber === "912"
+}
+
 var NotificationTimeout = null;
 
 QB.Screen.Notification = function(title, content, icon, timeout, color) {
