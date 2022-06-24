@@ -54,7 +54,7 @@ end
 local function IsNumberInContacts(num)
     local retval = num
     for _, v in pairs(PhoneData.Contacts) do
-        if num == v.number then
+        if num == tonumber(v.number) then
             retval = v.name
         end
     end
