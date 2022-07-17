@@ -255,7 +255,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
     local invoiceMailData = {}
     if SenderPly and Config.BillingCommissions[society] then
-        local commission = QBShared.Round(amount * Config.BillingCommissions[society])
+        local commission = QBCore.QBShared.Round(amount * Config.BillingCommissions[society])
         SenderPly.Functions.AddMoney('bank', commission)
         invoiceMailData = {
             sender = 'Billing Department',
@@ -843,7 +843,7 @@ RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
             end
         else
             local moneyInfo = json.decode(result[1].money)
-            moneyInfo.bank = QBShared.Round((moneyInfo.bank + amount))
+            moneyInfo.bank = QBCore.QBShared.Round((moneyInfo.bank + amount))
             MySQL.update('UPDATE players SET money = ? WHERE citizenid = ?',
                 {json.encode(moneyInfo), result[1].citizenid})
             sender.Functions.RemoveMoney('bank', amount, "phone-transfered")
