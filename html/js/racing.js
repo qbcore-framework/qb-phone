@@ -132,7 +132,10 @@ $(document).on('click', '#join-race', function(e){
                     }), function(IsBusy){
                         if (!IsBusy) {
                             $.post('https://qb-phone/JoinRace', JSON.stringify({
-                                RaceData: Data,
+                                RaceData: {
+                                    ...Data,
+                                    RaceId
+                                },
                             }));
                             $.post('https://qb-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
                                 SetupRaces(Races);
