@@ -274,7 +274,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
         invoiceMailData = {
             sender = Lang:t("label.bill_dep"),
             subject = Lang:t("label.bill_payed"),
-            message = Lang:t('label.comission_message', {value1 = Ply.PlayerData.charinfo.firstname, value2 = Ply.PlayerData.charinfo.lastname, value3 = amount})
+            message = Lang:t('label.bill_payed_message', {value1 = Ply.PlayerData.charinfo.firstname, value2 = Ply.PlayerData.charinfo.lastname, value3 = amount})
         }
     end
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
