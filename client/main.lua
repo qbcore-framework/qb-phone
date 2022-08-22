@@ -303,7 +303,7 @@ local function OpenPhone()
                 PhoneData.GarageVehicles = vehicles
             end)
         else
-            QBCore.Functions.Notify("You don't have a phone", "error")
+            QBCore.Functions.Notify(Lang:t("notify.no_phone"), "error")
         end
     end)
 end
@@ -340,8 +340,8 @@ local function CancelCall()
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Phone",
-                text = "The call has been ended",
+                title = Lang:t("label.nui_title"),
+                text = Lang:t("label.text_messg"),
                 icon = "fas fa-phone",
                 color = "#e84118",
             },
@@ -350,8 +350,8 @@ local function CancelCall()
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Phone",
-                text = "The call has been ended",
+                title = Lang:t("label.nui_title"),
+                text = Lang:t("label.text_messg"),
                 icon = "fas fa-phone",
                 color = "#e84118",
             },
@@ -443,8 +443,8 @@ local function AnswerCall()
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Phone",
-                text = "You don't have a incoming call...",
+                title = Lang:t("label.nui_title"),
+                text = Lang:t("label.no_call"),
                 icon = "fas fa-phone",
                 color = "#e84118",
             },
@@ -464,12 +464,12 @@ RegisterCommand('phone', function()
         if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() then
             OpenPhone()
         else
-            QBCore.Functions.Notify("Action not available at the moment..", "error")
+            QBCore.Functions.Notify(Lang:t("notify.no_action"), "error")
         end
     end
 end)
 
-RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
+RegisterKeyMapping('phone', Lang:t("inf_mapping.phone"), 'keyboard', 'M')
 
 -- NUI Callbacks
 
@@ -613,7 +613,7 @@ RegisterNUICallback('SharedLocation', function(data, cb)
         action = "PhoneNotification",
         PhoneNotify = {
             title = "Whatsapp",
-            text = "Location has been set!",
+            text = Lang:t("label.whatsup_msg"),
             icon = "fab fa-whatsapp",
             color = "#25D366",
             timeout = 1500,
@@ -777,7 +777,7 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
             action = "PhoneNotification",
             PhoneNotify = {
                 title = "Twitter",
-                text = "Invalid Tweet",
+                text = Lang:t("label.invalid_tweet"),
                 icon = "fab fa-twitter",
                 color = "#1DA1F2",
                 timeout = 1000,
@@ -862,9 +862,9 @@ end)
 RegisterNUICallback('track-vehicle', function(data, cb)
     local veh = data.veh
     if findVehFromPlateAndLocate(veh.plate) then
-        QBCore.Functions.Notify("Your vehicle has been marked", "success")
+        QBCore.Functions.Notify(Lang:t("notify.track_vehicle"), "success")
     else
-        QBCore.Functions.Notify("This vehicle cannot be located", "error")
+        QBCore.Functions.Notify(Lang:t("notify.cant_track"), "error")
     end
     cb("ok")
 end)
@@ -880,8 +880,8 @@ RegisterNUICallback('DeleteContact', function(data, cb)
                 SendNUIMessage({
                     action = "PhoneNotification",
                     PhoneNotify = {
-                        title = "Phone",
-                        text = "You deleted contact!",
+                        title = Lang:t("label.nui_title"),
+                        text = Lang:t("label.del_contact"),
                         icon = "fa fa-phone-alt",
                         color = "#04b543",
                         timeout = 1500,
@@ -952,7 +952,7 @@ end)
 
 RegisterNUICallback('SetAlertWaypoint', function(data, cb)
     local coords = data.alert.coords
-    QBCore.Functions.Notify('GPS Location set: '..data.alert.title)
+    QBCore.Functions.Notify(Lang:t('notify.gps_set_to', {value = data.alert.title}))
     SetNewWaypoint(coords.x, coords.y)
     cb('ok')
 end)
@@ -1063,7 +1063,7 @@ RegisterNUICallback('RaceDistanceCheck', function(data, cb)
             end
             cb(true)
         else
-            QBCore.Functions.Notify('You\'re too far away from the race. GPS has been set to the race.', 'error', 5000)
+            QBCore.Functions.Notify(Lang:t("notify.race_to_far"), 'error', 5000)
             SetNewWaypoint(checkpointcoords.x, checkpointcoords.y)
             cb(false)
         end
@@ -1098,7 +1098,7 @@ end)
 
 RegisterNUICallback('SetHouseLocation', function(data, cb)
     SetNewWaypoint(data.HouseData.HouseData.coords.enter.x, data.HouseData.HouseData.coords.enter.y)
-    QBCore.Functions.Notify("GPS has been set to " .. data.HouseData.HouseData.adress .. "!", "success")
+    QBCore.Functions.Notify(Lang:t('notify.house_gps', {value = data.HouseData.HouseData.adress}), "success")
     cb("ok")
 end)
 
@@ -1126,7 +1126,7 @@ end)
 
 RegisterNUICallback('SetGPSLocation', function(data, cb)
     SetNewWaypoint(data.coords.x, data.coords.y)
-    QBCore.Functions.Notify('GPS has been set!', 'success')
+    QBCore.Functions.Notify(Lang:t("notify.gps_was_set"), 'success')
     cb("ok")
 end)
 
@@ -1134,7 +1134,7 @@ RegisterNUICallback('SetApartmentLocation', function(data, cb)
     local ApartmentData = data.data.appartmentdata
     local TypeData = Apartments.Locations[ApartmentData.type]
     SetNewWaypoint(TypeData.coords.enter.x, TypeData.coords.enter.y)
-    QBCore.Functions.Notify('GPS has been set!', 'success')
+    QBCore.Functions.Notify(Lang:t("notify.gps_was_set"), 'success')
     cb("ok")
 end)
 
@@ -1206,7 +1206,7 @@ RegisterNUICallback('CanTransferMoney', function(data, cb)
             if Transferd then
                 cb({TransferedMoney = true, NewBalance = (PlayerData.money.bank - amount)})
             else
-		SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { timeout=3000, title = "Bank", text = "Account does not exist!", icon = "fas fa-university", color = "#ff0000", }, })
+		SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { timeout=3000, title = Lang:t("label.bank"), text = Lang:t("label.account_issue"), icon = "fas fa-university", color = "#ff0000", }, })
                 cb({TransferedMoney = false})
             end
         end, amount, iban)
@@ -1260,7 +1260,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
                 }
             elseif ChatType == "location" then
                 PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
-                    message = "Shared Location",
+                    message = Lang:t("label.shared_location"),
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
                     type = ChatType,
@@ -1271,7 +1271,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
                 }
             elseif ChatType == "picture" then
                 PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
-                    message = "Photo",
+                    message = Lang:t("label.photo"),
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
                     type = ChatType,
@@ -1299,7 +1299,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
                 }
             elseif ChatType == "location" then
                 PhoneData.Chats[NumberKey].messages[ChatDate].messages[#PhoneData.Chats[NumberKey].messages[ChatDate].messages+1] = {
-                    message = "Shared Location",
+                    message = Lang:t("label.shared_location"),
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
                     type = ChatType,
@@ -1310,7 +1310,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
                 }
             elseif ChatType == "picture" then
                 PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
-                    message = "Photo",
+                    message = Lang:t("label.photo"),
                     time = ChatTime,
                     sender = PhoneData.PlayerData.citizenid,
                     type = ChatType,
@@ -1345,7 +1345,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
             }
         elseif ChatType == "location" then
             PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
-                message = "Shared Location",
+                message = Lang:t("label.shared_location"),
                 time = ChatTime,
                 sender = PhoneData.PlayerData.citizenid,
                 type = ChatType,
@@ -1356,7 +1356,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
             }
         elseif ChatType == "picture" then
             PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
-                message = "Photo",
+                message = Lang:t("label.photo"),
                 time = ChatTime,
                 sender = PhoneData.PlayerData.citizenid,
                 type = ChatType,
@@ -1427,7 +1427,7 @@ end)
 
 RegisterCommand('ping', function(_, args)
     if not args[1] then
-        QBCore.Functions.Notify("You need to input a Player ID", "error")
+        QBCore.Functions.Notify(Lang:t("notify.ping_id"), "error")
     else
         TriggerServerEvent('qb-phone:server:sendPing', args[1])
     end
@@ -1505,8 +1505,8 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
             SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
-                    title = "New Tweet (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")",
-                    text = "A new tweet as been posted.",
+                    title = Lang:t('label.new_tweet', {value1 = NewTweetData.firstName, value2 = NewTweetData.lastName}),
+                    text = Lang:t("label.new_tweet_posted"),
                     icon = "fab fa-twitter",
                     color = "#1DA1F2",
                 },
@@ -1520,7 +1520,7 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
                 action = "PhoneNotification",
                 PhoneNotify = {
                     title = "Twitter",
-                    text = "The Tweet has been posted!",
+                    text = Lang:t("label.new_tweet_posted"),
                     icon = "fab fa-twitter",
                     color = "#1DA1F2",
                     timeout = 1000,
@@ -1533,7 +1533,7 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
                 action = "PhoneNotification",
                 PhoneNotify = {
                     title = "Twitter",
-                    text = "The Tweet has been deleted!",
+                    text = Lang:t("label.tweet_deteled"),
                     icon = "fab fa-twitter",
                     color = "#1DA1F2",
                     timeout = 1000,
@@ -1551,7 +1551,7 @@ RegisterNetEvent('qb-phone:client:RaceNotify', function(message)
     SendNUIMessage({
         action = "PhoneNotification",
         PhoneNotify = {
-            title = "Racing",
+            title = Lang:t("label.racing_title"),
             text = message,
             icon = "fas fa-flag-checkered",
             color = "#353b48",
@@ -1580,7 +1580,7 @@ RegisterNetEvent("qb-phone-new:client:BankNotify", function(text)
     SendNUIMessage({
         action = "PhoneNotification",
         NotifyData = {
-            title = "Bank",
+            title = Lang:t("label.bank"),
             content = text,
             icon = "fas fa-university",
             timeout = 3500,
@@ -1593,8 +1593,8 @@ RegisterNetEvent('qb-phone:client:NewMailNotify', function(MailData)
     SendNUIMessage({
         action = "PhoneNotification",
         PhoneNotify = {
-            title = "Mail",
-            text = "You received a new mail from "..MailData.sender,
+            title = Lang:t("label.mail_label"),
+            text = Lang:t('label.mail_from', {value = MailData.sender}),
             icon = "fas fa-envelope",
             color = "#ff002f",
             timeout = 1500,
@@ -1625,8 +1625,8 @@ RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
     SendNUIMessage({
         action = "PhoneNotification",
         PhoneNotify = {
-            title = "Advertisement",
-            text = "A new ad has been posted by "..LastAd,
+            title = Lang:t("label.ad_label"),
+            text = Lang:t('label.ad_message', {value = LastAd}),
             icon = "fas fa-ad",
             color = "#ff8f1a",
             timeout = 2500,
@@ -1641,15 +1641,15 @@ end)
 RegisterNetEvent('qb-phone:client:BillingEmail', function(data, paid, name)
     if paid then
         TriggerServerEvent('qb-phone:server:sendNewMail', {
-            sender = 'Billing Department',
-            subject = 'Invoice Paid',
-            message = 'Invoice Has Been Paid From '..name..' In The Amount Of $'..data.amount,
+            sender = Lang:t("label.billing_label"),
+            subject = Lang:t("label.billing_title"),
+            message = Lang:t('label.billing_info', {value1 = name, value2 = data.amount}),
         })
     else
         TriggerServerEvent('qb-phone:server:sendNewMail', {
-            sender = 'Billing Department',
-            subject = 'Invoice Declined',
-            message = 'Invoice Has Been Declined From '..name..' In The Amount Of $'..data.amount,
+            sender = Lang:t("label.bill_dep"),
+            subject = Lang:t("label.bill_dep_title"),
+            message = Lang:t('label.bill_dep_message', {value1 = name, value2 = data.amount}),
         })
     end
 end)
@@ -1682,8 +1682,8 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
         SendNUIMessage({
             action = "PhoneNotification",
             NotifyData = {
-                title = "Phone",
-                content = "The call has been ended",
+                title = Lang:t("label.nui_title"),
+                content = Lang:t("label.text_messg"),
                 icon = "fas fa-phone",
                 timeout = 3500,
                 color = "#e84118",
@@ -1693,8 +1693,8 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Phone",
-                text = "The call has been ended",
+                title = Lang:t("label.nui_title"),
+                text = Lang:t("label.text_messg"),
                 icon = "fas fa-phone",
                 color = "#e84118",
             },
@@ -1720,7 +1720,7 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
     }
 
     if AnonymousCall then
-        CallData.name = "Anonymous"
+        CallData.name = Lang:t("label.anon_caller")
     end
 
     PhoneData.CallData.CallType = "incoming"
@@ -1813,7 +1813,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
                     action = "PhoneNotification",
                     PhoneNotify = {
                         title = "Whatsapp",
-                        text = "New message from "..IsNumberInContacts(SenderNumber).."!",
+                        text = Lang:t('label.ws_message', {value = IsNumberInContacts(SenderNumber)}),
                         icon = "fab fa-whatsapp",
                         color = "#25D366",
                         timeout = 1500,
@@ -1824,7 +1824,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
                     action = "PhoneNotification",
                     PhoneNotify = {
                         title = "Whatsapp",
-                        text = "Messaged yourself",
+                        text = Lang:t("label.ws_message_yourself"),
                         icon = "fab fa-whatsapp",
                         color = "#25D366",
                         timeout = 4000,
@@ -1849,7 +1849,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
 	        action = "PhoneNotification",
 	        PhoneNotify = {
 		    title = "Whatsapp",
-		    text = "New message from "..IsNumberInContacts(SenderNumber).."!",
+		    text = Lang:t('label.ws_message', {value = IsNumberInContacts(SenderNumber)}),
 		    icon = "fab fa-whatsapp",
 		    color = "#25D366",
 		    timeout = 3500,
@@ -1873,7 +1873,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
                     action = "PhoneNotification",
                     PhoneNotify = {
                         title = "Whatsapp",
-                        text = "New message from "..IsNumberInContacts(SenderNumber).."!",
+                        text = Lang:t('label.ws_message', {value = IsNumberInContacts(SenderNumber)}),
                         icon = "fab fa-whatsapp",
                         color = "#25D366",
                         timeout = 1500,
@@ -1884,7 +1884,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
                     action = "PhoneNotification",
                     PhoneNotify = {
                         title = "Whatsapp",
-                        text = "Messaged yourself",
+                        text = Lang:t("label.ws_message_yourself"),
                         icon = "fab fa-whatsapp",
                         color = "#25D366",
                         timeout = 4000,
@@ -1909,7 +1909,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
                 action = "PhoneNotification",
                 PhoneNotify = {
                     title = "Whatsapp",
-                    text = "New message from "..IsNumberInContacts(SenderNumber).."!",
+                    text = Lang:t('label.ws_message', {value = IsNumberInContacts(SenderNumber)}),
                     icon = "fab fa-whatsapp",
                     color = "#25D366",
                     timeout = 3500,
@@ -1930,8 +1930,8 @@ RegisterNetEvent('qb-phone:client:RemoveBankMoney', function(amount)
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Bank",
-                text = "$"..amount.." has been removed from your balance!",
+                title = Lang:t("label.bank"),
+                text = Lang:t('label.bank_ammount', {value = amount}),
                 icon = "fas fa-university",
                 color = "#ff002f",
                 timeout = 3500,
@@ -1959,7 +1959,7 @@ RegisterNetEvent('qb-phone:client:AddTransaction', function(_, _, Message, Title
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Crypto",
+                title = Lang:t("label.crypto_label"),
                 text = Message,
                 icon = "fas fa-chart-pie",
                 color = "#04b543",
@@ -1979,8 +1979,8 @@ RegisterNetEvent('qb-phone:client:AddNewSuggestion', function(SuggestionData)
     SendNUIMessage({
         action = "PhoneNotification",
         PhoneNotify = {
-            title = "Phone",
-            text = "You have a new suggested contact!",
+            title = Lang:t("label.nui_title"),
+            text = Lang:t("label.new_contact"),
             icon = "fa fa-phone-alt",
             color = "#04b543",
             timeout = 1500,
@@ -2049,8 +2049,8 @@ RegisterNetEvent('qb-phone:client:AnswerCall', function()
         SendNUIMessage({
             action = "PhoneNotification",
             PhoneNotify = {
-                title = "Phone",
-                text = "You don't have a incoming call...",
+                title = Lang:t("label.nui_title"),
+                text = Lang:t("label.no_new_call"),
                 icon = "fas fa-phone",
                 color = "#e84118",
             },
@@ -2074,7 +2074,7 @@ RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
         local PlayerId = GetPlayerServerId(player)
         TriggerServerEvent('qb-phone:server:GiveContactDetails', PlayerId)
     else
-        QBCore.Functions.Notify("No one nearby!", "error")
+        QBCore.Functions.Notify(Lang:t("notify.no_nearby"), "error")
     end
 end)
 
@@ -2086,7 +2086,7 @@ end)
 
 RegisterNetEvent('qb-phone:client:GetMentioned', function(TweetMessage, AppAlerts)
     Config.PhoneApplications["twitter"].Alerts = AppAlerts
-    SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "You have been mentioned in a Tweet!", text = TweetMessage.message, icon = "fab fa-twitter", color = "#1DA1F2", }, })
+    SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = Lang:t("label.tweet_mention"), text = TweetMessage.message, icon = "fab fa-twitter", color = "#1DA1F2", }, })
     TweetMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
     PhoneData.MentionedTweets[#PhoneData.MentionedTweets+1] = TweetMessage
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
