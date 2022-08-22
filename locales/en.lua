@@ -1,0 +1,83 @@
+local Translations = {
+    notify = {
+        no_phone = "You don't have a phone",
+        no_action = "Action not available at the moment..",
+        track_vehicle = "Your vehicle has been marked",
+        cant_track = "This vehicle cannot be located",
+        gps_set_to = "GPS Location set: %{value}",
+        race_to_far = "You\'re too far away from the race. GPS has been set to the race.",
+        house_gps = "GPS has been set to %{value} !",
+        gps_was_set = "GPS has been set!",
+        ping_id = "You need to input a Player ID",
+        no_nearby = "No one nearby!",
+        no_veh_near = "No Vehicle Nearby",
+        failed_number = "This account number doesn't exist!",
+        ping_yourself = "You cannot ping yourself",
+        invoice_sent = "Invoice Successfully Sent",
+        invoice_received = "New Invoice Received",
+        amont_abovez = "Must Be A Valid Amount Above 0",
+        cant_bill_yourself = "You Cannot Bill Yourself",
+        player_not_online = "Player Not Online",
+        no_access = "No Access",
+    },
+    inf_mapping = {
+        phone = "Open Phone",
+    },
+    label = {
+        nui_title = "Phone",
+        text_messg = "The call has been ended",
+        no_call = "You don't have a incoming call...",
+        whatsup_msg = "Location has been set!",
+        invalid_tweet = "Invalid Tweet",
+        del_contact = "You deleted contact!",
+        bank = "Bank",
+        account_issue = "Account does not exist!",
+        shared_location = "Shared Location",
+        photo = "Photo",
+        new_tweet = "New Tweet (@%{value1} %{value2})",
+        new_tweet_posted = "A new tweet as been posted.",
+        tweet_deteled = "The Tweet has been deleted!",
+        racing_title = "Racing",
+        mail_label = "Mail",
+        mail_from = "You received a new mail from ..MailData.sender",
+        ad_label = "Advertisement",
+        ad_message = "A new ad has been posted by %{value}",
+        billing_label = "Billing Department",
+        billing_title = "Invoice Paid",
+        billing_info = "Invoice Has Been Paid From %{value1} In The Amount Of $%{value2}",
+        bill_dep = "Billing Department",
+        bill_dep_title = "Invoice Declined",
+        bill_dep_message = "Invoice Has Been Declined From %{value1} In The Amount Of $%{value2}",
+        anon_caller = "Anonymous",
+        ws_message = "New message from %{value}!",
+        ws_message_yourself = "Messaged yourself",
+        bank_ammount = "$%{value} has been removed from your balance!",
+        crypto_label = "Crypto",
+        new_contact = "You have a new suggested contact!",
+        no_new_call = "You don't have a incoming call...",
+        tweet_mention = "You have been mentioned in a Tweet!",
+        commision_received = "Commission Received",
+        comission_message = "You received a commission check of $%{value1} when %{value2} %s paid a bill of $%{value3}.",
+        bill_payed = "Bill Paid",
+        bill_payed_message = "%{value1} %{value2} paid a bill of $%{value3}",
+        name_notfound = "Name not found..",
+        brand_unkanown = "Brand unknown..",
+        set_metadata = "Set Player Metadata (God Only)",
+
+
+    },
+    command = {
+        bill = {
+            help = 'Bill A Player',
+            params = {
+                id = { name = 'id', help = 'ID of player' },
+                amont = { name = 'amount', help = 'Fine Amount' },
+            },
+        },
+    }
+
+}
+Lang = Locale:new({
+    phrases = Translations,
+    warnOnMissing = true
+})
