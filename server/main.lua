@@ -266,15 +266,15 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
         local commission = round(amount * Config.BillingCommissions[society])
         SenderPly.Functions.AddMoney('bank', commission)
         invoiceMailData = {
-            sender = 'Billing Department',
-            subject = 'Commission Received',
-            message = string.format('You received a commission check of $%s when %s %s paid a bill of $%s.', commission, Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
+            sender = Lang:t("label.bill_dep"),
+            subject = Lang:t("label.commision_received"),
+            message = Lang:t('label.comission_message', {value1 = commission, value2 = Ply.PlayerData.charinfo.firstname, value3 = Ply.PlayerData.charinfo.lastname, value4 = amount})
         }
     elseif not SenderPly and Config.BillingCommissions[society] then
         invoiceMailData = {
-            sender = 'Billing Department',
-            subject = 'Bill Paid',
-            message = string.format('%s %s paid a bill of $%s', Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
+            sender = Lang:t("label.bill_dep"),
+            subject = Lang:t("label.bill_payed"),
+            message = Lang:t('label.comission_message', {value1 = Ply.PlayerData.charinfo.firstname, value2 = Ply.PlayerData.charinfo.lastname, value3 = amount})
         }
     end
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
@@ -421,7 +421,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
                         status = true,
                         owner = charinfo.firstname .. " " .. charinfo.lastname,
                         citizenid = result[k].citizenid,
-                        label = "Name not found.."
+                        label = Lang:t("label.name_notfound")
                     }
                 end
             end
@@ -433,7 +433,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
                 status = GeneratedPlates[search].status,
                 owner = GeneratedPlates[search].owner,
                 citizenid = GeneratedPlates[search].citizenid,
-                label = "Brand unknown.."
+                label = Lang:t("label.brand_unkanown")
             }
         else
             local ownerInfo = GenerateOwnerName()
@@ -448,7 +448,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
                 status = true,
                 owner = ownerInfo.name,
                 citizenid = ownerInfo.citizenid,
-                label = "Brand unknown.."
+                label = Lang:t("label.brand_unkanown")
             }
         end
     end
@@ -488,7 +488,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
         end
         cb(vehicleData)
     else
-        TriggerClientEvent('QBCore:Notify', src, 'No Vehicle Nearby', 'error')
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.no_veh_near"), 'error')
         cb(nil)
     end
 end)
@@ -857,7 +857,7 @@ RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
             sender.Functions.RemoveMoney('bank', amount, "phone-transfered")
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, "This account number doesn't exist!", "error")
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.failed_number"), "error")
     end
 end)
 
@@ -1033,13 +1033,13 @@ end)
 RegisterNetEvent('qb-phone:server:sendPing', function(data)
     local src = source
     if src == data then
-        TriggerClientEvent("QBCore:Notify", src, "You cannot ping yourself", "error")
+        TriggerClientEvent("QBCore:Notify", src, Lang:t("notify.ping_yourself"), "error")
     end
 end)
 
 -- Command
 
-QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, function(source, args)
+QBCore.Commands.Add("setmetadata", Lang:t("label.set_metadata"), {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     if args[1] then
         if args[1] == "trucker" then
@@ -1052,7 +1052,7 @@ QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, 
     end
 end, "god")
 
-QBCore.Commands.Add('bill', 'Bill A Player', {{name = 'id', help = 'Player ID'}, {name = 'amount', help = 'Fine Amount'}}, false, function(source, args)
+QBCore.Commands.Add('bill', Lang:t("command.bill.help"), {{name = Lang:t("command.bill.params.id.name"), help = Lang:t("command.bill.params.id.help")}, {name = Lang:t("command.bill.params.amont.name"), help = Lang:t("command.bill.params.amont.help")}}, false, function(source, args)
     local biller = QBCore.Functions.GetPlayer(source)
     local billed = QBCore.Functions.GetPlayer(tonumber(args[1]))
     local amount = tonumber(args[2])
@@ -1065,18 +1065,18 @@ QBCore.Commands.Add('bill', 'Bill A Player', {{name = 'id', help = 'Player ID'},
                         {billed.PlayerData.citizenid, amount, biller.PlayerData.job.name,
                          biller.PlayerData.charinfo.firstname, biller.PlayerData.citizenid})
                     TriggerClientEvent('qb-phone:RefreshPhone', billed.PlayerData.source)
-                    TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
-                    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Invoice Received')
+                    TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.invoice_sent"), 'success')
+                    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, Lang:t("notify.invoice_received"))
                 else
-                    TriggerClientEvent('QBCore:Notify', source, 'Must Be A Valid Amount Above 0', 'error')
+                    TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.amont_abovez"), 'error')
                 end
             else
-                TriggerClientEvent('QBCore:Notify', source, 'You Cannot Bill Yourself', 'error')
+                TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.cant_bill_yourself"), 'error')
             end
         else
-            TriggerClientEvent('QBCore:Notify', source, 'Player Not Online', 'error')
+            TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.player_not_online"), 'error')
         end
     else
-        TriggerClientEvent('QBCore:Notify', source, 'No Access', 'error')
+        TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.no_access"), 'error')
     end
 end)
