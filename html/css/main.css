@@ -315,14 +315,14 @@ body {
 
 .phone-notification-container {
     position: absolute;
-    height: 5.5vh;
+    height: 7.0vh;
     width: 22vh;
     background-color: rgba(39, 39, 39, 0.9);
     margin: 0 auto;
     left: 0;
     right: 0;
     top: -8%;
-    border-radius: 3vh;
+    border-radius: 0.5vh;
     overflow: hidden;
     box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.11);
     z-index: 140;
