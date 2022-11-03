@@ -96,7 +96,11 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png"
             if (Tweet.picture !== "default") {
-                PictureUrl = Tweet.picture
+                var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+
+                if (Tweet.picture.match(regex)) {
+                    PictureUrl = Tweet.picture
+                }
             }
 
             if (Tweet.url == "") {
@@ -154,7 +158,11 @@ QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png";
             if (Tweet.picture !== "default") {
-                PictureUrl = Tweet.picture
+                var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+
+                if (Tweet.picture.match(regex)) {
+                    PictureUrl = Tweet.picture
+                }
             }
 
             var TweetElement =
@@ -324,7 +332,11 @@ QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
             var PictureUrl = "./img/default.png"
             if (Tweet.picture !== "default") {
-                PictureUrl = Tweet.picture
+                var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+                
+                if (Tweet.picture.match(regex)) {
+                    PictureUrl = Tweet.picture
+                }
             }
 
             var TweetElement =

@@ -154,12 +154,19 @@ $(document).on('click', '#accept-profilepicture', function(e){
 
 $(document).on('click', '#accept-custom-profilepicture', function(e){
     e.preventDefault();
-    QB.Phone.Data.MetaData.profilepicture = $(".custom-profilepicture-input").val();
-    $(OldProfilePicture).fadeOut(50, function(){
-        $(OldProfilePicture).remove();
-    });
-    $(PressedProfilePictureObject).append('<div class="profilepicture-option-current"><i class="fas fa-check-circle"></i></div>');
-    QB.Phone.Animations.TopSlideUp(".profilepicture-custom", 200, -23);
+    var profilepicture = $(".custom-profilepicture-input").val();
+    var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+    
+    if (profilepicture.match(regex)) {
+        QB.Phone.Data.MetaData.profilepicture = profilepicture;
+        $(OldProfilePicture).fadeOut(50, function(){
+            $(OldProfilePicture).remove();
+        });
+        $(PressedProfilePictureObject).append('<div class="profilepicture-option-current"><i class="fas fa-check-circle"></i></div>');
+        QB.Phone.Animations.TopSlideUp(".profilepicture-custom", 200, -23);
+    } else {
+        QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", "Invalid URL!")
+    }
 });
 
 $(document).on('click', '.profilepicture-option', function(e){

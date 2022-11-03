@@ -117,7 +117,11 @@ QB.Phone.Functions.LoadWhatsappChats = function(chats) {
     $.each(chats, function(i, chat){
         var profilepicture = "./img/default.png";
         if (chat.picture !== "default") {
-            profilepicture = chat.picture
+            var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+            
+            if (chat.picture.match(regex)) {
+                profilepicture = chat.picture
+            }
         }
         var LastMessage = QB.Phone.Functions.GetLastMessage(chat.messages);
         var ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div> <div class="whatsapp-chat-lastmessagetime"><p>'+LastMessage.time+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';

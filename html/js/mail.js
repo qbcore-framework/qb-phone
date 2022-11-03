@@ -172,9 +172,15 @@ $(document).on('click', '#new-advert-submit', function(e){
                 url: null
             }));
         }else {
+            var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+            var PictureUrl = null;
+
+            if (picture.match(regex)) {
+                PictureUrl = picture
+            }
             $.post('https://qb-phone/PostAdvert', JSON.stringify({
                 message: Advert,
-                url: picture
+                url: PictureUrl
             }));
         }
         $('#advert-new-url').val("")
@@ -196,10 +202,13 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
 
             if (clean == '') { clean = 'I\'m a silly goose :/' }
 
+            var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></div>`;
             if (advert.url) {
-                var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> </span></div>`;
-            } else {
-                var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></div>`;
+                var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+                
+                if (advert.url.match(regex)) {
+                    var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> </span></div>`;
+                } 
             }
 
             $(".advert-list").append(element);
