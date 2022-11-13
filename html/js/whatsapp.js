@@ -259,6 +259,7 @@ $(document).on('click', '#send-image', function(e){
 });
 
 QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     if (cData) {
         OpenedChatData.number = cData.number;
 
@@ -280,7 +281,7 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         $(".whatsapp-openedchat-messages").html("");
 
         $.each(cData.messages, function(i, chat){
-
+            
             var ChatDate = FormatChatDate(chat.date);
             var ChatDiv = '<div class="whatsapp-openedchat-messages-'+i+' unique-chat"><div class="whatsapp-openedchat-date">'+ChatDate+'</div></div>';
 
