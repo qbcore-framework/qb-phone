@@ -120,6 +120,7 @@ QB.Phone.Functions.SetupMail = function(MailData) {
 
 $(document).on('click', '.test-slet', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     $(".advert-home").animate({
         left: 30+"vh"
     });
@@ -129,12 +130,14 @@ $(document).on('click', '.test-slet', function(e){
 });
 
 $(document).on('click','.advimage', function (){
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     let source = $(this).attr('src')
     QB.Screen.popUp(source);
 });
 
 $(document).on('click','#new-advert-photo',function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     $.post('https://qb-phone/TakePhoto',function(url){
         if(url){
             $('#advert-new-url').val(url)
@@ -145,6 +148,7 @@ $(document).on('click','#new-advert-photo',function(e){
 
 $(document).on('click', '#new-advert-back', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
 
     $(".advert-home").animate({
         left: 0+"vh"
@@ -156,6 +160,7 @@ $(document).on('click', '#new-advert-back', function(e){
 
 $(document).on('click', '#new-advert-submit', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     var Advert = $(".new-advert-textarea").val();
     let picture = $('#advert-new-url').val();
 
@@ -181,6 +186,7 @@ $(document).on('click', '#new-advert-submit', function(e){
         $(".new-advert-textarea").val("");
     } else {
         QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "You can\'t post an empty ad!", "#ff8f1a", 2000);
+        $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     }
 });
 

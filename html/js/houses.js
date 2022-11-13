@@ -55,6 +55,7 @@ var AnimationDuration = 200;
 
 $(document).on('click', '#myhouse-option-transfer', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
 
     $(".myhouses-options").animate({
         left: -35+"vw"
@@ -126,6 +127,7 @@ function shakeElement(element){
 
 $(document).on('click', '#myhouse-option-transfer-confirm', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
         
     var NewBSN = $(".myhouse-option-transfer-container-citizenid").val();
 
@@ -158,6 +160,7 @@ $(document).on('click', '#myhouse-option-transfer-confirm', function(e){
 
 $(document).on('click', '#myhouse-option-transfer-back', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
 
     $(".myhouses-options").animate({
         left: 0
