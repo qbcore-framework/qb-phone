@@ -48,7 +48,7 @@ $(document).on('click', '#accept-background', function(e){
         QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
         $(".phone-background").css({"background-image":"url('"+QB.Phone.Settings.Background+"')"});
     }
-
+    
     $.post('https://qb-phone/SetBackground', JSON.stringify({
         background: QB.Phone.Settings.Background,
     }))
@@ -78,6 +78,7 @@ QB.Phone.Functions.LoadMetaData = function(MetaData) {
 
 $(document).on('click', '#cancel-background', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
 });
 
@@ -93,6 +94,7 @@ QB.Phone.Functions.IsBackgroundCustom = function() {
 
 $(document).on('click', '.background-option', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     PressedBackground = $(this).data('background');
     PressedBackgroundObject = this;
     OldBackground = $(this).parent().find('.background-option-current');
@@ -124,7 +126,7 @@ $(document).on('click', '#accept-custom-background', function(e){
 
 $(document).on('click', '#cancel-custom-background', function(e){
     e.preventDefault();
-
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     QB.Phone.Animations.TopSlideUp(".background-custom", 200, -23);
 });
 
@@ -164,6 +166,7 @@ $(document).on('click', '#accept-custom-profilepicture', function(e){
 
 $(document).on('click', '.profilepicture-option', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     PressedProfilePicture = $(this).data('profilepicture');
     PressedProfilePictureObject = this;
     OldProfilePicture = $(this).parent().find('.profilepicture-option-current');
@@ -183,11 +186,13 @@ $(document).on('click', '.profilepicture-option', function(e){
 
 $(document).on('click', '#cancel-profilepicture', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
 });
 
 
 $(document).on('click', '#cancel-custom-profilepicture', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     QB.Phone.Animations.TopSlideUp(".profilepicture-custom", 200, -23);
 });

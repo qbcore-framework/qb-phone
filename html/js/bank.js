@@ -48,6 +48,7 @@ $(document).on('click', '.bank-app-header-button', function(e){
 
 QB.Phone.Functions.DoBankOpen = function() {
     QB.Phone.Data.PlayerData.money.bank = (QB.Phone.Data.PlayerData.money.bank).toFixed();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     $(".bank-app-account-number").val(QB.Phone.Data.PlayerData.charinfo.account);
     $(".bank-app-account-balance").html("&#36; "+QB.Phone.Data.PlayerData.money.bank);
     $(".bank-app-account-balance").data('balance', QB.Phone.Data.PlayerData.money.bank);
@@ -85,11 +86,12 @@ QB.Phone.Functions.DoBankOpen = function() {
 
 $(document).on('click', '.bank-app-account-actions', function(e){
     QB.Phone.Animations.TopSlideDown(".bank-app-transfer", 400, 0);
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
 });
 
 $(document).on('click', '#cancel-transfer', function(e){
     e.preventDefault();
-
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     QB.Phone.Animations.TopSlideUp(".bank-app-transfer", 400, -100);
 });
 
@@ -112,13 +114,16 @@ $(document).on('click', '#accept-transfer', function(e){
                     $(".bank-app-account-balance").html("&#36; " + (data.NewBalance).toFixed(0));
                     $(".bank-app-account-balance").data('balance', (data.NewBalance).toFixed(0));
                     QB.Phone.Notifications.Add("fas fa-university", "QBank", "You have transfered &#36; "+amount+"!", "#badc58", 1500);
+                    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
                 } else {
                     QB.Phone.Notifications.Add("fas fa-university", "QBank", "You don't have enough balance!", "#badc58", 1500);
+                    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
                 }
                 QB.Phone.Animations.TopSlideUp(".bank-app-transfer", 400, -100);
             });
     } else {
         QB.Phone.Notifications.Add("fas fa-university", "QBank", "Fill out all fields!", "#badc58", 1750);
+        $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     }
 });
 

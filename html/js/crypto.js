@@ -109,6 +109,7 @@ $(document).on('click', '.crypto-header-footer-item', function(e){
 
 $(document).on('click', '.cryptotab-general-action', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
 
     var Tab = $(this).data('action');
 
@@ -123,7 +124,7 @@ $(document).on('click', '.cryptotab-general-action', function(e){
 
 $(document).on('click', '#cancel-crypto', function(e){
     e.preventDefault();
-
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     $(".crypto-action-page").animate({
         left: -30+"vh",
     }, 300, function(){
@@ -135,6 +136,7 @@ $(document).on('click', '#cancel-crypto', function(e){
 });
 
 function CloseCryptoPage() {
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     $(".crypto-action-page").animate({
         left: -30+"vh",
     }, 300, function(){
@@ -147,7 +149,6 @@ function CloseCryptoPage() {
 
 $(document).on('click', '#buy-crypto', function(e){
     e.preventDefault();
-
     var Coins = $(".crypto-action-page-buy-crypto-input-coins").val();
     var Price = Math.ceil(Coins * CryptoData.Worth);
 
@@ -164,13 +165,16 @@ $(document).on('click', '#buy-crypto', function(e){
                     QB.Phone.Notifications.Add("fas fa-university", "QBank", "&#36; "+Price+",- has been withdrawn from your balance!", "#badc58", 2500);
                 } else {
                     QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "You don't have enough money..", "#badc58", 1500);
+                    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
                 }
             });
         } else {
             QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "You don't have enough money..", "#badc58", 1500);
+            $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
         }
     } else {
         QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "Fill out all fields!", "#badc58", 1500);
+        $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     }
 });
 
@@ -195,15 +199,17 @@ $(document).on('click', '#sell-crypto', function(e){
                     QB.Phone.Notifications.Add("fas fa-university", "QBank", "&#36; "+Price+",- has been added to your balance!", "#badc58", 2500);
                 } else {
                     QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "You don't have enough Qbits..", "#badc58", 1500);
+                    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
                 }
             });
         } else {
             QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "You don't have enough Qbits..", "#badc58", 1500);
+            $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
         }
     } else {
         QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "Fill out all fields!", "#badc58", 1500);
+        $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     }
-    CloseCryptoPage();
     e.handled = false;
 }
 });
@@ -223,8 +229,10 @@ $(document).on('click', '#transfer-crypto', function(e){
                 }), function(CryptoData){
                     if (CryptoData == "notenough") {
                         QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "You don't have enough Qbits..", "#badc58", 1500);
+                        $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
                     } else if (CryptoData == "notvalid") {
                         QB.Phone.Notifications.Add("fas fa-university", "Crypto", "this Wallet-ID doesn't exist!", "#badc58", 2500);
+                        $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
                     } else {
                         UpdateCryptoData(CryptoData)
                         CloseCryptoPage()
@@ -233,12 +241,15 @@ $(document).on('click', '#transfer-crypto', function(e){
                 });
             } else {
                 QB.Phone.Notifications.Add("fas fa-university", "Crypto", "You can't transfer to yourself..", "#badc58", 2500);
+                $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
             }
         } else {
             QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "You don't have enough Qbits..", "#badc58", 1500);
+            $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
         }
     } else {
         QB.Phone.Notifications.Add("fas fa-chart-pie", "Crypto", "Fill out all fields!!", "#badc58", 1500);
+        $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     }
 });
 

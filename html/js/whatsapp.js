@@ -184,6 +184,7 @@ FormatMessageTime = function() {
 
 $(document).on('click', '#whatsapp-openedchat-send', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
 
     var Message = $("#whatsapp-openedchat-message").val();
 
@@ -195,6 +196,7 @@ $(document).on('click', '#whatsapp-openedchat-send', function(e){
             ChatTime: FormatMessageTime(),
             ChatType: "message",
         }));
+        $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
         $("#whatsapp-openedchat-message").val("");
         $("div.emojionearea-editor").data("emojioneArea").setText('');
     } else {

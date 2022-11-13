@@ -797,6 +797,19 @@ RegisterNUICallback('GetMentionedTweets', function(_, cb)
     cb(PhoneData.MentionedTweets)
 end)
 
+RegisterNUICallback('SetFocusInput', function(_, cb)
+    SetNuiFocusKeepInput(false)
+    SetNuiFocus(true, true)
+    cb("ok")
+end)
+
+RegisterNUICallback('ReleaseFocusInput', function(_, cb)
+    SetNuiFocusKeepInput(true)
+    SetNuiFocus(true, true)
+    cb("ok")
+end)
+
+
 RegisterNUICallback('GetHashtags', function(_, cb)
     if PhoneData.Hashtags ~= nil and next(PhoneData.Hashtags) ~= nil then
         cb(PhoneData.Hashtags)

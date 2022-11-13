@@ -8,6 +8,7 @@ $(document).on('click', '.meos-block', function(e){
 });
 
 OpenMeosPage = function(page) {
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     CurrentMeosPage = page;
     $(".meos-"+CurrentMeosPage+"-page").css({"display":"block"});
     $(".meos-homescreen").animate({
@@ -31,6 +32,7 @@ SetupMeosHome = function() {
 }
 
 MeosHomePage = function() {
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     $(".meos-tabs-footer").animate({
         bottom: -5+"vh"
     }, 200);
@@ -198,6 +200,7 @@ $(document).on('click', '.confirm-search-person-test', function(e){
                 });
             } else {
                 QB.Phone.Notifications.Add("politie", "MDT", "There are no search results!");
+                $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
                 $(".person-search-results").html("");
             }
         });

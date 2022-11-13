@@ -66,7 +66,7 @@ $(document).on('click', '.twitter-header-tab', function(e){
 
 $(document).on('click', '.twitter-new-tweet', function(e){
     e.preventDefault();
-
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     QB.Phone.Animations.TopSlideDown(".twitter-new-tweet-tab", 450, 0);
 });
 
@@ -134,6 +134,7 @@ $(document).on('click', '.tweet-reply', function(e){
     var TwtName = $(this).parent().data('twthandler');
     $('#tweet-new-url').val("");
     $("#tweet-new-message").val(TwtName + " ");
+
     QB.Phone.Animations.TopSlideDown(".twitter-new-tweet-tab", 450, 0);
 });
 
@@ -236,6 +237,7 @@ $(document).on('click', '#send-tweet', function(e){
 
 $(document).on('click', '#cancel-tweet', function(e){
     e.preventDefault();
+    $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
     $('#tweet-new-url').html("");
     QB.Phone.Animations.TopSlideUp(".twitter-new-tweet-tab", 450, -120);
 });

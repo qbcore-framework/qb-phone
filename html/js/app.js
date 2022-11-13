@@ -256,6 +256,7 @@ $(document).on('click', '.phone-home-container', function(event){
     if (QB.Phone.Data.currentApplication === null) {
         QB.Phone.Functions.Close();
     } else {
+        $.post('https://qb-phone/ReleaseFocusInput', JSON.stringify({}), function(){})
         QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
         QB.Phone.Animations.TopSlideUp('.'+QB.Phone.Data.currentApplication+"-app", 400, -160);
         CanOpenApp = false;

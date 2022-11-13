@@ -65,6 +65,7 @@ function IsCreator(CitizenId, RaceData) {
 
 function SetupRaces(Races) {
     $(".racing-races").html("");
+    $.post('https://qb-phone/SetFocusInput', JSON.stringify({}), function(){})
     if (Races.length > 0) {
         Races = (Races).reverse();
         $.each(Races, function(i, race){
