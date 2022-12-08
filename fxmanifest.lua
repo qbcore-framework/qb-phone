@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'QB-Phone'
-version '1.0.0'
+version '1.2.0'
 
 ui_page 'html/index.html'
 
@@ -33,5 +33,6 @@ files {
     'html/img/backgrounds/*.png',
     'html/img/apps/*.png',
 }
+
 
 lua54 'yes'
