@@ -312,8 +312,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
         }
     end
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
-    TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, invoiceMailData)
-	exports['qb-management']:AddMoney(society, amount)
+    exports['qb-phone']:sendNewMailToOffline(sendercitizenid, invoiceMailData)
+    exports['qb-management']:AddMoney(society, amount)
     MySQL.query('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
     local invoices = MySQL.query.await('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
