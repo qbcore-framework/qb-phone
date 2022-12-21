@@ -681,10 +681,6 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData)
     end)
 end)
 
-RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mailData)
-    sendNewMailToOffline(citizenid, mailData)
-end)
-
 RegisterNetEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if mailData.button == nil then
