@@ -124,6 +124,40 @@ local function GenerateOwnerName()
     return names[math.random(1, #names)]
 end
 
+
+local function sendNewMailToOffline(citizenid, mailData)
+    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
+    if Player then
+        local src = Player.PlayerData.source
+        if mailData.button == nil then
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
+        else
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
+        end
+        SetTimeout(200, function()
+            local mails = MySQL.query.await(
+                'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+            if mails[1] ~= nil then
+                for k, _ in pairs(mails) do
+                    if mails[k].button ~= nil then
+                        mails[k].button = json.decode(mails[k].button)
+                    end
+                end
+            end
+
+            TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
+        end)
+    else
+        if mailData.button == nil then
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+        else
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+        end
+    end
+end
+exports("sendNewMailToOffline",sendNewMailToOffline)
 -- Callbacks
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(_, cb, ContactData)
@@ -278,8 +312,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
         }
     end
     Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
-    TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, invoiceMailData)
-	exports['qb-management']:AddMoney(society, amount)
+    exports['qb-phone']:sendNewMailToOffline(sendercitizenid, invoiceMailData)
+    exports['qb-management']:AddMoney(society, amount)
     MySQL.query('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
     local invoices = MySQL.query.await('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
     if invoices[1] ~= nil then
@@ -645,39 +679,6 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData)
 
         TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
     end)
-end)
-
-RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mailData)
-    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    if Player then
-        local src = Player.PlayerData.source
-        if mailData.button == nil then
-            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
-        else
-            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
-            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
-        end
-        SetTimeout(200, function()
-            local mails = MySQL.query.await(
-                'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-            if mails[1] ~= nil then
-                for k, _ in pairs(mails) do
-                    if mails[k].button ~= nil then
-                        mails[k].button = json.decode(mails[k].button)
-                    end
-                end
-            end
-
-            TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
-        end)
-    else
-        if mailData.button == nil then
-            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-        else
-            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
-        end
-    end
 end)
 
 RegisterNetEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
