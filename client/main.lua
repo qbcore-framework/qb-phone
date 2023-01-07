@@ -98,8 +98,8 @@ end
 
 local function GetKeyByDate(Number, Date)
     local retval = nil
-    if PhoneData.Chats[Number] ~= nil then
-        if PhoneData.Chats[Number].messages ~= nil then
+    if PhoneData.Chats[Number] then
+        if PhoneData.Chats[Number].messages then
             for key, chat in pairs(PhoneData.Chats[Number].messages) do
                 if chat.date == Date then
                     retval = key
@@ -177,7 +177,7 @@ local function LoadPhone()
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
         PhoneData.MetaData = PhoneMeta
 
-        if pData.InstalledApps ~= nil and next(pData.InstalledApps) ~= nil then
+        if pData.InstalledApps and next(pData.InstalledApps) then
             for _, v in pairs(pData.InstalledApps) do
                 local AppData = Config.StoreApps[v.app]
                 Config.PhoneApplications[v.app] = {
@@ -194,27 +194,27 @@ local function LoadPhone()
             end
         end
 
-        if PhoneMeta.profilepicture == nil then
+        if not PhoneMeta.profilepicture then
             PhoneData.MetaData.profilepicture = "default"
         else
             PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture
         end
 
-        if pData.Applications ~= nil and next(pData.Applications) ~= nil then
+        if pData.Applications and next(pData.Applications) then
             for k, v in pairs(pData.Applications) do
                 Config.PhoneApplications[k].Alerts = v
             end
         end
 
-        if pData.MentionedTweets ~= nil and next(pData.MentionedTweets) ~= nil then
+        if pData.MentionedTweets and next(pData.MentionedTweets) then
             PhoneData.MentionedTweets = pData.MentionedTweets
         end
 
-        if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then
+        if pData.PlayerContacts and next(pData.PlayerContacts) then
             PhoneData.Contacts = pData.PlayerContacts
         end
 
-        if pData.Chats ~= nil and next(pData.Chats) ~= nil then
+        if pData.Chats and next(pData.Chats) then
             local Chats = {}
             for _, v in pairs(pData.Chats) do
                 Chats[v.number] = {
@@ -227,33 +227,33 @@ local function LoadPhone()
             PhoneData.Chats = Chats
         end
 
-        if pData.Invoices ~= nil and next(pData.Invoices) ~= nil then
+        if pData.Invoices and next(pData.Invoices) then
             for _, invoice in pairs(pData.Invoices) do
                 invoice.name = IsNumberInContacts(invoice.number)
             end
             PhoneData.Invoices = pData.Invoices
         end
 
-        if pData.Hashtags ~= nil and next(pData.Hashtags) ~= nil then
+        if pData.Hashtags and next(pData.Hashtags) then
             PhoneData.Hashtags = pData.Hashtags
         end
 
-        if pData.Tweets ~= nil and next(pData.Tweets) ~= nil then
+        if pData.Tweets and next(pData.Tweets) then
             PhoneData.Tweets = pData.Tweets
         end
 
-        if pData.Mails ~= nil and next(pData.Mails) ~= nil then
+        if pData.Mails and next(pData.Mails) then
             PhoneData.Mails = pData.Mails
         end
 
-        if pData.Adverts ~= nil and next(pData.Adverts) ~= nil then
+        if pData.Adverts and next(pData.Adverts) then
             PhoneData.Adverts = pData.Adverts
         end
 
-        if pData.CryptoTransactions ~= nil and next(pData.CryptoTransactions) ~= nil then
+        if pData.CryptoTransactions and next(pData.CryptoTransactions) then
             PhoneData.CryptoTransactions = pData.CryptoTransactions
         end
-        if pData.Images ~= nil and next(pData.Images) ~= nil then
+        if pData.Images and next(pData.Images) then
             PhoneData.Images = pData.Images
         end
 
@@ -553,7 +553,7 @@ RegisterNUICallback('Close', function(_, cb)
 end)
 
 RegisterNUICallback('AcceptMailButton', function(data, cb)
-    if data.buttonEvent ~= nil or  data.buttonData ~= nil then
+    if data.buttonEvent or  data.buttonData then
         TriggerEvent(data.buttonEvent, data.buttonData)
     end
     TriggerServerEvent('qb-phone:server:ClearButtonData', data.mailId)
@@ -568,7 +568,7 @@ RegisterNUICallback('AddNewContact', function(data, cb)
     }
     Wait(100)
     cb(PhoneData.Contacts)
-    if PhoneData.Chats[data.ContactNumber] ~= nil and next(PhoneData.Chats[data.ContactNumber]) ~= nil then
+    if PhoneData.Chats[data.ContactNumber] and next(PhoneData.Chats[data.ContactNumber]) then
         PhoneData.Chats[data.ContactNumber].name = data.ContactName
     end
     TriggerServerEvent('qb-phone:server:AddNewContact', data.ContactName, data.ContactNumber, data.ContactIban)
@@ -579,7 +579,7 @@ RegisterNUICallback('GetMails', function(_, cb)
 end)
 
 RegisterNUICallback('GetWhatsappChat', function(data, cb)
-    if PhoneData.Chats[data.phone] ~= nil then
+    if PhoneData.Chats[data.phone] then
         cb(PhoneData.Chats[data.phone])
     else
         cb(false)
@@ -598,7 +598,7 @@ RegisterNUICallback('GetBankContacts', function(_, cb)
 end)
 
 RegisterNUICallback('GetInvoices', function(_, cb)
-    if PhoneData.Invoices ~= nil and next(PhoneData.Invoices) ~= nil then
+    if PhoneData.Invoices and next(PhoneData.Invoices) then
         cb(PhoneData.Invoices)
     else
         cb(nil)
@@ -644,7 +644,7 @@ RegisterNUICallback('ClearAlerts', function(data, cb)
     local chat = data.number
     local ChatKey = GetKeyByNumber(chat)
 
-    if PhoneData.Chats[ChatKey].Unread ~= nil then
+    if PhoneData.Chats[ChatKey].Unread then
         local newAlerts = (Config.PhoneApplications['whatsapp'].Alerts - PhoneData.Chats[ChatKey].Unread)
         Config.PhoneApplications['whatsapp'].Alerts = newAlerts
         TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "whatsapp", newAlerts)
@@ -697,7 +697,7 @@ RegisterNUICallback('EditContact', function(data, cb)
             v.iban = NewIban
         end
     end
-    if PhoneData.Chats[NewNumber] ~= nil and next(PhoneData.Chats[NewNumber]) ~= nil then
+    if PhoneData.Chats[NewNumber] and next(PhoneData.Chats[NewNumber]) then
         PhoneData.Chats[NewNumber].name = NewName
     end
     Wait(100)
@@ -706,7 +706,7 @@ RegisterNUICallback('EditContact', function(data, cb)
 end)
 
 RegisterNUICallback('GetHashtagMessages', function(data, cb)
-    if PhoneData.Hashtags[data.hashtag] ~= nil and next(PhoneData.Hashtags[data.hashtag]) ~= nil then
+    if PhoneData.Hashtags[data.hashtag] and next(PhoneData.Hashtags[data.hashtag]) then
         cb(PhoneData.Hashtags[data.hashtag])
     else
         cb(nil)
@@ -742,7 +742,7 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     if #Hashtag <= 3 then
         for i = 2, #Hashtag, 1 do
             local Handle = Hashtag[i]:split(" ")[1]
-            if Handle ~= nil or Handle ~= "" then
+            if Handle or Handle ~= "" then
                 local InvalidSymbol = string.match(Handle, patt)
                 if InvalidSymbol then
                     Handle = Handle:gsub("%"..InvalidSymbol, "")
@@ -753,13 +753,13 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
 
         for i = 2, #MentionTag, 1 do
             local Handle = MentionTag[i]:split(" ")[1]
-            if Handle ~= nil or Handle ~= "" then
+            if Handle or Handle ~= "" then
                 local Fullname = Handle:split("_")
                 local Firstname = Fullname[1]
                 table.remove(Fullname, 1)
                 local Lastname = table.concat(Fullname, " ")
 
-                if (Firstname ~= nil and Firstname ~= "") and (Lastname ~= nil and Lastname ~= "") then
+                if (Firstname and Firstname ~= "") and (Lastname and Lastname ~= "") then
                     if Firstname ~= PhoneData.PlayerData.charinfo.firstname and Lastname ~= PhoneData.PlayerData.charinfo.lastname then
                         TriggerServerEvent('qb-phone:server:MentionedPlayer', Firstname, Lastname, TweetMessage)
                     end
@@ -796,7 +796,7 @@ RegisterNUICallback('GetMentionedTweets', function(_, cb)
 end)
 
 RegisterNUICallback('GetHashtags', function(_, cb)
-    if PhoneData.Hashtags ~= nil and next(PhoneData.Hashtags) ~= nil then
+    if PhoneData.Hashtags and next(PhoneData.Hashtags) then
         cb(PhoneData.Hashtags)
     else
         cb(nil)
@@ -892,7 +892,7 @@ RegisterNUICallback('DeleteContact', function(data, cb)
     end
     Wait(100)
     cb(PhoneData.Contacts)
-    if PhoneData.Chats[Number] ~= nil and next(PhoneData.Chats[Number]) ~= nil then
+    if PhoneData.Chats[Number] and next(PhoneData.Chats[Number]) then
         PhoneData.Chats[Number].name = Number
     end
     TriggerServerEvent('qb-phone:server:RemoveContact', Name, Number)
@@ -959,7 +959,7 @@ end)
 
 RegisterNUICallback('RemoveSuggestion', function(data, cb)
     data = data.data
-    if PhoneData.SuggestedContacts ~= nil and next(PhoneData.SuggestedContacts) ~= nil then
+    if PhoneData.SuggestedContacts and next(PhoneData.SuggestedContacts) then
         for k, v in pairs(PhoneData.SuggestedContacts) do
             if (data.name[1] == v.name[1] and data.name[2] == v.name[2]) and data.number == v.number and data.bank == v.bank then
                 table.remove(PhoneData.SuggestedContacts, k)
@@ -971,7 +971,7 @@ end)
 
 RegisterNUICallback('FetchVehicleResults', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetVehicleSearchResults', function(result)
-        if result ~= nil then
+        if result then
             for k, _ in pairs(result) do
                 QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(flagged)
                     result[k].isFlagged = flagged
@@ -990,7 +990,7 @@ RegisterNUICallback('FetchVehicleScan', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:ScanPlate', function(result)
         QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(flagged)
             result.isFlagged = flagged
-	    if QBCore.Shared.Vehicles[vehname] ~= nil then
+	    if QBCore.Shared.Vehicles[vehname] then
                 result.label = QBCore.Shared.Vehicles[vehname]['name']
             else
                 result.label = 'Unknown brand..'
@@ -1245,11 +1245,11 @@ RegisterNUICallback('SendMessage', function(data, cb)
     local Pos = GetEntityCoords(Ped)
     local NumberKey = GetKeyByNumber(ChatNumber)
     local ChatKey = GetKeyByDate(NumberKey, ChatDate)
-    if PhoneData.Chats[NumberKey] ~= nil then
-        if(PhoneData.Chats[NumberKey].messages == nil) then
+    if PhoneData.Chats[NumberKey] then
+        if not PhoneData.Chats[NumberKey].messages then
             PhoneData.Chats[NumberKey].messages = {}
         end
-        if PhoneData.Chats[NumberKey].messages[ChatKey] ~= nil then
+        if PhoneData.Chats[NumberKey].messages[ChatKey] then
             if ChatType == "message" then
                 PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                     message = ChatMessage,
@@ -1801,7 +1801,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
             messages = ChatMessages
         }
 
-        if PhoneData.Chats[NumberKey].Unread ~= nil then
+        if PhoneData.Chats[NumberKey].Unread then
             PhoneData.Chats[NumberKey].Unread = PhoneData.Chats[NumberKey].Unread + 1
         else
             PhoneData.Chats[NumberKey].Unread = 1
@@ -1861,7 +1861,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
     else
         PhoneData.Chats[NumberKey].messages = ChatMessages
 
-        if PhoneData.Chats[NumberKey].Unread ~= nil then
+        if PhoneData.Chats[NumberKey].Unread then
             PhoneData.Chats[NumberKey].Unread = PhoneData.Chats[NumberKey].Unread + 1
         else
             PhoneData.Chats[NumberKey].Unread = 1
@@ -1991,7 +1991,7 @@ RegisterNetEvent('qb-phone:client:AddNewSuggestion', function(SuggestionData)
 end)
 
 RegisterNetEvent('qb-phone:client:UpdateHashtags', function(Handle, msgData)
-    if PhoneData.Hashtags[Handle] ~= nil then
+    if PhoneData.Hashtags[Handle] then
         PhoneData.Hashtags[Handle].messages[#PhoneData.Hashtags[Handle].messages+1] = msgData
     else
         PhoneData.Hashtags[Handle] = {
@@ -2134,7 +2134,7 @@ CreateThread(function()
         Wait(60000)
         if LocalPlayer.state.isLoggedIn then
             QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
-                if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then
+                if pData.PlayerContacts and next(pData.PlayerContacts) then
                     PhoneData.Contacts = pData.PlayerContacts
                 end
                 SendNUIMessage({
