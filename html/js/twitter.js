@@ -94,14 +94,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
-            var PictureUrl = "./img/default.png"
-            if (Tweet.picture !== "default") {
-                var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
-
-                if (Tweet.picture.match(regex)) {
-                    PictureUrl = Tweet.picture
-                }
-            }
+            var PictureUrl = QB.Phone.Functions.ValidateProfilePicture(Tweet.picture);
 
             if (Tweet.url == "") {
                 let TweetElement = '<div class="twitter-tweet" data-twtcid="'+Tweet.citizenid+'" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
@@ -156,14 +149,7 @@ QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
-            var PictureUrl = "./img/default.png";
-            if (Tweet.picture !== "default") {
-                var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
-
-                if (Tweet.picture.match(regex)) {
-                    PictureUrl = Tweet.picture
-                }
-            }
+            var PictureUrl = QB.Phone.Functions.ValidateProfilePicture(Tweet.picture);
 
             var TweetElement =
             '<div class="twitter-tweet">'+
@@ -215,6 +201,18 @@ QB.Phone.Functions.FormatTwitterMessage = function(TwitterMessage) {
     }
 
     return TwtMessage
+}
+
+QB.Phone.Functions.ValidateProfilePicture = function(ProfilePicture) {
+    if (ProfilePicture === "default") return "./img/default.png";
+
+    var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
+
+    if (ProfilePicture.match(regex)) {
+        return ProfilePicture;
+    }
+    
+    return "./img/default.png";
 }
 
 $(document).on('click', '#send-tweet', function(e){
@@ -330,14 +328,7 @@ QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
-            var PictureUrl = "./img/default.png"
-            if (Tweet.picture !== "default") {
-                var regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\.(jpg|png)$/;
-                
-                if (Tweet.picture.match(regex)) {
-                    PictureUrl = Tweet.picture
-                }
-            }
+            var PictureUrl = QB.Phone.Functions.ValidateProfilePicture(Tweet.picture);
 
             var TweetElement =
             '<div class="twitter-tweet">'+
