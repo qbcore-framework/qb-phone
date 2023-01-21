@@ -725,16 +725,30 @@ RegisterNUICallback('UpdateProfilePicture', function(data, cb)
 end)
 
 RegisterNUICallback('PostNewTweet', function(data, cb)
-    local TweetMessage = {
-        firstName = PhoneData.PlayerData.charinfo.firstname,
-        lastName = PhoneData.PlayerData.charinfo.lastname,
-        citizenid = PhoneData.PlayerData.citizenid,
-        message = escape_str(data.Message),
-        time = data.Date,
-        tweetId = GenerateTweetId(),
-        picture = data.Picture,
-        url = data.url
-    }
+    local TweetMessage = {}--Prevent send null value to database if Linux mode is on
+    if Config.Linux then
+        TweetMessage = {
+            firstName = PhoneData.PlayerData.charinfo.firstname,
+            lastName = PhoneData.PlayerData.charinfo.lastname,
+            citizenid = PhoneData.PlayerData.citizenid,
+            message = escape_str(data.Message),
+            date = data.Date,
+            tweetId = GenerateTweetId(),
+            picture = data.Picture,
+            url = data.url
+        }
+    else
+        TweetMessage = {
+            firstName = PhoneData.PlayerData.charinfo.firstname,
+            lastName = PhoneData.PlayerData.charinfo.lastname,
+            citizenid = PhoneData.PlayerData.citizenid,
+            message = escape_str(data.Message),
+            time = data.Date,
+            tweetId = GenerateTweetId(),
+            picture = data.Picture,
+            url = data.url
+        }
+    end
 
     local TwitterMessage = data.Message
     local MentionTag = TwitterMessage:split("@")
