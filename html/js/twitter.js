@@ -214,7 +214,10 @@ $(document).on('click', '#send-tweet', function(e){
     var TweetMessage = $("#tweet-new-message").val();
     var imageURL = $('#tweet-new-url').val()
     if (TweetMessage != "") {
-        var CurrentDate = new Date();
+        let d = new Date();
+        let dy = parseInt(d.getMonth()) + 1;
+        let CurrentDate = d.getFullYear() + "-" + dy + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        //^^^^^^ Re-write CurDate value for correct mysql datetime format ^^^^^^
         $.post('https://qb-phone/PostNewTweet', JSON.stringify({
             Message: TweetMessage,
             Date: CurrentDate,
