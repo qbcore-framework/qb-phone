@@ -823,7 +823,7 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
             TweetData.firstName,
             TweetData.lastName,
             TweetData.message,
-            TweetData.time,
+            TweetData.date,
             TweetData.url:gsub("[%<>\"()\' $]",""),
             TweetData.picture:gsub("[%<>\"()\' $]",""),
             TweetData.tweetId
