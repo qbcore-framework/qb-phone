@@ -316,7 +316,13 @@ end
 local function CancelCall()
     TriggerServerEvent('qb-phone:server:CancelCall', PhoneData.CallData)
     if PhoneData.CallData.CallType == "ongoing" then
-        exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
+        
+        if Config.useSaltyChat == true
+            exports['saltychat']:EndCall(Play.PlayerData.source, Ply.PlayerData.source) 
+        else
+            exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
+        end
+        
     end
     PhoneData.CallData.CallType = nil
     PhoneData.CallData.InCall = false
@@ -1659,7 +1665,11 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
         SendNUIMessage({
             action = "CancelOngoingCall"
         })
-        exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
+        if Config.Tokovoip and Config.useSaltyChat == true then
+            exports['saltychat']:EndCall(Play.PlayerData.source, Ply.PlayerData.source)
+        else
+            exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
+        end        
     end
     PhoneData.CallData.CallType = nil
     PhoneData.CallData.InCall = false
@@ -2040,7 +2050,14 @@ RegisterNetEvent('qb-phone:client:AnswerCall', function()
                 Wait(1000)
             end
         end)
-        exports['pma-voice']:addPlayerToCall(PhoneData.CallData.CallId)
+
+        if Config.Tokovoip and Config.useSaltyChat == true then
+            exports['saltychat']:EstablishCall(Play.PlayerData.source, Ply.PlayerData.source)
+            exports['saltychat']:EstablishCall(Ply.PlayerData.source, Play.PlayerData.source)
+        else
+            exports['pma-voice']:addPlayerToCall(PhoneData.CallData.CallId)
+        end
+        
     else
         PhoneData.CallData.InCall = false
         PhoneData.CallData.CallType = nil

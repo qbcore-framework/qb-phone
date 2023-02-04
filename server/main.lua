@@ -944,16 +944,30 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
 end)
 
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
+    local src = source
+    local Play = QBCore.Functions.GetPlayer(src)
     local Ply = QBCore.Functions.GetPlayerByPhone(ContactData.TargetData.number)
     if Ply ~= nil then
         TriggerClientEvent('qb-phone:client:CancelCall', Ply.PlayerData.source)
+
+        if Config.useSaltyChat == true then
+            exports['saltychat']:EndCall(Play.PlayerData.source, Ply.PlayerData.source)
+            exports['saltychat']:EndCall(Ply.PlayerData.source, Play.PlayerData.source)
+        end
     end
 end)
 
 RegisterNetEvent('qb-phone:server:AnswerCall', function(CallData)
+    local src = source
+    local Play = QBCore.Functions.GetPlayer(src)
     local Ply = QBCore.Functions.GetPlayerByPhone(CallData.TargetData.number)
     if Ply ~= nil then
         TriggerClientEvent('qb-phone:client:AnswerCall', Ply.PlayerData.source)
+
+        if Config.useSaltyChat == true then
+            exports['saltychat']:EstablishCall(Play.PlayerData.source, Ply.PlayerData.source)
+            exports['saltychat']:EstablishCall(Ply.PlayerData.source, Play.PlayerData.source)
+        end
     end
 end)
 

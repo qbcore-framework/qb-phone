@@ -80,6 +80,7 @@ ensure qb-banking
 
 Config = Config or {}
 
+Config.useSaltyChat =  false -- True if you use SaltyChat
 Config.RepeatTimeout = 2000 -- Timeout for unanswered call notification
 Config.CallRepeats = 10 -- Repeats for unanswered call notification
 Config.OpenPhone = 244 -- Key to open phone display
