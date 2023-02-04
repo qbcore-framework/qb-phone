@@ -317,8 +317,8 @@ local function CancelCall()
     TriggerServerEvent('qb-phone:server:CancelCall', PhoneData.CallData)
     if PhoneData.CallData.CallType == "ongoing" then
         
-        if Config.useSaltyChat == true
-            exports['saltychat']:EndCall(Play.PlayerData.source, Ply.PlayerData.source) 
+        if Config.Tokovoip and Config.useSaltyChat == true then
+            exports['saltychat']:EndCall(Play.PlayerData.source, Ply.PlayerData.source)
         else
             exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
         end
