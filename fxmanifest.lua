@@ -2,7 +2,7 @@ fx_version 'bodacious'
 game 'gta5'
 
 description 'QB-Phone'
-version '1.2.0'
+version '1.2.1'
 
 ui_page 'html/index.html'
 
