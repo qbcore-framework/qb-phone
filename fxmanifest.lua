@@ -1,8 +1,8 @@
-fx_version 'cerulean'
+fx_version 'bodacious'
 game 'gta5'
 
 description 'QB-Phone'
-version '1.2.0'
+version '1.3.0'
 
 ui_page 'html/index.html'
 
