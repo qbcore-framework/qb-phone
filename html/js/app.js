@@ -33,6 +33,16 @@ OpenedChatData = {
 var CanOpenApp = true;
 var up = false
 
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 function IsAppJobBlocked(joblist, myjob) {
     var retval = false;
     if (joblist.length > 0) {
@@ -623,7 +633,7 @@ $(document).ready(function(){
                         $(".call-notifications").animate({right: 5+"vh"});
                     }
                     $(".call-notifications-title").html("In conversation ("+timeString+")");
-                    $(".call-notifications-content").html("Calling with "+event.data.Name);
+                    $(".call-notifications-content").html("Calling with "+escapeHTML(event.data.Name));
                     $(".call-notifications").removeClass('call-notifications-shake');
                 } else {
                     $(".call-notifications").animate({
