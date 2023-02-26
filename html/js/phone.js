@@ -6,6 +6,16 @@ var SelectedSuggestion = null;
 var AmountOfSuggestions = 0;
 var keyPadHTML;
 
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 $(document).on('click', '.phone-app-footer-button', function(e){
     e.preventDefault();
 
@@ -74,7 +84,7 @@ QB.Phone.Functions.SetupRecentCalls = function(recentcalls) {
             FirstLetter = "A";
             recentCall.name = "Anonymous";
         }
-        var elem = '<div class="phone-recent-call" id="recent-'+i+'"><div class="phone-recent-call-image">'+FirstLetter+'</div> <div class="phone-recent-call-name">'+recentCall.name+'</div> <div class="phone-recent-call-type"><i class="'+TypeIcon+'" style="'+IconStyle+'"></i></div> <div class="phone-recent-call-time">'+recentCall.time+'</div> </div>'
+        var elem = '<div class="phone-recent-call" id="recent-'+i+'"><div class="phone-recent-call-image">'+FirstLetter+'</div> <div class="phone-recent-call-name">'+escapeHTML(recentCall.name)+'</div> <div class="phone-recent-call-type"><i class="'+TypeIcon+'" style="'+IconStyle+'"></i></div> <div class="phone-recent-call-time">'+recentCall.time+'</div> </div>'
 
         $(".phone-recent-calls").append(elem);
         $("#recent-"+i).data('recentData', recentCall);
@@ -89,7 +99,7 @@ $(document).on('click', '.phone-recent-call', function(e){
 
     cData = {
         number: RecentData.number,
-        name: RecentData.name
+        name: escapeHTML(RecentData.name)
     }
 
     $.post('https://qb-phone/CallContact', JSON.stringify({
@@ -141,7 +151,7 @@ $(document).on('click', ".phone-keypad-key-call", function(e){
 
     cData = {
         number: InputNum,
-        name: InputNum,
+        name: escapeHTML(InputNum),
     }
 
     $.post('https://qb-phone/CallContact', JSON.stringify({
@@ -208,9 +218,9 @@ QB.Phone.Functions.LoadContacts = function(myContacts) {
                 ALLOWED_ATTR: []
             });
             if (contact.name == '') contact.name = 'Hmm, I shouldn\'t be able to do this...'
-            var ContactElement = '<div class="phone-contact" data-contactid="'+i+'"><div class="phone-contact-firstletter" style="background-color: #e74c3c;">'+((contact.name).charAt(0)).toUpperCase()+'</div><div class="phone-contact-name">'+contact.name+'</div><div class="phone-contact-actions"><i class="fas fa-sort-down"></i></div><div class="phone-contact-action-buttons"> <i class="fas fa-phone-volume" id="phone-start-call"></i> <i class="fab fa-whatsapp" id="new-chat-phone" style="font-size: 2.5vh;"></i> <i class="fas fa-user-edit" id="edit-contact"></i> </div></div>'
+            var ContactElement = '<div class="phone-contact" data-contactid="'+i+'"><div class="phone-contact-firstletter" style="background-color: #e74c3c;">'+((contact.name).charAt(0)).toUpperCase()+'</div><div class="phone-contact-name">'+escapeHTML(contact.name)+'</div><div class="phone-contact-actions"><i class="fas fa-sort-down"></i></div><div class="phone-contact-action-buttons"> <i class="fas fa-phone-volume" id="phone-start-call"></i> <i class="fab fa-whatsapp" id="new-chat-phone" style="font-size: 2.5vh;"></i> <i class="fas fa-user-edit" id="edit-contact"></i> </div></div>'
             if (contact.status) {
-                ContactElement = '<div class="phone-contact" data-contactid="'+i+'"><div class="phone-contact-firstletter" style="background-color: #2ecc71;">'+((contact.name).charAt(0)).toUpperCase()+'</div><div class="phone-contact-name">'+contact.name+'</div><div class="phone-contact-actions"><i class="fas fa-sort-down"></i></div><div class="phone-contact-action-buttons"> <i class="fas fa-phone-volume" id="phone-start-call"></i> <i class="fab fa-whatsapp" id="new-chat-phone" style="font-size: 2.5vh;"></i> <i class="fas fa-user-edit" id="edit-contact"></i> </div></div>'
+                ContactElement = '<div class="phone-contact" data-contactid="'+i+'"><div class="phone-contact-firstletter" style="background-color: #2ecc71;">'+((contact.name).charAt(0)).toUpperCase()+'</div><div class="phone-contact-name">'+escapeHTML(contact.name)+'</div><div class="phone-contact-actions"><i class="fas fa-sort-down"></i></div><div class="phone-contact-action-buttons"> <i class="fas fa-phone-volume" id="phone-start-call"></i> <i class="fab fa-whatsapp" id="new-chat-phone" style="font-size: 2.5vh;"></i> <i class="fas fa-user-edit" id="edit-contact"></i> </div></div>'
             }
             TotalContacts = TotalContacts + 1
             $(ContactsObject).append(ContactElement);
@@ -246,7 +256,7 @@ $(document).on('click', '#new-chat-phone', function(e){
 
             $.post('https://qb-phone/GetWhatsappChat', JSON.stringify({phone: ContactData.number}), function(chat){
                 QB.Phone.Functions.SetupChatMessages(chat, {
-                    name: ContactData.name,
+                    name: escapeHTML(ContactData.name),
                     number: ContactData.number
                 });
             });
@@ -277,8 +287,8 @@ $(document).on('click', '#edit-contact', function(e){
     if (CurrentEditContactData.name == '') CurrentEditContactData.name = 'Hmm, I shouldn\'t be able to do this...'
     CurrentEditContactData.number = ContactData.number
 
-    $(".phone-edit-contact-header").text(ContactData.name+" Edit")
-    $(".phone-edit-contact-name").val(ContactData.name);
+    $(".phone-edit-contact-header").text(escapeHTML(ContactData.name)+" Edit")
+    $(".phone-edit-contact-name").val(escapeHTML(ContactData.name));
     $(".phone-edit-contact-number").val(ContactData.number);
     if (ContactData.iban != null && ContactData.iban != undefined) {
         $(".phone-edit-contact-iban").val(ContactData.iban);
@@ -304,10 +314,10 @@ $(document).on('click', '#edit-contact-save', function(e){
 
     if (ContactName != "" && ContactNumber != "") {
         $.post('https://qb-phone/EditContact', JSON.stringify({
-            CurrentContactName: ContactName,
+            CurrentContactName: escapeHTML(ContactName),
             CurrentContactNumber: ContactNumber,
             CurrentContactIban: ContactIban,
-            OldContactName: CurrentEditContactData.name,
+            OldContactName: escapeHTML(CurrentEditContactData.name),
             OldContactNumber: CurrentEditContactData.number,
             OldContactIban: CurrentEditContactData.iban,
         }), function(PhoneContacts){
@@ -331,7 +341,7 @@ $(document).on('click', '#edit-contact-delete', function(e){
     var ContactIban = $(".phone-edit-contact-iban").val();
 
     $.post('https://qb-phone/DeleteContact', JSON.stringify({
-        CurrentContactName: ContactName,
+        CurrentContactName: escapeHTML(ContactName),
         CurrentContactNumber: ContactNumber,
         CurrentContactIban: ContactIban,
     }), function(PhoneContacts){
@@ -435,7 +445,7 @@ $(document).on('click', '#add-contact-save', function(e){
 
     if (ContactName != "" && ContactNumber != "") {
         $.post('https://qb-phone/AddNewContact', JSON.stringify({
-            ContactName: ContactName,
+            ContactName: escapeHTML(ContactName),
             ContactNumber: ContactNumber,
             ContactIban: ContactIban,
         }), function(PhoneContacts){
@@ -496,7 +506,7 @@ SetupCall = function(cData) {
                         $(".phone-call-outgoing").css({"display":"block"});
                         $(".phone-call-incoming").css({"display":"none"});
                         $(".phone-call-ongoing").css({"display":"none"});
-                        $(".phone-call-outgoing-caller").html(cData.name);
+                        $(".phone-call-outgoing-caller").html(escapeHTML(cData.name));
                         QB.Phone.Functions.HeaderTextColor("white", 400);
                         QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
                         setTimeout(function(){
@@ -505,7 +515,7 @@ SetupCall = function(cData) {
                             QB.Phone.Functions.ToggleApp("phone-call", "block");
                         }, 450);
 
-                        CallData.name = cData.name;
+                        CallData.name = escapeHTML(cData.name);
                         CallData.number = cData.number;
 
                         QB.Phone.Data.currentApplication = "phone-call";
@@ -562,7 +572,7 @@ IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
             QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
             QB.Phone.Animations.TopSlideUp('.'+QB.Phone.Data.currentApplication+"-app", 400, -160);
             setTimeout(function(){
-                var Label = "You have an incoming call from "+CallData.name
+                var Label = "You have an incoming call from "+escapeHTML(CallData.name)
                 if (AnonymousCall) {
                     Label = "You're being called by a anonymous person"
                 }
@@ -575,7 +585,7 @@ IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
                 $(".phone-call-outgoing").css({"display":"none"});
                 $(".phone-call-incoming").css({"display":"block"});
                 $(".phone-call-ongoing").css({"display":"none"});
-                $(".phone-call-incoming-caller").html(CallData.name);
+                $(".phone-call-incoming-caller").html(escapeHTML(CallData.name));
                 $(".phone-app").css({"display":"none"});
                 QB.Phone.Functions.HeaderTextColor("white", 400);
                 $("."+QB.Phone.Data.currentApplication+"-app").css({"display":"none"});
@@ -676,7 +686,7 @@ QB.Phone.Functions.SetupCurrentCall = function(cData) {
             $(".phone-currentcall-title").html("In call ("+cData.CallTime+")");
         }
 
-        $(".phone-currentcall-contact").html(cData.TargetData.name);
+        $(".phone-currentcall-contact").html(escapeHTML(cData.TargetData.name));
     } else {
         $(".phone-currentcall-container").css({"display":"none"});
     }
@@ -698,7 +708,7 @@ $(document).on('click', '.phone-currentcall-container', function(e){
         $(".phone-call-outgoing").css({"display":"none"});
         $(".phone-call-ongoing").css({"display":"block"});
     }
-    $(".phone-call-ongoing-caller").html(CallData.name);
+    $(".phone-call-ongoing-caller").html(escapeHTML(CallData.name));
 
     QB.Phone.Functions.HeaderTextColor("white", 500);
     QB.Phone.Animations.TopSlideDown('.phone-application-container', 500, 0);
@@ -718,7 +728,7 @@ QB.Phone.Functions.AnswerCall = function(CallData) {
     $(".phone-call-incoming").css({"display":"none"});
     $(".phone-call-outgoing").css({"display":"none"});
     $(".phone-call-ongoing").css({"display":"block"});
-    $(".phone-call-ongoing-caller").html(CallData.TargetData.name);
+    $(".phone-call-ongoing-caller").html(escapeHTML(CallData.TargetData.name));
 
     QB.Phone.Functions.Close();
 }
@@ -730,7 +740,7 @@ QB.Phone.Functions.SetupSuggestedContacts = function(Suggested) {
         $(".amount-of-suggested-contacts").html(AmountOfSuggestions + " contacts");
         Suggested = Suggested.reverse();
         $.each(Suggested, function(index, suggest){
-            var elem = '<div class="suggested-contact" id="suggest-'+index+'"> <i class="fas fa-exclamation-circle"></i> <span class="suggested-name">'+suggest.name[0]+' '+suggest.name[1]+' &middot; <span class="suggested-number">'+suggest.number+'</span></span> </div>';
+            var elem = '<div class="suggested-contact" id="suggest-'+index+'"> <i class="fas fa-exclamation-circle"></i> <span class="suggested-name">'+escapeHTML(suggest.name[0])+' '+escapeHTML(suggest.name[1])+' &middot; <span class="suggested-number">'+suggest.number+'</span></span> </div>';
             $(".suggested-contacts").append(elem);
             $("#suggest-"+index).data('SuggestionData', suggest);
         });
@@ -747,7 +757,7 @@ $(document).on('click', '.suggested-contact', function(e){
 
     QB.Phone.Animations.TopSlideDown(".phone-add-contact", 200, 0);
 
-    $(".phone-add-contact-name").val(SuggestionData.name[0] + " " + SuggestionData.name[1]);
+    $(".phone-add-contact-name").val(escapeHTML(SuggestionData.name[0]) + " " + escapeHTML(SuggestionData.name[1]));
     $(".phone-add-contact-number").val(SuggestionData.number);
     $(".phone-add-contact-iban").val(SuggestionData.bank);
 });
