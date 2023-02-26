@@ -258,3 +258,4 @@ $(document).on('click', '.bank-app-my-contact', function(e){
     }
     QB.Phone.Animations.TopSlideUp(".bank-app-my-contacts", 400, -100);
 });
+
