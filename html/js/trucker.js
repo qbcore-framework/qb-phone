@@ -1,3 +1,13 @@
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 SetupTruckerInfo = function(data) {
     var NewRep = 0;
     var AmountOfTiers = (data.TiersData).length;
@@ -10,7 +20,7 @@ SetupTruckerInfo = function(data) {
         ProgressPercentage = NewRep * DivideAmount;
     }
 
-    $("#trucker-name").html(QB.Phone.Data.PlayerData.charinfo.firstname + " " + QB.Phone.Data.PlayerData.charinfo.lastname);
+    $("#trucker-name").html(escapeHTML(QB.Phone.Data.PlayerData.charinfo.firstname) + " " + escapeHTML(QB.Phone.Data.PlayerData.charinfo.lastname));
 
     if (data.CurrentTierData.min == data.CurrentTierData.max) {
         $("#trucker-header-progress-current").html("Current: " + data.CurrentRep + " REP");
