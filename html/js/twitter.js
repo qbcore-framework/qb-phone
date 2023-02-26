@@ -2,6 +2,16 @@ var CurrentTwitterTab = "twitter-home"
 var HashtagOpen = false;
 var MinimumTrending = 100;
 
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 $(document).on('click', '.twitter-header-tab', function(e){
     e.preventDefault();
 
@@ -93,7 +103,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
-            var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
+            var TwitterHandle = escapeHTML(Tweet.firstName) + ' ' + escapeHTML(Tweet.lastName)
             var PictureUrl = "./img/default.png"
             if (Tweet.picture !== "default") {
                 PictureUrl = Tweet.picture
@@ -101,14 +111,14 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
 
             if (Tweet.url == "") {
                 let TweetElement = '<div class="twitter-tweet" data-twtcid="'+Tweet.citizenid+'" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
-                    '<div class="tweet-tweeter">' + Tweet.firstName + ' ' + Tweet.lastName + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + ' &middot; ' + TimeAgo + '</span></div>' +
+                    '<div class="tweet-tweeter">' + escapeHTML(Tweet.firstName) + ' ' + escapeHTML(Tweet.lastName) + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + ' &middot; ' + TimeAgo + '</span></div>' +
                     '<div class="tweet-message">' + TwtMessage + '</div>' +
                     '<div class="twt-img" style="top: 1vh;"><img src="' + PictureUrl + '" class="tweeter-image"></div>' +
                     '</div>';
                     $(".twitter-home-tab").append(TweetElement);
             } else {
                 let TweetElement = '<div class="twitter-tweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'"><div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
-                    '<div class="tweet-tweeter">'+Tweet.firstName+' '+Tweet.lastName+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>'+
+                    '<div class="tweet-tweeter">'+escapeHTML(Tweet.firstName)+' '+escapeHTML(Tweet.lastName)+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>'+
                     '<div class="tweet-message">'+TwtMessage+'</div>'+
                     '<img class="image" src= ' + Tweet.url + ' style = " border-radius:4px; width: 70%; position:relative; z-index: 1; left:52px; margin:.6rem .5rem .6rem 1rem;height: auto; padding-bottom: 15px;">' +
                     '<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>' +
@@ -133,7 +143,7 @@ $(document).on('click', '.tweet-reply', function(e){
     e.preventDefault();
     var TwtName = $(this).parent().data('twthandler');
     $('#tweet-new-url').val("");
-    $("#tweet-new-message").val(TwtName + " ");
+    $("#tweet-new-message").val(escapeHTML(TwtName) + " ");
     QB.Phone.Animations.TopSlideDown(".twitter-new-tweet-tab", 450, 0);
 });
 
@@ -151,7 +161,7 @@ QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
-            var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
+            var TwitterHandle = escapeHTML(Tweet.firstName) + ' ' + escapeHTML(Tweet.lastName)
             var PictureUrl = "./img/default.png";
             if (Tweet.picture !== "default") {
                 PictureUrl = Tweet.picture
@@ -159,7 +169,7 @@ QB.Phone.Notifications.LoadMentionedTweets = function(Tweets) {
 
             var TweetElement =
             '<div class="twitter-tweet">'+
-                '<div class="tweet-tweeter">'+Tweet.firstName+' '+Tweet.lastName+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>'+
+                '<div class="tweet-tweeter">'+escapeHTML(Tweet.firstName)+' '+escapeHTML(Tweet.lastName)+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>'+
                 '<div class="tweet-message">'+TwtMessage+'</div>'+
             '<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div></div>';
 
@@ -321,7 +331,7 @@ QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
 
-            var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
+            var TwitterHandle = escapeHTML(Tweet.firstName) + ' ' + escapeHTML(Tweet.lastName)
             var PictureUrl = "./img/default.png"
             if (Tweet.picture !== "default") {
                 PictureUrl = Tweet.picture
@@ -329,7 +339,7 @@ QB.Phone.Notifications.LoadHashtagMessages = function(Tweets) {
 
             var TweetElement =
             '<div class="twitter-tweet">'+
-                '<div class="tweet-tweeter">'+Tweet.firstName+' '+Tweet.lastName+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>'+
+                '<div class="tweet-tweeter">'+escapeHTML(Tweet.firstName)+' '+escapeHTML(Tweet.lastName)+' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+' &middot; '+TimeAgo+'</span></div>'+
                 '<div class="tweet-message">'+TwtMessage+'</div>'+
             '<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div></div>';
 
