@@ -1,6 +1,16 @@
 var CurrentMeosPage = null;
 var OpenedPerson = null;
 
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 $(document).on('click', '.meos-block', function(e){
     e.preventDefault();
     var PressedBlock = $(this).data('meosblock');
@@ -27,7 +37,7 @@ OpenMeosPage = function(page) {
 }
 
 SetupMeosHome = function() {
-    $("#meos-app-name").html("Welcome " + QB.Phone.Data.PlayerData.charinfo.firstname + " " + QB.Phone.Data.PlayerData.charinfo.lastname);
+    $("#meos-app-name").html("Welcome " + escapeHTML(QB.Phone.Data.PlayerData.charinfo.firstname) + " " + escapeHTML(QB.Phone.Data.PlayerData.charinfo.lastname));
 }
 
 MeosHomePage = function() {
@@ -81,7 +91,7 @@ $(document).on('click', '.person-search-result', function(e){
         appartementData = ClickedPersonData.appartmentdata;
     }
 
-    var OpenElement = '<div class="person-search-result-name">Name: '+ClickedPersonData.firstname+' '+ClickedPersonData.lastname+'</div> <div class="person-search-result-bsn">CSN: '+ClickedPersonData.citizenid+'</div> <div class="person-opensplit"></div> &nbsp; <div class="person-search-result-dob">Birth Date: '+ClickedPersonData.birthdate+'</div> <div class="person-search-result-number">Phone number: '+ClickedPersonData.phone+'</div> <div class="person-search-result-nationality">Nationality: '+ClickedPersonData.nationality+'</div> <div class="person-search-result-gender">Gender: '+Gender+'</div> &nbsp; <div class="person-search-result-apartment"><span id="'+ClickedPersonId+'">Apartment: '+appartementData.label+'</span> <i class="fas fa-map-marker-alt appartment-adress-location" id="'+ClickedPersonId+'"></i></div> &nbsp; <div class="person-search-result-warned">Signaled: '+IsWarrant+'</div> <div class="person-search-result-driverslicense">Drivers License: '+HasLicense+'</div>';
+    var OpenElement = '<div class="person-search-result-name">Name: '+escapeHTML(ClickedPersonData.firstname)+' '+escapeHTML(ClickedPersonData.lastname)+'</div> <div class="person-search-result-bsn">CSN: '+ClickedPersonData.citizenid+'</div> <div class="person-opensplit"></div> &nbsp; <div class="person-search-result-dob">Birth Date: '+ClickedPersonData.birthdate+'</div> <div class="person-search-result-number">Phone number: '+ClickedPersonData.phone+'</div> <div class="person-search-result-nationality">Nationality: '+ClickedPersonData.nationality+'</div> <div class="person-search-result-gender">Gender: '+Gender+'</div> &nbsp; <div class="person-search-result-apartment"><span id="'+ClickedPersonId+'">Apartment: '+appartementData.label+'</span> <i class="fas fa-map-marker-alt appartment-adress-location" id="'+ClickedPersonId+'"></i></div> &nbsp; <div class="person-search-result-warned">Signaled: '+IsWarrant+'</div> <div class="person-search-result-driverslicense">Drivers License: '+HasLicense+'</div>';
 
     if (OpenedPerson === null) {
         $(ClickedPerson).html(OpenElement)
@@ -89,13 +99,13 @@ $(document).on('click', '.person-search-result', function(e){
     } else if (OpenedPerson == ClickedPerson) {
         var PreviousPersonId = $(OpenedPerson).attr('id');
         var PreviousPersonData = $("#"+PreviousPersonId).data('PersonData');
-        var PreviousElement = '<div class="person-search-result-name">Name: '+PreviousPersonData.firstname+' '+PreviousPersonData.lastname+'</div> <div class="person-search-result-bsn">CSN: '+PreviousPersonData.citizenid+'</div>';
+        var PreviousElement = '<div class="person-search-result-name">Name: '+escapeHTML(PreviousPersonData.firstname)+' '+escapeHTML(PreviousPersonData.lastname)+'</div> <div class="person-search-result-bsn">CSN: '+PreviousPersonData.citizenid+'</div>';
         $(ClickedPerson).html(PreviousElement)
         OpenedPerson = null;
     } else {
         var PreviousPersonId = $(OpenedPerson).attr('id');
         var PreviousPersonData = $("#"+PreviousPersonId).data('PersonData');
-        var PreviousElement = '<div class="person-search-result-name">Name: '+PreviousPersonData.firstname+' '+PreviousPersonData.lastname+'</div> <div class="person-search-result-bsn">CSN: '+PreviousPersonData.citizenid+'</div>';
+        var PreviousElement = '<div class="person-search-result-name">Name: '+escapeHTML(PreviousPersonData.firstname)+' '+escapeHTML(PreviousPersonData.lastname)+'</div> <div class="person-search-result-bsn">CSN: '+PreviousPersonData.citizenid+'</div>';
         $(OpenedPerson).html(PreviousElement)
         $(ClickedPerson).html(OpenElement)
         OpenedPerson = ClickedPerson;
@@ -160,7 +170,7 @@ $(document).on('click', '.person-search-result-house', function(e){
         GarageLabel = "Yes";
     }
 
-    var OpenElement = '<div class="person-search-result-name">Owner: '+ClickedHouseData.charinfo.firstname+' '+ClickedHouseData.charinfo.lastname+'</div><div class="person-search-result-bsn">House: '+ClickedHouseData.label+'</div> <div class="person-opensplit"></div> &nbsp; <div class="person-search-result-dob">Address: '+ClickedHouseData.label+' &nbsp; <i class="fas fa-map-marker-alt house-adress-location" id="'+ClickedHouseId+'"></i></div> <div class="person-search-result-number">Tier: '+ClickedHouseData.tier+'</div> <div class="person-search-result-nationality">Garage: ' + GarageLabel + '</div>';
+    var OpenElement = '<div class="person-search-result-name">Owner: '+escapeHTML(ClickedHouseData.charinfo.firstname)+' '+escapeHTML(ClickedHouseData.charinfo.lastname)+'</div><div class="person-search-result-bsn">House: '+ClickedHouseData.label+'</div> <div class="person-opensplit"></div> &nbsp; <div class="person-search-result-dob">Address: '+ClickedHouseData.label+' &nbsp; <i class="fas fa-map-marker-alt house-adress-location" id="'+ClickedHouseId+'"></i></div> <div class="person-search-result-number">Tier: '+ClickedHouseData.tier+'</div> <div class="person-search-result-nationality">Garage: ' + GarageLabel + '</div>';
 
     if (OpenedHouse === null) {
         $(ClickedHouse).html(OpenElement)
@@ -168,13 +178,13 @@ $(document).on('click', '.person-search-result-house', function(e){
     } else if (OpenedHouse == ClickedHouse) {
         var PreviousPersonId = $(OpenedHouse).attr('id');
         var PreviousPersonData = $("#"+PreviousPersonId).data('HouseData');
-        var PreviousElement = '<div class="person-search-result-name">Owner: '+PreviousPersonData.charinfo.firstname+' '+PreviousPersonData.charinfo.lastname+'</div> <div class="person-search-result-bsn">House: '+PreviousPersonData.label+'</div>';
+        var PreviousElement = '<div class="person-search-result-name">Owner: '+escapeHTML(PreviousPersonData.charinfo.firstname)+' '+escapeHTML(PreviousPersonData.charinfo.lastname)+'</div> <div class="person-search-result-bsn">House: '+PreviousPersonData.label+'</div>';
         $(ClickedHouse).html(PreviousElement)
         OpenedHouse = null;
     } else {
         var PreviousPersonId = $(OpenedHouse).attr('id');
         var PreviousPersonData = $("#"+PreviousPersonId).data('HouseData');
-        var PreviousElement = '<div class="person-search-result-name">Owner: '+PreviousPersonData.charinfo.firstname+' '+PreviousPersonData.charinfo.lastname+'</div> <div class="person-search-result-bsn">House: '+PreviousPersonData.label+'</div>';
+        var PreviousElement = '<div class="person-search-result-name">Owner: '+escapeHTML(PreviousPersonData.charinfo.firstname)+' '+escapeHTML(PreviousPersonData.charinfo.lastname)+'</div> <div class="person-search-result-bsn">House: '+PreviousPersonData.label+'</div>';
         $(OpenedHouse).html(PreviousElement)
         $(ClickedHouse).html(OpenElement)
         OpenedHouse = ClickedHouse;
@@ -192,7 +202,7 @@ $(document).on('click', '.confirm-search-person-test', function(e){
             if (result != null) {
                 $(".person-search-results").html("");
                 $.each(result, function (i, person) {
-                    var PersonElement = '<div class="person-search-result" id="person-'+i+'"><div class="person-search-result-name">Name: '+person.firstname+' '+person.lastname+'</div> <div class="person-search-result-bsn">CSN: '+person.citizenid+'</div> </div>';
+                    var PersonElement = '<div class="person-search-result" id="person-'+i+'"><div class="person-search-result-name">Name: '+escapeHTML(person.firstname)+' '+escapeHTML(person.lastname)+'</div> <div class="person-search-result-bsn">CSN: '+person.citizenid+'</div> </div>';
                     $(".person-search-results").append(PersonElement);
                     $("#person-"+i).data("PersonData", person);
                 });
@@ -218,7 +228,7 @@ $(document).on('click', '.confirm-search-person-house', function(e){
             if (result != null) {
                 $(".person-search-results").html("");
                 $.each(result, function (i, house) {
-                    var PersonElement = '<div class="person-search-result-house" id="personhouse-'+i+'"><div class="person-search-result-name">Owner: '+house.charinfo.firstname+' '+house.charinfo.lastname+'</div> <div class="person-search-result-bsn">House: '+house.label+'</div></div>';
+                    var PersonElement = '<div class="person-search-result-house" id="personhouse-'+i+'"><div class="person-search-result-name">Owner: '+escapeHTML(house.charinfo.firstname)+' '+escapeHTML(house.charinfo.lastname)+'</div> <div class="person-search-result-bsn">House: '+house.label+'</div></div>';
                     $(".person-search-results").append(PersonElement);
                     $("#personhouse-"+i).data("HouseData", house);
                 });
