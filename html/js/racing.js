@@ -1,5 +1,15 @@
 var OpenedRaceElement = null;
 
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 $(document).ready(function(){
     $('[data-toggle="racetooltip"]').tooltip();
 });
@@ -206,10 +216,10 @@ $(document).on('click', '.dropdown .dropdown-menu li', function(e) {
     $.post('https://qb-phone/GetTrackData', JSON.stringify({
         RaceId: $(this).attr('id')
     }), function(TrackData){
-        if ((TrackData.CreatorData.charinfo.lastname).length > 8) {
-            TrackData.CreatorData.charinfo.lastname = TrackData.CreatorData.charinfo.lastname.substring(0, 8);
+        if ((escapeHTML(TrackData.CreatorData.charinfo.lastname)).length > 8) {
+            escapeHTML(TrackData.CreatorData.charinfo.lastname) = escapeHTML(TrackData.CreatorData.charinfo.lastname).substring(0, 8);
         }
-        var CreatorTag = TrackData.CreatorData.charinfo.firstname.charAt(0).toUpperCase() + ". " + TrackData.CreatorData.charinfo.lastname;
+        var CreatorTag = TrackData.CreatorData.charinfo.firstname.charAt(0).toUpperCase() + ". " + escapeHTML(TrackData.CreatorData.charinfo.lastname);
 
         $(".racing-setup-information-distance").html('Distance: '+TrackData.Distance+' m');
         $(".racing-setup-information-creator").html('Creator: ' + CreatorTag);
@@ -393,7 +403,7 @@ $(document).on('click', '.racing-leaderboard-item', function(e){
     $(".racing-leaderboard-details-block-trackname").html('<i class="fas fa-flag-checkered"></i> '+Data.RaceName);
     $(".racing-leaderboard-details-block-list").html("");
     $.each(Data.LastLeaderboard, function(i, leaderboard){
-        var lastname = leaderboard.Holder[1]
+        var lastname = escapeHTML(leaderboard.Holder[1])
         var bestroundtime = "N/A";
         var place = i + 1;
         if (lastname.length > 10) {
