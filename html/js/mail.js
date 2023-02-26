@@ -1,5 +1,15 @@
 var OpenedMail = null;
 
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 $(document).on('click', '.mail', function(e){
     e.preventDefault();
 
@@ -72,7 +82,7 @@ QB.Phone.Functions.SetupMails = function(Mails) {
     }
     var MessageTime = Hourssssss + ":" + Minutessss;
 
-    $("#mail-header-mail").html(QB.Phone.Data.PlayerData.charinfo.firstname+"."+QB.Phone.Data.PlayerData.charinfo.lastname+"@qbcore.com");
+    $("#mail-header-mail").html(escapeHTML(QB.Phone.Data.PlayerData.charinfo.firstname)+"."+escapeHTML(QB.Phone.Data.PlayerData.charinfo.lastname)+"@qbcore.com");
     $("#mail-header-lastsync").html("Last synchronized "+MessageTime);
     if (Mails !== null && Mails !== undefined) {
         if (Mails.length > 0) {
@@ -185,7 +195,7 @@ $(document).on('click', '#new-advert-submit', function(e){
 });
 
 QB.Phone.Functions.RefreshAdverts = function(Adverts) {
-    $("#advert-header-name").html("@"+QB.Phone.Data.PlayerData.charinfo.firstname+""+QB.Phone.Data.PlayerData.charinfo.lastname+" | "+QB.Phone.Data.PlayerData.charinfo.phone);
+    $("#advert-header-name").html("@"+escapeHTML(QB.Phone.Data.PlayerData.charinfo.firstname)+""+escapeHTML(QB.Phone.Data.PlayerData.charinfo.lastname)+" | "+QB.Phone.Data.PlayerData.charinfo.phone);
     if (Adverts.length > 0 || Adverts.length == undefined) {
         $(".advert-list").html("");
         $.each(Adverts, function(i, advert){
@@ -197,9 +207,9 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
             if (clean == '') { clean = 'I\'m a silly goose :/' }
 
             if (advert.url) {
-                var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> </span></div>`;
+                var element = `<div class="advert"><span class="advert-sender">${escapeHTML(advert.name)} | ${advert.number}</span><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> </span></div>`;
             } else {
-                var element = `<div class="advert"><span class="advert-sender">${advert.name} | ${advert.number}</span><p>${clean}</p></div>`;
+                var element = `<div class="advert"><span class="advert-sender">${escapeHTML(advert.name)} | ${advert.number}</span><p>${clean}</p></div>`;
             }
 
             $(".advert-list").append(element);
@@ -223,3 +233,4 @@ $(document).on('click','#adv-delete',function(e){
         },400)
     });
 })
+
