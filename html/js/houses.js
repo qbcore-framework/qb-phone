@@ -2,6 +2,16 @@ var SelectedHousesTab = "myhouses";
 var CurrentHouseData = {};
 var HousesData = {};
 
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 $(document).on('click', '.houses-app-header-tab', function(e){
     e.preventDefault();
     var CurrentHouseTab = $("[data-housetab='"+SelectedHousesTab+"']");
@@ -72,9 +82,9 @@ $(document).on('click', '#myhouse-option-keys', function(e){
             if (keyholder !== null && keyholder !== undefined) {
                 var elem;
                 if (keyholder.citizenid !== QB.Phone.Data.PlayerData.citizenid) {
-                    elem = '<div class="house-key" id="holder-'+i+'"><span class="house-key-holder">' + keyholder.charinfo.firstname + ' ' + keyholder.charinfo.lastname + '</span> <div class="house-key-delete"><i class="fas fa-trash"></i></div> </div>';
+                    elem = '<div class="house-key" id="holder-'+i+'"><span class="house-key-holder">' + escapeHTML(keyholder.charinfo.firstname) + ' ' + escapeHTML(keyholder.charinfo.lastname) + '</span> <div class="house-key-delete"><i class="fas fa-trash"></i></div> </div>';
                 } else {
-                    elem = '<div class="house-key" id="holder-'+i+'"><span class="house-key-holder">(Me) ' + keyholder.charinfo.firstname + ' ' + keyholder.charinfo.lastname + '</span></div>';
+                    elem = '<div class="house-key" id="holder-'+i+'"><span class="house-key-holder">(Me) ' + escapeHTML(keyholder.charinfo.firstname) + ' ' + escapeHTML(keyholder.charinfo.lastname) + '</span></div>';
                 } 
                 $(".keys-container").append(elem);
                 $('#holder-' + i).data('KeyholderData', keyholder);
