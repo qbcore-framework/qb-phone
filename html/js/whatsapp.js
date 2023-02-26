@@ -1,3 +1,13 @@
+escapeHTML = function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+}
+
 var WhatsappSearchActive = false;
 var OpenedChatPicture = null;
 var ExtraButtonsOpen = false;
@@ -274,7 +284,7 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
             $(".whatsapp-openedchat-picture").css({"background-image":"url("+OpenedChatPicture+")"});
         }
 
-        $(".whatsapp-openedchat-name").html("<p>"+cData.name+"</p>");
+        $(".whatsapp-openedchat-name").html("<p>"+escapeHTML(cData.name)+"</p>");
         $(".whatsapp-openedchat-messages").html("");
 
         $.each(cData.messages, function(i, chat){
