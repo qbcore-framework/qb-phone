@@ -36,3 +36,4 @@ SetupTruckerInfo = function(data) {
         $(".trucker-header-progress-fill").css("width", ProgressPercentage + "%");
     }
 }
+
