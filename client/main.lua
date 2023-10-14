@@ -281,7 +281,7 @@ local function OpenPhone()
                 PlayerData = PhoneData.PlayerData,
             })
             PhoneData.isOpen = true
-
+		SetNuiFocusKeepInput(true) -- Allow use phone on walking
             CreateThread(function()
                 while PhoneData.isOpen do
                     DisableDisplayControlActions()
