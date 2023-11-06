@@ -228,15 +228,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 
         local garageresult = MySQL.query.await('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid})
         if garageresult[1] ~= nil then
-            for _, v in pairs(garageresult) do
-                local vehicleModel = v.vehicle
-                if (QBCore.Shared.Vehicles[vehicleModel] ~= nil) and (Config.Garages[v.garage] ~= nil) then
-                    v.garage = Config.Garages[v.garage].label
-                    v.vehicle = QBCore.Shared.Vehicles[vehicleModel].name
-                    v.brand = QBCore.Shared.Vehicles[vehicleModel].brand
-                end
-
-            end
             PhoneData.Garage = garageresult
         end
 
