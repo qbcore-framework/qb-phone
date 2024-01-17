@@ -796,31 +796,17 @@ end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     local src = source
-    if Config.Linux then
-        MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
-            TweetData.citizenid,
-            TweetData.firstName,
-            TweetData.lastName,
-            TweetData.message,
-            TweetData.date,
-            TweetData.url:gsub('[%<>\"()\' $]', ''),
-            TweetData.picture:gsub('[%<>\"()\' $]', ''),
-            TweetData.tweetId
-        })
-        TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
-    else
-        MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
-            TweetData.citizenid,
-            TweetData.firstName,
-            TweetData.lastName,
-            TweetData.message,
-            TweetData.time,
-            TweetData.url:gsub('[%<>\"()\' $]', ''),
-            TweetData.picture:gsub('[%<>\"()\' $]', ''),
-            TweetData.tweetId
-        })
-        TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
-    end
+    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+        TweetData.citizenid,
+        TweetData.firstName,
+        TweetData.lastName,
+        TweetData.message,
+        TweetData.time,
+        TweetData.url:gsub('[%<>\"()\' $]', ''),
+        TweetData.picture:gsub('[%<>\"()\' $]', ''),
+        TweetData.tweetId
+    })
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
 end)
 
 RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
