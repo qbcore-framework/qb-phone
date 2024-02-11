@@ -1,7 +1,8 @@
 fx_version 'bodacious'
 game 'gta5'
-
-description 'QB-Phone'
+lua54 'yes'
+author 'Kakarot'
+description 'Allows players to access a phone to interact with various apps and features'
 version '1.3.0'
 
 ui_page 'html/index.html'
@@ -29,5 +30,3 @@ files {
     'html/img/backgrounds/*.png',
     'html/img/apps/*.png',
 }
-
-lua54 'yes'
