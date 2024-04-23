@@ -2,14 +2,12 @@ let veh
 
 $(document).on('click', '.garage-vehicle', function(e){
     e.preventDefault();
-
     $(".garage-homescreen").animate({
-        left: 30+"vh"
+        left: 30 + "vh"
     }, 200);
     $(".garage-detailscreen").animate({
-        left: 0+"vh"
+        left: 0 + "vh"
     }, 200);
-
     var Id = $(this).attr('id');
     var VehData = $("#"+Id).data('VehicleData');
     veh = VehData
@@ -26,12 +24,11 @@ $(document).on('click', '#track-vehicle', function(e){
 
 $(document).on('click', '#return-button', function(e){
     e.preventDefault();
-
     $(".garage-homescreen").animate({
-        left: 00+"vh"
+        left: 0 + "vh"
     }, 200);
     $(".garage-detailscreen").animate({
-        left: -30+"vh"
+        left: -30 + "vh"
     }, 200);
 });
 
@@ -40,7 +37,6 @@ SetupGarageVehicles = function(Vehicles) {
     if (Vehicles != null) {
         $.each(Vehicles, function(i, vehicle){
             var Element = '<div class="garage-vehicle" id="vehicle-'+i+'"><span class="garage-vehicle-firstletter">'+vehicle.brand.charAt(0)+'</span> <span class="garage-vehicle-name">'+vehicle.fullname+'</span> </div>';
-
             $(".garage-vehicles").append(Element);
             $("#vehicle-"+i).data('VehicleData', vehicle);
         });
