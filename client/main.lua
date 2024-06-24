@@ -11,7 +11,6 @@ PhoneData = {
     MentionedTweets = {},
     Hashtags = {},
     Chats = {},
-    Invoices = {},
     CallData = {},
     RecentCalls = {},
     Garage = {},
@@ -225,13 +224,6 @@ local function LoadPhone()
             end
 
             PhoneData.Chats = Chats
-        end
-
-        if pData.Invoices ~= nil and next(pData.Invoices) ~= nil then
-            for _, invoice in pairs(pData.Invoices) do
-                invoice.name = IsNumberInContacts(invoice.number)
-            end
-            PhoneData.Invoices = pData.Invoices
         end
 
         if pData.Hashtags ~= nil and next(pData.Hashtags) ~= nil then
@@ -598,11 +590,9 @@ RegisterNUICallback('GetBankContacts', function(_, cb)
 end)
 
 RegisterNUICallback('GetInvoices', function(_, cb)
-    if PhoneData.Invoices ~= nil and next(PhoneData.Invoices) ~= nil then
-        cb(PhoneData.Invoices)
-    else
-        cb(nil)
-    end
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetInvoices', function(resp)
+        cb(resp)
+    end)
 end)
 
 RegisterNUICallback('SharedLocation', function(data, cb)
@@ -665,9 +655,8 @@ RegisterNUICallback('PayInvoice', function(data, cb)
     local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId
-    QBCore.Functions.TriggerCallback('qb-phone:server:PayInvoice', function(CanPay, Invoices)
-        if CanPay then PhoneData.Invoices = Invoices end
-        cb(CanPay)
+    QBCore.Functions.TriggerCallback('qb-phone:server:PayInvoice', function(resp)
+        cb(resp)
     end, society, amount, invoiceId, senderCitizenId)
     TriggerServerEvent('qb-phone:server:BillingEmail', data, true)
 end)
@@ -676,9 +665,8 @@ RegisterNUICallback('DeclineInvoice', function(data, cb)
     local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId
-    QBCore.Functions.TriggerCallback('qb-phone:server:DeclineInvoice', function(_, Invoices)
-        PhoneData.Invoices = Invoices
-        cb('ok')
+    QBCore.Functions.TriggerCallback('qb-phone:server:DeclineInvoice', function(resp)
+        cb(resp)
     end, society, amount, invoiceId)
     TriggerServerEvent('qb-phone:server:BillingEmail', data, false)
 end)
@@ -1456,7 +1444,6 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
         MentionedTweets = {},
         Hashtags = {},
         Chats = {},
-        Invoices = {},
         CallData = {},
         RecentCalls = {},
         Garage = {},
