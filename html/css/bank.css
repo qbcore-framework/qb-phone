@@ -76,37 +76,44 @@
     background-color: #dc143c;
 }
 .bank-app-invoice {
-    position: relative;
-    height: 6vh;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px;
     width: 100%;
     letter-spacing: .05vh;
     border-bottom: .2vh solid #363d4b;
 }
 .bank-app-invoice-title {
     text-transform : capitalize;
-    position: absolute;
-    top: 1vh;
-    left: 2vh;
+    width: 100%;
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
 }
+.bank-app-invoice-info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
 .bank-app-invoice-amount {
-    position: absolute;
-    bottom: 1vh;
-    left: 2vh;
     color: rgba(255, 255, 255, 0.781);
     font-family: 'Poppins', sans-serif;
     font-size: 1.22vh;
 }
 .bank-app-invoice-buttons {
-    position: absolute;
-    right: 1.2vh;
-    bottom: .1vh;
-    height: 3vh;
-    width: 7vh;
-    text-align: right;
-    line-height: 3.5vh;
+    margin-left: auto;
+}
+.bank-app-invoice-reason {
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.22vh;
+
+    width: 100%;
+
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;    
 }
 .bank-app-invoice-buttons > i {
     margin-left: .5vh;
