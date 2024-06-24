@@ -168,24 +168,29 @@ $(document).on('click', '.pay-invoice', function(event){
     }
 });
 
-$(document).on('click', '.decline-invoice', function(event){
+$(document).on('click', '.decline-invoice', async function(event) {
     event.preventDefault();
     var InvoiceId = $(this).parent().parent().attr('id');
     var InvoiceData = $("#"+InvoiceId).data('invoicedata');
 
-    $.post('https://qb-phone/DeclineInvoice', JSON.stringify({
+    const resp = await $.post('https://qb-phone/DeclineInvoice', JSON.stringify({
         sender: InvoiceData.sender,
         amount: InvoiceData.amount,
         society: InvoiceData.society,
         invoiceId: InvoiceData.id,
     }));
-    $("#"+InvoiceId).animate({
-        left: 30+"vh",
-    }, 300, function(){
-        setTimeout(function(){
-            $("#"+InvoiceId).remove();
-        }, 100);
-    });
+    if(resp === true) {
+        QB.Phone.Notifications.Add("fas fa-university", "QBank", "You declined the invoice", "#8c7ae6")
+        $("#"+InvoiceId).animate({
+            left: 30+"vh",
+        }, 300, function(){
+            setTimeout(function(){
+                $("#"+InvoiceId).remove();
+            }, 100);
+        });
+    } else {
+        QB.Phone.Notifications.Add("fas fa-university", "QBank", "Couldnt decline this invoice...", "#8c7ae6")
+    }
 });
 
 QB.Phone.Functions.LoadBankInvoices = function(invoices) {
@@ -193,10 +198,10 @@ QB.Phone.Functions.LoadBankInvoices = function(invoices) {
         $(".bank-app-invoices-list").html("");
 
         $.each(invoices, function(i, invoice){
-            var Elem = '<div class="bank-app-invoice" id="invoiceid-'+i+'"> <div class="bank-app-invoice-title">'+invoice.society+' <span style="font-size: 1vh; color: gray;">(Sender: '+invoice.sender+')</span></div> <div class="bank-app-invoice-amount">&#36; '+invoice.amount+'</div> <div class="bank-app-invoice-buttons"> <i class="fas fa-check-circle pay-invoice"></i> <i class="fas fa-times-circle decline-invoice"></i> </div> </div>';
+            var Elem = '<div class="bank-app-invoice" id="invoiceid-'+invoice.id+'"> <div class="bank-app-invoice-title">'+invoice.society+' <span style="font-size: 1vh; color: gray;">(Sender: '+invoice.sender+')</span></div> <div class="bank-app-invoice-amount">&#36; '+invoice.amount+'</div> <div class="bank-app-invoice-buttons"> <i class="fas fa-check-circle pay-invoice"></i>'+ (invoice.candecline === 1 ? '<i class="fas fa-times-circle decline-invoice"></i>' : '') + '</div> </div>';
 
             $(".bank-app-invoices-list").append(Elem);
-            $("#invoiceid-"+i).data('invoicedata', invoice);
+            $("#invoiceid-"+invoice.id).data('invoicedata', invoice);
         });
     }
 }

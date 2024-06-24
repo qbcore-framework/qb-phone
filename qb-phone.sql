@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `phone_invoices` (
   `society` tinytext DEFAULT NULL,
   `sender` varchar(50) DEFAULT NULL,
   `sendercitizenid` varchar(50) DEFAULT NULL,
+  `candecline` int(1) not null default 1,
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

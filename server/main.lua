@@ -160,6 +160,32 @@ end
 exports('sendNewMailToOffline', sendNewMailToOffline)
 -- Callbacks
 
+QBCore.Functions.CreateCallback("qb-phone:server:GetInvoices", function(source, cb)
+    local Player = QBCore.Functions.GetPlayer(source)
+
+    if Player then
+        local invoices = MySQL.query.await('SELECT * FROM phone_invoices WHERE citizenid = ?', { Player.PlayerData.citizenid })
+        for _, v in pairs(invoices) do
+            local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
+            if Ply ~= nil then
+                v.number = Ply.PlayerData.charinfo.phone
+            else
+                local res = MySQL.query.await('SELECT * FROM players WHERE citizenid = ?', { v.sender })
+                if res[1] ~= nil then
+                    res[1].charinfo = json.decode(res[1].charinfo)
+                    v.number = res[1].charinfo.phone
+                else
+                    v.number = nil
+                end
+            end
+        end
+        cb(invoices)
+        return
+    end
+
+    cb({})
+end)
+
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(_, cb, ContactData)
     local Target = QBCore.Functions.GetPlayerByPhone(ContactData.number)
     if Target ~= nil then
@@ -187,7 +213,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             MentionedTweets = {},
             Chats = {},
             Hashtags = {},
-            Invoices = {},
             Garage = {},
             Mails = {},
             Adverts = {},
@@ -205,25 +230,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             end
 
             PhoneData.PlayerContacts = result
-        end
-
-        local invoices = MySQL.query.await('SELECT * FROM phone_invoices WHERE citizenid = ?', { Player.PlayerData.citizenid })
-        if invoices[1] ~= nil then
-            for _, v in pairs(invoices) do
-                local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
-                if Ply ~= nil then
-                    v.number = Ply.PlayerData.charinfo.phone
-                else
-                    local res = MySQL.query.await('SELECT * FROM players WHERE citizenid = ?', { v.sender })
-                    if res[1] ~= nil then
-                        res[1].charinfo = json.decode(res[1].charinfo)
-                        v.number = res[1].charinfo.phone
-                    else
-                        v.number = nil
-                    end
-                end
-            end
-            PhoneData.Invoices = invoices
         end
 
         local garageresult = MySQL.query.await('SELECT * FROM player_vehicles WHERE citizenid = ?', { Player.PlayerData.citizenid })
@@ -283,45 +289,55 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId, sendercitizenid)
-    local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
-    local invoiceMailData = {}
-    if SenderPly and Config.BillingCommissions[society] then
-        local commission = round(amount * Config.BillingCommissions[society])
-        SenderPly.Functions.AddMoney('bank', commission)
-        invoiceMailData = {
-            sender = 'Billing Department',
-            subject = 'Commission Received',
-            message = string.format('You received a commission check of $%s when %s %s paid a bill of $%s.', commission, Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
-        }
-    elseif not SenderPly and Config.BillingCommissions[society] then
-        invoiceMailData = {
-            sender = 'Billing Department',
-            subject = 'Bill Paid',
-            message = string.format('%s %s paid a bill of $%s', Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
-        }
+    local invoiceMailData = nil
+    if Ply then
+        local exists = MySQL.query.await('select count(1) FROM phone_invoices WHERE id = ? and citizenid = ?', { invoiceId, Ply.PlayerData.citizenid })
+
+        if exists[1] and exists[1]["count(1)"] == 1 then
+            if SenderPly and Config.BillingCommissions[society] then
+                local commission = round(amount * Config.BillingCommissions[society])
+                SenderPly.Functions.AddMoney('bank', commission)
+                invoiceMailData = {
+                    sender = 'Billing Department',
+                    subject = 'Commission Received',
+                    message = string.format('You received a commission check of $%s when %s %s paid a bill of $%s.', commission, Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
+                }
+            elseif not SenderPly and Config.BillingCommissions[society] then
+                invoiceMailData = {
+                    sender = 'Billing Department',
+                    subject = 'Bill Paid',
+                    message = string.format('%s %s paid a bill of $%s', Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
+                }
+            end
+            if Ply.Functions.RemoveMoney('bank', amount, 'paid-invoice') then
+                MySQL.query('DELETE FROM phone_invoices WHERE id = ? and citizenid = ?', { invoiceId, Ply.PlayerData.citizenid })
+                if invoiceMailData then
+                    exports['qb-phone']:sendNewMailToOffline(sendercitizenid, invoiceMailData)
+                end
+                exports['qb-banking']:AddMoney(society, amount, 'Phone invoice')
+                cb(true)
+                return
+            end
+        end
     end
-    Ply.Functions.RemoveMoney('bank', amount, 'paid-invoice')
-    exports['qb-phone']:sendNewMailToOffline(sendercitizenid, invoiceMailData)
-    exports['qb-banking']:AddMoney(society, amount, 'Phone invoice')
-    MySQL.query('DELETE FROM phone_invoices WHERE id = ?', { invoiceId })
-    local invoices = MySQL.query.await('SELECT * FROM phone_invoices WHERE citizenid = ?', { Ply.PlayerData.citizenid })
-    if invoices[1] ~= nil then
-        Invoices = invoices
-    end
-    cb(true, Invoices)
+    cb(false)
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, _, _, invoiceId)
-    local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
-    MySQL.query('DELETE FROM phone_invoices WHERE id = ?', { invoiceId })
-    local invoices = MySQL.query.await('SELECT * FROM phone_invoices WHERE citizenid = ?', { Ply.PlayerData.citizenid })
-    if invoices[1] ~= nil then
-        Invoices = invoices
+    if Ply then
+        local exists = MySQL.query.await('select count(1) FROM phone_invoices WHERE id = ? and citizenid = ? and candecline = ?', { invoiceId, Ply.PlayerData.citizenid, 1 })
+
+        if exists[1] and exists[1]["count(1)"] == 1 then
+            MySQL.query('DELETE FROM phone_invoices WHERE id = ? and citizenid = ? and candecline = ?', { invoiceId, Ply.PlayerData.citizenid, 1 })
+            cb(true)
+            return
+        end
     end
-    cb(true, Invoices)
+
+    cb(false)
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(_, cb, Chats)
