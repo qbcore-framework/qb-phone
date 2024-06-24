@@ -316,6 +316,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
                 if invoiceMailData then
                     exports['qb-phone']:sendNewMailToOffline(sendercitizenid, invoiceMailData)
                 end
+                TriggerEvent("qb-phone:server:paidInvoice", source, invoiceId)
                 exports['qb-banking']:AddMoney(society, amount, 'Phone invoice')
                 cb(true)
                 return
@@ -331,6 +332,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(sourc
         local exists = MySQL.query.await('select count(1) FROM phone_invoices WHERE id = ? and citizenid = ? and candecline = ?', { invoiceId, Ply.PlayerData.citizenid, 1 })
 
         if exists[1] and exists[1]["count(1)"] == 1 then
+            TriggerEvent("qb-phone:server:declinedInvoice", source, invoiceId)
             MySQL.query('DELETE FROM phone_invoices WHERE id = ? and citizenid = ? and candecline = ?', { invoiceId, Ply.PlayerData.citizenid, 1 })
             cb(true)
             return

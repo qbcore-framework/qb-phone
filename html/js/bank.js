@@ -134,7 +134,7 @@ GetInvoiceLabel = function(type) {
 $(document).on('click', '.pay-invoice', function(event){
     event.preventDefault();
 
-    var InvoiceId = $(this).parent().parent().attr('id');
+    var InvoiceId = $(this).parent().parent().parent().attr('id');
     var InvoiceData = $("#"+InvoiceId).data('invoicedata');
     var BankBalance = $(".bank-app-account-balance").data('balance');
 
@@ -170,7 +170,7 @@ $(document).on('click', '.pay-invoice', function(event){
 
 $(document).on('click', '.decline-invoice', async function(event) {
     event.preventDefault();
-    var InvoiceId = $(this).parent().parent().attr('id');
+    var InvoiceId = $(this).parent().parent().parent().attr('id');
     var InvoiceData = $("#"+InvoiceId).data('invoicedata');
 
     const resp = await $.post('https://qb-phone/DeclineInvoice', JSON.stringify({
