@@ -35,6 +35,39 @@ $(document).on('click', '.settings-app-tab', function(e){
     }
 });
 
+
+$(document).on(
+    "click",
+    "#phoneNumberSelect, #serialNumberSelect",
+    function (e) {
+        // Get the title of the clicked element
+        var title = "";
+        if ($(this).attr("id") == "phoneNumberSelect") {
+            title = "Phone Number";
+        } else {
+            title = "Serial Number";
+        }
+
+        // get the result id of myPhoneNumber or mySerialNumber
+        var textToCopy =
+            $(this).attr("id") == "phoneNumberSelect"
+                ? $("#myPhoneNumber").text()
+                : $("#mySerialNumber").text();
+
+        // Copying the text to clipboard using Clipboard.js
+        var clipboard = new ClipboardJS(this, {
+            text: function () {
+                QB.Phone.Notifications.Add(
+                    "fas fa-phone",
+                    "Copied " + title + "!",
+                    textToCopy
+                );
+                return textToCopy;
+            },
+        });
+    }
+);
+
 $(document).on('click', '#accept-background', function(e){
     e.preventDefault();
     var hasCustomBackground = QB.Phone.Functions.IsBackgroundCustom();
