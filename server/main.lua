@@ -611,9 +611,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:UploadToFivemerr', function(sou
             end
 
             cb(response)
-        end, "POST", json.encode({ data = data }), { 
-            ['Authorization'] = FivemerrApiToken, 
-            ['Content-Type'] = 'application/json' 
+        end, "POST", json.encode({ data = data }), {
+            ['Authorization'] = FivemerrApiToken,
+            ['Content-Type'] = 'application/json'
         })
     end)
 end)
