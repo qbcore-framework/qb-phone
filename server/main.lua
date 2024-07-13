@@ -607,7 +607,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:UploadToFivemerr', function(sou
         PerformHttpRequest(WebHook, function(err, response)
             if err ~= 200 then
                 print("^1--- ERROR UPLOADING IMAGE: " .. err .. " ---^7")
-                print("^1" .. response .. "^7")
                 cb(nil)
             end
 

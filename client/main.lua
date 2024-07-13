@@ -1404,6 +1404,13 @@ RegisterNUICallback('TakePhoto', function(_, cb)
             if Config.Fivemerr == true then
                 -- Fivemerr uploads via the server using screenshot-basic to further guard your API key.
                 return QBCore.Functions.TriggerCallback('qb-phone:server:UploadToFivemerr', function(fivemerrData)
+                    if fivemerrData == nil then
+                        DestroyMobilePhone()
+                        CellCamActivate(false, false)
+                        takePhoto = false
+                        return
+                    end
+
                     SaveToInternalGallery()
                     local imageData = json.decode(fivemerrData)
                     DestroyMobilePhone()
