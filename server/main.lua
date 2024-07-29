@@ -586,7 +586,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetWebhook', function(_, cb)
     if WebHook ~= '' then
         cb(WebHook)
     else
-        print('Set your webhook to ensure that your camera will work!!!!!! Set this on line 10 of the server sided script!!!!!')
+        print('Set your webhook to ensure that your camera will work!!!!!! Set this on line 9 of the server sided script!!!!!')
         cb(nil)
     end
 end)
