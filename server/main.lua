@@ -293,9 +293,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
     local invoiceMailData = nil
     if Ply then
-        local exists = MySQL.query.await('select count(1) FROM phone_invoices WHERE id = ? and citizenid = ?', { invoiceId, Ply.PlayerData.citizenid })
+        local exists = MySQL.query.await('select count(1) as count FROM phone_invoices WHERE id = ? and citizenid = ?', { invoiceId, Ply.PlayerData.citizenid })
 
-        if exists[1] and exists[1]["count(1)"] == 1 then
+        if exists[1] and exists[1]["count"] == 1 then
             if SenderPly and Config.BillingCommissions[society] then
                 local commission = round(amount * Config.BillingCommissions[society])
                 SenderPly.Functions.AddMoney('bank', commission)
@@ -329,9 +329,9 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, _, _, invoiceId)
     local Ply = QBCore.Functions.GetPlayer(source)
     if Ply then
-        local exists = MySQL.query.await('select count(1) FROM phone_invoices WHERE id = ? and citizenid = ? and candecline = ?', { invoiceId, Ply.PlayerData.citizenid, 1 })
+        local exists = MySQL.query.await('select count(1) as count FROM phone_invoices WHERE id = ? and citizenid = ? and candecline = ?', { invoiceId, Ply.PlayerData.citizenid, 1 })
 
-        if exists[1] and exists[1]["count(1)"] == 1 then
+        if exists[1] and exists[1]["count"] == 1 then
             TriggerEvent("qb-phone:server:declinedInvoice", source, invoiceId)
             MySQL.query('DELETE FROM phone_invoices WHERE id = ? and citizenid = ? and candecline = ?', { invoiceId, Ply.PlayerData.citizenid, 1 })
             cb(true)
