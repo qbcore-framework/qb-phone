@@ -1389,11 +1389,34 @@ RegisterNUICallback('TakePhoto', function(_, cb)
             cb(json.encode({ url = nil }))
             break
         elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
+            if Config.Fivemerr == true then
+                -- Fivemerr uploads via the server using screenshot-basic to further guard your API key.
+                return QBCore.Functions.TriggerCallback('qb-phone:server:UploadToFivemerr', function(fivemerrData)
+                    if fivemerrData == nil then
+                        DestroyMobilePhone()
+                        CellCamActivate(false, false)
+                        takePhoto = false
+                        return
+                    end
+
+                    SaveToInternalGallery()
+                    local imageData = json.decode(fivemerrData)
+                    DestroyMobilePhone()
+                    CellCamActivate(false, false)
+                    TriggerServerEvent('qb-phone:server:addImageToGallery', imageData.url)
+                    Wait(400)
+                    TriggerServerEvent('qb-phone:server:getImageFromGallery')
+                    cb(json.encode(imageData.url))
+                    takePhoto = false
+                end)
+            end
+
             QBCore.Functions.TriggerCallback('qb-phone:server:GetWebhook', function(hook)
                 if not hook then
                     QBCore.Functions.Notify('Camera not setup', 'error')
                     return
                 end
+
                 exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), 'files[]', function(data)
                     SaveToInternalGallery()
                     local image = json.decode(data)

@@ -7,6 +7,7 @@ local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
 local WebHook = ''
+local FivemerrApiToken = 'API_KEY_HERE'
 local bannedCharacters = { '%', '$', ';' }
 local TWData = {}
 
@@ -607,6 +608,32 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetWebhook', function(_, cb)
         print('Set your webhook to ensure that your camera will work!!!!!! Set this on line 10 of the server sided script!!!!!')
         cb(nil)
     end
+end)
+
+QBCore.Functions.CreateCallback('qb-phone:server:UploadToFivemerr', function(source, cb)
+    local src = source
+
+    if Config.Fivemerr == '' then
+        print("^1--- Fivemerr is enabled but no API token has been specified. ---^7")
+        return cb(nil)
+    end
+
+    exports['screenshot-basic']:requestClientScreenshot(src, {
+        encoding = 'png'
+    }, function(err, data)
+        if err then return cb(nil) end
+        PerformHttpRequest(WebHook, function(status, response)
+            if status ~= 200 then
+                print("^1--- ERROR UPLOADING IMAGE: " .. status .. " ---^7")
+                cb(nil)
+            end
+
+            cb(response)
+        end, "POST", json.encode({ data = data }), {
+            ['Authorization'] = FivemerrApiToken,
+            ['Content-Type'] = 'application/json'
+        })
+    end)
 end)
 
 -- Events
