@@ -6,8 +6,8 @@ local Hashtags = {}
 local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
-local WebHook = ''
-local FivemerrApiToken = 'API_KEY_HERE'
+local WebHook = Config.WebHook
+local FivemerrApiToken = Config.FivemerrApiToken
 local bannedCharacters = { '%', '$', ';' }
 local TWData = {}
 
@@ -613,7 +613,7 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:UploadToFivemerr', function(source, cb)
     local src = source
 
-    if Config.Fivemerr == '' then
+    if Config.Fivemerr == true and Config.FivemerrApiToken == '' then
         print("^1--- Fivemerr is enabled but no API token has been specified. ---^7")
         return cb(nil)
     end
