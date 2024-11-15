@@ -1389,7 +1389,7 @@ RegisterNUICallback('TakePhoto', function(_, cb)
             cb(json.encode({ url = nil }))
             break
         elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
-            if Config.Fivemerr == true and Config.FivemerrApiToken ~= '' then
+            if Config.Fivemerr == true then
                 -- Fivemerr uploads via the server using screenshot-basic to further guard your API key.
                 return QBCore.Functions.TriggerCallback('qb-phone:server:UploadToFivemerr', function(fivemerrData)
                     if fivemerrData == nil then
