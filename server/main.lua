@@ -613,7 +613,7 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:UploadToFivemerr', function(source, cb)
     local src = source
 
-    if Config.Fivemerr == true and Config.FivemerrApiToken == '' then
+    if Config.Fivemerr == true and FivemerrApiToken == '' then
         print("^1--- Fivemerr is enabled but no API token has been specified. ---^7")
         return cb(nil)
     end
