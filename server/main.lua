@@ -6,8 +6,8 @@ local Hashtags = {}
 local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
-local WebHook = Config.WebHook
-local FivemerrApiToken = Config.FivemerrApiToken
+local WebHook = ''
+local FivemerrApiToken = ''
 local bannedCharacters = { '%', '$', ';' }
 local TWData = {}
 

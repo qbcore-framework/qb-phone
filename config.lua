@@ -7,12 +7,10 @@ Config.TweetDuration = 12 -- How many hours to load tweets (12 will load the pas
 Config.RepeatTimeout = 2000
 Config.CallRepeats = 10
 Config.OpenPhone = 'M'
-Config.WebHook = ''
 
 -- Set this to true if you wish to use Fivemerr (https://fivemerr.com/) for media uploads. 
 -- Ensure to add your API key to server/main.lua 
 Config.Fivemerr = false
-Config.FivemerrApiToken = ''
 
 Config.PhoneApplications = {
     ['phone'] = {
