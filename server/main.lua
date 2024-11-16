@@ -7,7 +7,7 @@ local Calls = {}
 local Adverts = {}
 local GeneratedPlates = {}
 local WebHook = ''
-local FivemerrApiToken = 'API_KEY_HERE'
+local FivemerrApiToken = ''
 local bannedCharacters = { '%', '$', ';' }
 local TWData = {}
 
@@ -32,14 +32,6 @@ local function escape_sqli(source)
         ["'"] = "\\'"
     }
     return source:gsub("['\"]", replacements)
-end
-
-local function round(num, numDecimalPlaces)
-    if numDecimalPlaces and numDecimalPlaces > 0 then
-        local mult = 10 ^ numDecimalPlaces
-        return math.floor(num * mult + 0.5) / mult
-    end
-    return math.floor(num + 0.5)
 end
 
 function QBPhone.AddMentionedTweet(citizenid, TweetData)
@@ -298,7 +290,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
 
         if exists[1] and exists[1]["count"] == 1 then
             if SenderPly and Config.BillingCommissions[society] then
-                local commission = round(amount * Config.BillingCommissions[society])
+                local commission = QBCore.Shared.Round(amount * Config.BillingCommissions[society])
                 SenderPly.Functions.AddMoney('bank', commission)
                 invoiceMailData = {
                     sender = 'Billing Department',
@@ -613,7 +605,7 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:UploadToFivemerr', function(source, cb)
     local src = source
 
-    if Config.Fivemerr == '' then
+    if Config.Fivemerr == true and FivemerrApiToken == '' then
         print("^1--- Fivemerr is enabled but no API token has been specified. ---^7")
         return cb(nil)
     end
@@ -888,7 +880,7 @@ RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
             end
         else
             local moneyInfo = json.decode(result[1].money)
-            moneyInfo.bank = round((moneyInfo.bank + amount))
+            moneyInfo.bank = QBCore.Shared.Round(moneyInfo.bank + amount)
             MySQL.update('UPDATE players SET money = ? WHERE citizenid = ?',
                 { json.encode(moneyInfo), result[1].citizenid })
             sender.Functions.RemoveMoney('bank', amount, 'phone-transfered')
