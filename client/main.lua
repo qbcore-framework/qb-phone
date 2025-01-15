@@ -1379,7 +1379,7 @@ RegisterNUICallback('TakePhoto', function(_, cb)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
     local takePhoto = true
-    while takePhoto do
+    while takePhoto == true do
         if IsControlJustPressed(1, 27) then -- Toogle Mode
             frontCam = not frontCam
             CellFrontCamActivate(frontCam)
