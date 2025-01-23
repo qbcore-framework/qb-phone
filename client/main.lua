@@ -1395,7 +1395,6 @@ RegisterNUICallback('TakePhoto', function(_, cb)
                     if fivemerrData == nil then
                         DestroyMobilePhone()
                         CellCamActivate(false, false)
-                        takePhoto = false
                         return
                     end
 
@@ -1407,7 +1406,6 @@ RegisterNUICallback('TakePhoto', function(_, cb)
                     Wait(400)
                     TriggerServerEvent('qb-phone:server:getImageFromGallery')
                     cb(json.encode(imageData.url))
-                    takePhoto = false
                 end)
             end
 
