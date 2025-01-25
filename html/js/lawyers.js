@@ -6,6 +6,7 @@ SetupLawyers = function(data) {
     var taxi = [];
     var police = [];
     var ambulance = [];
+    var tow = [];
 
     if (data.length > 0) {
 
@@ -27,6 +28,9 @@ SetupLawyers = function(data) {
             }
             if (lawyer.typejob == "ambulance") {
                 ambulance.push(lawyer);
+            }
+            if (lawyer.typejob == "tow") {
+                tow.push(lawyer);
             }
         });
 
@@ -107,6 +111,19 @@ SetupLawyers = function(data) {
             var element = '<div class="lawyer-list"><div class="no-lawyers">There is no ems available.</div></div>'
             $(".lawyers-list").append(element);
         }
+
+        $(".lawyers-list").append('<br><h1 style="font-size:1.641025641025641vh; padding:1.0256410256410255vh; color:#fff; margin-top:0; width:100%; display:block; background-color: rgb(67, 3, 72);">Tow (' + tow.length + ')</h1>');
+
+        if (tow.length > 0) {
+            $.each(tow, function(i, lawyer6) {
+                var element = '<div class="lawyer-list" id="lawyerid6-' + i + '"> <div class="lawyer-list-firstletter" style="background-color: rgb(67, 3, 72);">' + (lawyer6.name).charAt(0).toUpperCase() + '</div> <div class="lawyer-list-fullname">' + lawyer6.name + '</div> <div class="lawyer-list-call"><i class="fas fa-phone"></i></div> </div>'
+                $(".lawyers-list").append(element);
+                $("#lawyerid6-" + i).data('LawyerData', lawyer6);
+            });
+        } else {
+            var element = '<div class="lawyer-list"><div class="no-lawyers">There is no tow available.</div></div>'
+            $(".lawyers-list").append(element);
+        }
     } else {
         $(".lawyers-list").append('<h1 style="font-size:1.641025641025641vh; padding:1.0256410256410255vh; color:#fff; margin-top:0; border-top-left-radius: .5vh; border-top-right-radius: .5vh; width:100%; display:block; background-color: rgb(42, 137, 214);">Lawyers (' + lawyers.length + ')</h1>');
 
@@ -130,12 +147,17 @@ SetupLawyers = function(data) {
         
         $(".lawyers-list").append('<br><h1 style="font-size:1.641025641025641vh; padding:1.0256410256410255vh; color:#fff; margin-top:0; width:100%; display:block; background-color: rgb(0, 102, 255);">Police (' + police.length + ')</h1>');
 
-        var element = '<div class="lawyer-list"><div class="no-lawyers">There are no polices a available.</div></div>'
+        var element = '<div class="lawyer-list"><div class="no-lawyers">There are no police available.</div></div>'
         $(".lawyers-list").append(element);
         
         $(".lawyers-list").append('<br><h1 style="font-size:1.641025641025641vh; padding:1.0256410256410255vh; color:#fff; margin-top:0; width:100%; display:block; background-color: rgb(255, 0, 0);">Ambulance (' + ambulance.length + ')</h1>');
 
-        var element = '<div class="lawyer-list"><div class="no-lawyers">There are no ambulance personnel a available.</div></div>'
+        var element = '<div class="lawyer-list"><div class="no-lawyers">There are no ems available.</div></div>'
+        $(".lawyers-list").append(element);
+
+        $(".lawyers-list").append('<br><h1 style="font-size:1.641025641025641vh; padding:1.0256410256410255vh; color:#fff; margin-top:0; width:100%; display:block; background-color: rgb(67, 3, 72);">Tow (' + tow.length + ')</h1>');
+
+        var element = '<div class="lawyer-list"><div class="no-lawyers">There are no ems available.</div></div>'
         $(".lawyers-list").append(element);
     }
 }
